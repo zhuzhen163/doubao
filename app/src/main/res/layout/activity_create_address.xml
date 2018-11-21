@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_transition"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/colorPageBg"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:paddingLeft="@dimen/dimen15dp"
+            android:background="@null"
+            android:hint="姓名"
+            android:textSize="@dimen/dimen15dp"
+            android:maxLength="10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen55dp" />
+        <View
+            android:background="@color/colorLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <EditText
+            android:paddingLeft="@dimen/dimen15dp"
+            android:background="@null"
+            android:hint="手机号码"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:textSize="@dimen/dimen15dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen55dp" />
+        <View
+            android:background="@color/colorLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <TextView
+            android:id="@+id/tv_selectAddress"
+            android:textSize="@dimen/dimen15dp"
+            android:paddingLeft="@dimen/dimen15dp"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="省份、城市、区县"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen55dp" />
+        <View
+            android:background="@color/colorLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <EditText
+            android:textSize="@dimen/dimen15dp"
+            android:paddingLeft="@dimen/dimen15dp"
+            android:paddingRight="@dimen/dimen15dp"
+            android:background="@null"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:hint="详细地址，如街道、楼盘号等"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen55dp" />
+        <View
+            android:background="@color/colorLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen50dp">
+                <CheckBox
+                    android:layout_width="@dimen/dimen10dp"
+                    android:layout_height="@dimen/dimen10dp" />
+                <TextView
+                    android:layout_marginLeft="@dimen/dimen10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设置为默认地址"/>
+        </LinearLayout>
+        <View
+            android:background="@color/colorLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:gravity="center"
+            android:text="取消"
+            android:textSize="@dimen/dimen16dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:background="@color/color_33"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen50dp" />
+
+        <TextView
+            android:id="@+id/tv_saveAddress"
+            android:gravity="center"
+            android:text="保存"
+            android:layout_weight="1"
+            android:textSize="@dimen/dimen16dp"
+            android:textColor="@color/white"
+            android:background="@color/colorTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen50dp" />
+    </LinearLayout>
+</LinearLayout>

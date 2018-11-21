@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPageBg"
+    >
+
+    <LinearLayout
+        android:id="@+id/ll_kind"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/dimen10dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen50dp">
+
+        <TextView
+            android:id="@+id/tv_inputKind"
+            android:layout_marginLeft="@dimen/dimen15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请选择反馈类型"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_marginRight="@dimen/dimen15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="﹀"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:padding="@dimen/dimen15dp"
+        android:layout_marginTop="@dimen/dimen10dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen200dp">
+
+        <EditText
+            android:textSize="@dimen/dimen15dp"
+            android:id="@+id/et_input"
+            android:background="@null"
+            android:gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/tv_textNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:text="0/500"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="手机号码"
+        android:layout_marginBottom="@dimen/dimen5dp"
+        android:layout_marginTop="@dimen/dimen5dp"
+        android:layout_marginLeft="@dimen/dimen15dp"/>
+    <EditText
+        android:paddingLeft="@dimen/dimen15dp"
+        android:textSize="@dimen/dimen15dp"
+        android:background="@color/white"
+        android:inputType="phone"
+        android:maxLength="11"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen50dp"
+        android:hint="方便我们与你联系"/>
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimen15dp"
+            android:text="提交"
+            android:gravity="center"
+            android:background="@color/colorTheme"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen50dp" />
+    </RelativeLayout>
+</LinearLayout>
