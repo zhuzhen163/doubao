@@ -1,9 +1,6 @@
 package com.qzxq.shop.transformer;
 
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
 import com.qzxq.shop.exception.ErrorType;
 import com.qzxq.shop.exception.ExceptionEngine;
 import com.qzxq.shop.exception.ServerException;
@@ -16,20 +13,17 @@ import rx.functions.Func1;
  * 转换器
  */
 
-public class ZerrorTransformer<T> implements Observable.Transformer<Object, T>  {
+public class StrErrorTransformer<T> implements Observable.Transformer<String, T>  {
 
-    private static ZerrorTransformer errorTransformer = null;
-    private static final String TAG = "ErrorTransformer";
-
+    private static StrErrorTransformer rorTransformer = null;
     @Override
-    public Observable<T> call(Observable<Object> responseObservable) {
-        return responseObservable.map(new Func1<Object, T>() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public Observable<T> call(Observable<String> stringObservable) {
+        return stringObservable.map(new Func1<String, T>() {
             @Override
-            public T call(Object httpResult) {
-                if (httpResult == null)
+            public T call(String s) {
+                if (s == null || s.equals(""))
                     throw new ServerException(ErrorType.EMPTY_BEAN, "解析对象为空");
-                return (T) httpResult;
+                return (T) s;
             }
         }).onErrorResumeNext(new Func1<Throwable, Observable<? extends T>>() {
             @Override
@@ -40,18 +34,17 @@ public class ZerrorTransformer<T> implements Observable.Transformer<Object, T>  
             }
         });
     }
-
     /**
      * @return 线程安全, 双层校验
      */
-    public static <T> ZerrorTransformer<T> getInstance() {
-        if (errorTransformer == null) {
-            synchronized (ZerrorTransformer.class) {
-                if (errorTransformer == null) {
-                    errorTransformer = new ZerrorTransformer<>();
+    public static <T> StrErrorTransformer<T> getInstance() {
+        if (rorTransformer == null) {
+            synchronized (StrErrorTransformer.class) {
+                if (rorTransformer == null) {
+                    rorTransformer = new StrErrorTransformer<>();
                 }
             }
         }
-        return errorTransformer;
+        return rorTransformer;
     }
 }

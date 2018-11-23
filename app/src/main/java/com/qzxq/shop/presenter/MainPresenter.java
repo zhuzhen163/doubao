@@ -11,7 +11,6 @@ import com.qzxq.shop.activity.MainActivity;
 import com.qzxq.shop.base.BasePresenter;
 import com.qzxq.shop.model.MainModel;
 import com.qzxq.shop.service.DownloadService;
-import com.qzxq.shop.tools.SpUtils;
 
 import java.io.File;
 
@@ -26,15 +25,6 @@ public class MainPresenter extends BasePresenter<MainModel, MainActivity> {
     public void postPresener(int page, int num) {
         if (getView() != null){
             getView().showLoading();
-        }
-    }
-
-    public void checkUpdate(String local){
-        //假设获取得到最新版本
-        String version = "2.0";
-        String ignore = SpUtils.getInstance().getString("ignore");
-        if (!ignore.equals(version) && !ignore.equals(local)) {
-            getView().showUpdate(version);
         }
     }
 
@@ -76,10 +66,6 @@ public class MainPresenter extends BasePresenter<MainModel, MainActivity> {
             };
         Intent intent = new Intent(context,DownloadService.class);
         context.bindService(intent, conn, Service.BIND_AUTO_CREATE);
-    }
-
-    public void setIgnore(String version) {
-        SpUtils.getInstance().putString("ignore",version);
     }
 
     @Override

@@ -44,6 +44,18 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<ShopCartEntity> {
         return R.layout.item_shop_cart;
     }
 
+    public boolean isCheckAll(){
+        boolean check = true;
+        for (int i = 0; i < mDataList.size(); i++) {
+            ShopCartEntity entity = mDataList.get(i);
+            if (!entity.isCheck()) {
+                check = false;
+                return check;
+            }
+        }
+        return check;
+    }
+
     @Override
     public void onBindItemHolder(SuperViewHolder holder, int position) {
 
@@ -92,18 +104,6 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<ShopCartEntity> {
         });
     }
 
-
-    public boolean isCheckAll(){
-        boolean check = true;
-        for (int i = 0; i < mDataList.size(); i++) {
-            ShopCartEntity entity = mDataList.get(i);
-            if (!entity.isCheck()) {
-                check = false;
-                return check;
-            }
-        }
-        return check;
-    }
 
     public boolean isCheckAllDelete(){
         boolean check = true;

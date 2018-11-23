@@ -41,6 +41,8 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     TextView tv_editor;
     @BindView(R.id.tv_buy)
     TextView tv_buy;
+    @BindView(R.id.ll_net_connect)
+    LinearLayout ll_net_connect;
 
 
     @BindView(R.id.tv_Delete)
@@ -70,10 +72,10 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
         super.onResume();
         if (NetworkUtil.isNetworkConnected(mContext)) {
             iv_none.setVisibility(View.GONE);
-            xrv_list.setVisibility(View.VISIBLE);
+            ll_net_connect.setVisibility(View.VISIBLE);
         } else {
             iv_none.setVisibility(View.VISIBLE);
-            xrv_list.setVisibility(View.GONE);
+            ll_net_connect.setVisibility(View.GONE);
             ToastUtil.showLong("请检查网络");
         }
     }
@@ -202,6 +204,7 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
                 it.remove();
             }
         }
+        cb_select_delete.setChecked(false);
         shopCartFragmentAdapter.setDataList(list);
         shopCartFragmentAdapter.notifyDataSetChanged();
     }

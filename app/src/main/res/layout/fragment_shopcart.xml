@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorPageBg"
     >
 
     <LinearLayout
+        android:id="@+id/ll_net_connect"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -129,13 +129,14 @@
     </LinearLayout>
 
 
-
     <ImageView
-        android:id="@+id/iv_none"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:visibility="gone"
+        android:id="@+id/iv_none"
         android:src="@mipmap/ic_launcher"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-</LinearLayout>
+</RelativeLayout>

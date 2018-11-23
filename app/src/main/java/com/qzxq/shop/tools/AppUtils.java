@@ -12,8 +12,12 @@ import android.webkit.WebSettings;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.qzxq.shop.R;
 import com.qzxq.shop.application.ZApplication;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by zhuzhen on 2017/11/2.
@@ -99,6 +103,23 @@ public class AppUtils {
                 .error(R.drawable.img_two_bi_one)
                 .crossFade(1000)
                 .into(imageView);
+    }
+
+    /**
+     * 电话号码验证
+     * @return
+     */
+    public static boolean isMobileNO(String mobiles){
+        Pattern p = Pattern.compile("^1([3-9][0-9])\\d{8}$");
+        Matcher m = p.matcher(mobiles);
+        return m.matches();
+    }
+
+    //将Json数据解析成相应的映射对象
+    public static <T> T parseJsonWithGson (String jsonData, Class<T> type){
+        Gson gson = new Gson();
+        T result = gson.fromJson(jsonData, type);
+        return result;
     }
 
 }

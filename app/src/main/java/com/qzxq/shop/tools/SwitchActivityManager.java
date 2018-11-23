@@ -8,6 +8,8 @@ import com.qzxq.shop.R;
 import com.qzxq.shop.activity.AddressManagerActivity;
 import com.qzxq.shop.activity.CreateAddressActivity;
 import com.qzxq.shop.activity.FeedBackActivity;
+import com.qzxq.shop.activity.LoginActivity;
+import com.qzxq.shop.activity.MainActivity;
 import com.qzxq.shop.activity.webview.WebViewActivity;
 
 
@@ -18,6 +20,15 @@ import com.qzxq.shop.activity.webview.WebViewActivity;
 
 public class SwitchActivityManager {
 
+    /**
+     * 登录
+     * @param mContext
+     */
+    public static void startLoginActivity(Context mContext){
+        Intent intent = new Intent(mContext, LoginActivity.class);
+        mContext.startActivity(intent);
+        ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
+    }
     /**
      * 意见反馈
      * @param mContext
@@ -58,6 +69,16 @@ public class SwitchActivityManager {
         intent.putExtra("mUrl", mUrl);
         intent.putExtra("mTitle", mTitle);
         mContext.startActivity(intent);
+        ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
+    }
+
+    /**
+     * 主页
+     * @param mContext
+     */
+    public static void startMainActivity(Context mContext){
+        Intent in = new Intent(mContext,  MainActivity.class);
+        mContext.startActivity(in);
         ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
     }
 

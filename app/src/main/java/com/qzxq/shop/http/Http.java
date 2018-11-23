@@ -4,9 +4,13 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.qzxq.shop.BuildConfig;
 import com.qzxq.shop.application.ZApplication;
+import com.qzxq.shop.tools.AppUtils;
+import com.qzxq.shop.tools.ConfigUtils;
 import com.qzxq.shop.tools.LogUtil;
 import com.qzxq.shop.tools.NetworkUtil;
+import com.qzxq.shop.transformer.StringConverterFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -30,7 +34,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by zhuzhen on 2017/11/2.
@@ -83,22 +86,23 @@ public class Http {
             public Response intercept(Chain chain) throws IOException {
                 Request originalRequest = chain.request();
                 Request.Builder requestBuilder = originalRequest.newBuilder();
-                        // Provide your custom header here
-//                        .header("token", (String) SpUtils.get("token", ""))
-                        //数据压缩  如果服务器支持Gzip
-//                        .addHeader("Content-Encoding", "gzip")
-//                        .addHeader("Connection", "keep-alive")
-//                        .addHeader("Accept", "*/*")
-//                        //里面做一下适配
-//                        .addHeader("User-Agent", AppUtils.getUserAgent())
-//                        .method(originalRequest.method(), originalRequest.body());
-//                //get post请求添加的不同
-//                if (originalRequest.method().equals("GET")){
-//                    requestBuilder.addHeader("Content-Type", "application/json; charset=utf-8");
-//                }
-//                else {
-//                    requestBuilder.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-//                }
+                requestBuilder
+                        .addHeader("device", "android")
+                        .addHeader("token", ConfigUtils.getToken())
+                        .addHeader("version", BuildConfig.VERSION_NAME)
+                        .addHeader("versionCode", BuildConfig.VERSION_CODE + "")
+                        .addHeader("Content-Encoding", "gzip")
+                        .addHeader("Connection", "keep-alive")
+                        .addHeader("Accept", "*/*")
+                        //里面做一下适配
+                        .addHeader("User-Agent", AppUtils.getUserAgent());
+                //get post请求添加的不同
+                if (originalRequest.method().equals("GET")){
+                    requestBuilder.addHeader("Content-Type", "application/json; charset=utf-8");
+                }
+                else {
+                    requestBuilder.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+                }
 
                 requestBuilder.addHeader("Accept", "application/json;versions=1");
                 if (NetworkUtil.isNetworkConnected(ZApplication.getAppContext())) {
@@ -163,8 +167,7 @@ public class Http {
                             .Builder()
                             .baseUrl(url)  //自己配置
                             .client(client)
-                            .addConverterFactory(new NullOnEmptyConverterFactory())
-                            .addConverterFactory(GsonConverterFactory.create(getGson()))
+                            .addConverterFactory(StringConverterFactory.create())
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                             .build();
                 }

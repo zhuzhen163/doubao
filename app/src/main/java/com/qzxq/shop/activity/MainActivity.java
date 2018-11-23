@@ -141,7 +141,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
                     .setNegativeButton("忽略", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mPresenter.setIgnore(version);
                         }
                     })
                     .create();

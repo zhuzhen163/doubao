@@ -8,9 +8,5 @@ package com.qzxq.shop.http;
 
 public class UrlHelper {
 
-    public static String API_GANKIO = "https://gank.io/api/";
-    public static String API_DOUBAN = "Https://api.douban.com/";
-    public static String API_TING = "https://tingapi.ting.baidu.com/v1/restserver/";
-
-    public static String BASE_URL  = "https://mapi.sudaizhijia.com/index.php/";
+    public static String BASE_URL  = "http://192.168.0.11:6101/platform/api/";
 }

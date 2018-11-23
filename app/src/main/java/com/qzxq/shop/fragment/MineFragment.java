@@ -82,6 +82,12 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
                 SwitchActivityManager.startFeedBackActivity(mContext);
             }
         });
+        ll_bindPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.startLoginActivity(mContext);
+            }
+        });
     }
 
     @Override

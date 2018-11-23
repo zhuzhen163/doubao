@@ -48,6 +48,7 @@
         <activity android:name=".activity.AddressManagerActivity" />
         <activity android:name=".activity.CreateAddressActivity" />
         <activity android:name=".activity.FeedBackActivity" />
+        <activity android:name=".activity.LoginActivity" />
     </application>
 
 </manifest>
