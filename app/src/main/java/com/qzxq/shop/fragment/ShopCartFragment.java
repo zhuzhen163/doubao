@@ -11,12 +11,16 @@ import android.widget.TextView;
 import com.qzxq.shop.R;
 import com.qzxq.shop.adapter.ShopCartFragmentAdapter;
 import com.qzxq.shop.base.BaseFragment;
-import com.qzxq.shop.entity.ShopCartEntity;
+import com.qzxq.shop.entity.CartListBean;
+import com.qzxq.shop.entity.ShopCartListBean;
 import com.qzxq.shop.presenter.ShopCartFragmentPresenter;
+import com.qzxq.shop.tools.AppUtils;
 import com.qzxq.shop.tools.NetworkUtil;
 import com.qzxq.shop.tools.ToastUtil;
 import com.qzxq.shop.view.ShopCartFragmentView;
 import com.qzxq.shop.widget.xrecyclerview.XRecyclerView;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -57,7 +61,7 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     TextView tv_complete;
 
     private ShopCartFragmentAdapter shopCartFragmentAdapter;
-    private List<ShopCartEntity> list = new ArrayList<>();
+    private List<CartListBean> list = new ArrayList<>();
     private List<String> buyList = new ArrayList<>();
     private List<String> deleteList = new ArrayList<>();
 
@@ -71,6 +75,7 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     public void onResume() {
         super.onResume();
         if (NetworkUtil.isNetworkConnected(mContext)) {
+            mFragmentPresenter.getShopCartList();
             iv_none.setVisibility(View.GONE);
             ll_net_connect.setVisibility(View.VISIBLE);
         } else {
@@ -102,12 +107,12 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
             public void onClick(View view) {
                 if (cb_select.isChecked()){
                     for (int i = 0; i < list.size(); i++) {
-                        ShopCartEntity entity = list.get(i);
+                        CartListBean entity = list.get(i);
                         entity.setCheck(true);
                     }
                 }else {
                     for (int i = 0; i < list.size(); i++) {
-                        ShopCartEntity entity = list.get(i);
+                        CartListBean entity = list.get(i);
                         entity.setCheck(false);
                     }
                 }
@@ -120,12 +125,12 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
             public void onClick(View view) {
                 if (cb_select_delete.isChecked()){
                     for (int i = 0; i < list.size(); i++) {
-                        ShopCartEntity entity = list.get(i);
+                        CartListBean entity = list.get(i);
                         entity.setCheckDelete(true);
                     }
                 }else {
                     for (int i = 0; i < list.size(); i++) {
-                        ShopCartEntity entity = list.get(i);
+                        CartListBean entity = list.get(i);
                         entity.setCheckDelete(false);
                     }
                 }
@@ -175,32 +180,21 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
         shopCartFragmentAdapter = new ShopCartFragmentAdapter(mContext);
         shopCartFragmentAdapter.setCheckBoxCallback(this);
 
-        for (int i = 0; i < 15; i++) {
-            ShopCartEntity entity = new ShopCartEntity();
-            entity.setProductImg("http://ojyz0c8un.bkt.clouddn.com/b_1.jpg");
-            entity.setProductName(i+"名称");
-            entity.setProductNum(i+"");
-            entity.setProductId(i+"");
-            entity.setProductPrice("￥"+i);
-            list.add(entity);
-        }
         xrv_list.setAdapter(shopCartFragmentAdapter);
         xrv_list.setLayoutManager(new LinearLayoutManager(getActivity()));
-        shopCartFragmentAdapter.addAll(list);
-        shopCartFragmentAdapter.notifyDataSetChanged();
-        xrv_list.refreshComplete();
+
     }
 
     /**
      * 删除所选
      */
     public void deleteSelect(){
-        Iterator<ShopCartEntity> it = list.iterator();
+        Iterator<CartListBean> it = list.iterator();
         while(it.hasNext()){
-            ShopCartEntity entity = it.next();
+            CartListBean entity = it.next();
             boolean checkDelete = entity.isCheckDelete();
             if (checkDelete){
-                deleteList.add(entity.getProductId());
+                deleteList.add(entity.getId());
                 it.remove();
             }
         }
@@ -214,12 +208,12 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
      * @return
      */
     public List<String> buySelect(){
-        Iterator<ShopCartEntity> it = list.iterator();
+        Iterator<CartListBean> it = list.iterator();
         while(it.hasNext()){
-            ShopCartEntity entity = it.next();
+            CartListBean entity = it.next();
             boolean checkDelete = entity.isCheck();
             if (checkDelete){
-                buyList.add(entity.getProductId());
+                buyList.add(entity.getId());
             }
         }
         return buyList;
@@ -243,5 +237,27 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     @Override
     public void checkBoxCallback(boolean checkAllDelete) {
         cb_select_delete.setChecked(checkAllDelete);
+    }
+
+    @Override
+    public void getListSuccess(String s) {
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            if ("0".equals(jsonObject.getString("errno"))){
+                ShopCartListBean bean = AppUtils.parseJsonWithGson(s, ShopCartListBean.class);
+
+                shopCartFragmentAdapter.addAll(bean.getData().getCartList());
+                shopCartFragmentAdapter.notifyDataSetChanged();
+            }else {
+                ToastUtil.showLong(jsonObject.getString("errmsg"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getListFail(String s) {
+
     }
 }

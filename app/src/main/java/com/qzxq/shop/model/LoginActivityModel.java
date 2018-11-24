@@ -24,7 +24,7 @@ public class LoginActivityModel {
                     @Override
                     protected void onError(ApiException e) {
                         super.onError(e);
-                        loginInterFace.toLoginFail(e.message);
+                        loginInterFace.toLoginFail(e.msg);
                     }
                 });
 
@@ -56,7 +56,7 @@ public class LoginActivityModel {
                     @Override
                     public void onError(ApiException e) {
                         super.onError(e);
-                        codeInterFace.getFailSms(e.message);
+                        codeInterFace.getFailSms(e.msg);
                     }
 
                 });

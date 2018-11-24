@@ -50,6 +50,7 @@ public class HttpLoggingInterceptor implements Interceptor {
         ResponseBody responseBody = response.body();
         String rBody = null;
 
+
 //        if(HttpEngine.hasBody(response)) {
         BufferedSource source = responseBody.source();
         // Buffer the entire body.

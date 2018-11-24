@@ -9,13 +9,13 @@ import android.widget.TextView;
 import com.qzxq.shop.R;
 import com.qzxq.shop.base.ListBaseAdapter;
 import com.qzxq.shop.base.SuperViewHolder;
-import com.qzxq.shop.entity.ShopCartEntity;
+import com.qzxq.shop.entity.CartListBean;
 import com.qzxq.shop.tools.AppUtils;
 
 /**
  * Created by zhuzhen on 2018/11/19.
  */
-public class ShopCartFragmentAdapter extends ListBaseAdapter<ShopCartEntity> {
+public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
 
     CheckBox cb_select;
     ImageView iv_productImg;
@@ -47,7 +47,7 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<ShopCartEntity> {
     public boolean isCheckAll(){
         boolean check = true;
         for (int i = 0; i < mDataList.size(); i++) {
-            ShopCartEntity entity = mDataList.get(i);
+            CartListBean entity = mDataList.get(i);
             if (!entity.isCheck()) {
                 check = false;
                 return check;
@@ -59,17 +59,17 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<ShopCartEntity> {
     @Override
     public void onBindItemHolder(SuperViewHolder holder, int position) {
 
-        final ShopCartEntity entity = mDataList.get(position);
+        final CartListBean entity = mDataList.get(position);
         cb_select = holder.getView(R.id.cb_select);
         iv_productImg = holder.getView(R.id.iv_productImg);
         tv_productName = holder.getView(R.id.tv_productName);
         tv_productPrice = holder.getView(R.id.tv_productPrice);
         tv_productNum = holder.getView(R.id.tv_productNum);
 
-        AppUtils.setImage(mContext,entity.getProductImg(),iv_productImg);
-        tv_productName.setText(entity.getProductName());
-        tv_productPrice.setText(entity.getProductPrice());
-        tv_productNum.setText(entity.getProductNum());
+        AppUtils.setImage(mContext,entity.getGood_url(),iv_productImg);
+        tv_productName.setText(entity.getGoods_name());
+        tv_productPrice.setText(entity.getMarket_price());
+        tv_productNum.setText(entity.getNumber());
 
         if (isDelete){
             cb_select.setChecked(entity.isCheckDelete());
@@ -108,7 +108,7 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<ShopCartEntity> {
     public boolean isCheckAllDelete(){
         boolean check = true;
         for (int i = 0; i < mDataList.size(); i++) {
-            ShopCartEntity entity = mDataList.get(i);
+            CartListBean entity = mDataList.get(i);
             if (!entity.isCheckDelete()) {
                 check = false;
                 return check;

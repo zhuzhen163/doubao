@@ -4,12 +4,13 @@ package com.qzxq.shop.view;
 import com.qzxq.shop.base.BaseView;
 
 /**
- * Created by zhuzhen on 2017/11/2.
- */
+* @author zhuzhen
+* create at 2018/11/23
+* description:
+*/
 
-public interface ShopCartFragmentView extends BaseView {
+public interface AddressManagerActivityView extends BaseView {
 
-    //获取购物车列表
     void getListSuccess(String s);
     void getListFail(String s);
 }

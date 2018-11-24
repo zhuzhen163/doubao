@@ -12,8 +12,34 @@ import com.qzxq.shop.model.AddressManagerActivityModel;
 public class AddressManagerActivityPresenter extends BasePresenter<AddressManagerActivityModel,AddressManagerActivity> {
 
 
+    public void getAddressList() {
+        if (getView()!=null){
+            getView().showLoading();
+        }
+
+        getModel().getAddressList(new AddressManagerActivityModel.AddressListInterFace() {
+            @Override
+            public void getListSuccess(String s) {
+                if (getView() != null){
+                    getView().hideLoading();
+                    getView().getListSuccess(s);
+                }
+            }
+
+            @Override
+            public void getListFail(String s) {
+                if (getView()!=null){
+                    getView().hideLoading();
+                    getView().getListFail(s);
+                }
+            }
+        });
+    }
+
     @Override
     public AddressManagerActivityModel loadModel() {
         return new AddressManagerActivityModel();
     }
+
+
 }

@@ -88,7 +88,7 @@ public class Http {
                 Request.Builder requestBuilder = originalRequest.newBuilder();
                 requestBuilder
                         .addHeader("device", "android")
-                        .addHeader("token", ConfigUtils.getToken())
+                        .addHeader("X-Nideshop-Token", ConfigUtils.getToken())
                         .addHeader("version", BuildConfig.VERSION_NAME)
                         .addHeader("versionCode", BuildConfig.VERSION_CODE + "")
                         .addHeader("Content-Encoding", "gzip")

@@ -118,21 +118,21 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
 
     @Override
     public void toLoginSuccess(String loginBean) {
-            try {
-                JSONObject jsonObject = new JSONObject(loginBean);
-                if ("0".equals(jsonObject.getString("errno"))){
-                    LoginBean bean = AppUtils.parseJsonWithGson(loginBean, LoginBean.class);
-                    ConfigUtils.saveToken(bean.getData().getToken());
-                    ConfigUtils.saveUserId(bean.getData().getUserId());
-                    ConfigUtils.saveUserName(bean.getData().getUserInfo().getUsername());
+        try {
+            JSONObject jsonObject = new JSONObject(loginBean);
+            if ("0".equals(jsonObject.getString("errno"))){
+                LoginBean bean = AppUtils.parseJsonWithGson(loginBean, LoginBean.class);
+                ConfigUtils.saveToken(bean.getData().getToken());
+                ConfigUtils.saveUserId(bean.getData().getUserId());
+                ConfigUtils.saveUserName(bean.getData().getUserInfo().getUsername());
 
-                    SwitchActivityManager.startMainActivity(mContext);
-                }else {
-                    ToastUtil.showLong(jsonObject.getString("errmsg"));
-                }
-            }catch (Exception e){
-                e.printStackTrace();
+                SwitchActivityManager.startMainActivity(mContext);
+            }else {
+                ToastUtil.showLong(jsonObject.getString("errmsg"));
             }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -150,5 +150,6 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
         if (helper!=null){
             helper.cancle(btn_sendMessage);
         }
+        ToastUtil.showLong(message);
     }
 }

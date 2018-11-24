@@ -6,9 +6,15 @@ import android.widget.TextView;
 import com.qzxq.shop.R;
 import com.qzxq.shop.adapter.AddressManagerAdapter;
 import com.qzxq.shop.base.BaseActivity;
+import com.qzxq.shop.entity.AddressManagerBean;
 import com.qzxq.shop.presenter.AddressManagerActivityPresenter;
+import com.qzxq.shop.tools.AppUtils;
 import com.qzxq.shop.tools.SwitchActivityManager;
+import com.qzxq.shop.tools.ToastUtil;
+import com.qzxq.shop.view.AddressManagerActivityView;
 import com.qzxq.shop.widget.xrecyclerview.XRecyclerView;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
 
@@ -17,7 +23,7 @@ import butterknife.BindView;
 * create at 2018/11/20
 * description:地址管理
 */
-public class AddressManagerActivity extends BaseActivity<AddressManagerActivityPresenter> implements View.OnClickListener{
+public class AddressManagerActivity extends BaseActivity<AddressManagerActivityPresenter> implements AddressManagerActivityView, View.OnClickListener{
 
     @BindView(R.id.xrv_list)
     XRecyclerView xrv_list;
@@ -33,7 +39,12 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
 
     @Override
     protected void initData() {
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getAddressList();
     }
 
     @Override
@@ -71,11 +82,32 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
 
     @Override
     public void showLoading() {
-        showLoading();
+        setShowLoading(true);
     }
 
     @Override
     public void hideLoading() {
-        hideLoading();
+        setShowLoading(false);
+    }
+
+    @Override
+    public void getListSuccess(String s) {
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            if ("0".equals(jsonObject.getString("errno"))){
+                AddressManagerBean bean = AppUtils.parseJsonWithGson(s, AddressManagerBean.class);
+
+                managerAdapter.setDataList(bean.getData());
+            }else {
+                ToastUtil.showLong(jsonObject.getString("errmsg"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getListFail(String s) {
+
     }
 }

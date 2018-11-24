@@ -6,7 +6,7 @@ package com.qzxq.shop.exception;
 
 public class ApiException extends RuntimeException{
     public int code;
-    public String message;
+    public String msg;
 
     public ApiException(Throwable throwable, int code) {
         super(throwable);

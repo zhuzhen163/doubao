@@ -22,7 +22,7 @@ public abstract  class CommonSubscriber<T> extends BaseSubscriber<T> {
     private static final String TAG = "CommonSubscriber";
     @Override
     protected void onError(ApiException e) {
-        LogUtil.i(TAG, "错误信息为 " + "code:" + e.code + "   message:" + e.message);
+        LogUtil.i(TAG, "错误信息为 " + "code:" + e.code + "   message:" + e.msg);
     }
 
     @Override

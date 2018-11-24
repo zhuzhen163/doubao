@@ -13,6 +13,7 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:id="@+id/et_name"
             android:paddingLeft="@dimen/dimen15dp"
             android:background="@null"
             android:hint="姓名"
@@ -25,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
         <EditText
+            android:id="@+id/et_phone"
             android:paddingLeft="@dimen/dimen15dp"
             android:background="@null"
             android:hint="手机号码"
@@ -51,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
         <EditText
+            android:id="@+id/et_detail"
             android:textSize="@dimen/dimen15dp"
             android:paddingLeft="@dimen/dimen15dp"
             android:paddingRight="@dimen/dimen15dp"
@@ -70,6 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen50dp">
                 <CheckBox
+                    android:id="@+id/cb_isDetail"
                     android:layout_width="@dimen/dimen10dp"
                     android:layout_height="@dimen/dimen10dp" />
                 <TextView
@@ -90,7 +94,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tv_cancel"
+            android:id="@+id/tv_cancelDetail"
             android:gravity="center"
             android:text="取消"
             android:textSize="@dimen/dimen16dp"

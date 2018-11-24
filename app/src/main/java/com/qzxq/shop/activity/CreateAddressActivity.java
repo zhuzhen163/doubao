@@ -6,15 +6,25 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.qzxq.shop.R;
 import com.qzxq.shop.base.BaseActivity;
+import com.qzxq.shop.entity.AddressDetailBean;
+import com.qzxq.shop.entity.CreateAddressBean;
 import com.qzxq.shop.presenter.CreateAddressActivityPresenter;
 import com.qzxq.shop.tools.AppUtils;
+import com.qzxq.shop.tools.StringUtils;
 import com.qzxq.shop.tools.SwitchActivityManager;
+import com.qzxq.shop.tools.ToastUtil;
+import com.qzxq.shop.view.CreateAddressActivityView;
 import com.qzxq.shop.widget.addresspicker.AddressPickerView;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
 
@@ -23,11 +33,24 @@ import butterknife.BindView;
 * create at 2018/11/20
 * description:新建地址
 */
-public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPresenter> implements View.OnClickListener{
+public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPresenter> implements CreateAddressActivityView, View.OnClickListener{
 
     private PopupWindow popupWindow;
     @BindView(R.id.tv_selectAddress)
     TextView tv_selectAddress;
+    @BindView(R.id.et_name)
+    EditText et_name;
+    @BindView(R.id.et_phone)
+    EditText et_phone;
+    @BindView(R.id.et_detail)
+    EditText et_detail;
+    @BindView(R.id.cb_isDetail)
+    CheckBox cb_isDetail;
+    @BindView(R.id.tv_cancelDetail)
+    TextView tv_cancelDetail;
+    @BindView(R.id.tv_saveAddress)
+    TextView tv_saveAddress;
+    private String isDeatil = "0",id = "";//记录是否默认地址
 
     @Override
     protected CreateAddressActivityPresenter loadPresenter() {
@@ -36,12 +59,24 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
 
     @Override
     protected void initData() {
-
+        mPresenter.getAddressDetail();
     }
 
     @Override
     protected void initListener() {
+        tv_saveAddress.setOnClickListener(this);
+        tv_cancelDetail.setOnClickListener(this);
         tv_selectAddress.setOnClickListener(this);
+        cb_isDetail.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    isDeatil = "1";
+                }else {
+                    isDeatil = "0";
+                }
+            }
+        });
         setBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +109,32 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
                         showAddressPickerPop();
                     }
                 }, 100);
+                break;
+            case R.id.tv_saveAddress:
+                String name = et_name.getText().toString().trim();
+                String phone = et_phone.getText().toString().trim();
+                String selectAddress = tv_selectAddress.getText().toString();
+                String detail = et_detail.getText().toString().trim();
+                if (StringUtils.isNotBlank(name)){
+                    if (StringUtils.isNotBlank(phone) && AppUtils.isMobileNO(phone)){
+                        if (StringUtils.isNotBlank(selectAddress)){
+                            if (StringUtils.isNotBlank(detail)){
+                                mPresenter.getSaveDetail(id,name,phone,detail,isDeatil);
+                            }else {
+                                ToastUtil.showLong("请输入详细地址");
+                            }
+                        }else {
+                            ToastUtil.showLong("请选择地址");
+                        }
+                    }else {
+                        ToastUtil.showLong("请输入正确的手机号");
+                    }
+                }else {
+                    ToastUtil.showLong("姓名不能为空");
+                }
+                break;
+            case R.id.tv_cancelDetail:
+                SwitchActivityManager.exitActivity(CreateAddressActivity.this);
                 break;
         }
     }
@@ -110,11 +171,12 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
 
     @Override
     public void showLoading() {
+        setShowLoading(true);
     }
 
     @Override
     public void hideLoading() {
-
+        setShowLoading(false);
     }
 
     @Override
@@ -128,5 +190,56 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void saveDetailSuccess(String s) {
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            if ("0".equals(jsonObject.getString("errno"))){
+                SwitchActivityManager.exitActivity(CreateAddressActivity.this);
+            }else {
+                ToastUtil.showLong(jsonObject.getString("errmsg"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void saveDetailFail(String s) {
+        ToastUtil.showLong(s);
+    }
+
+    @Override
+    public void getDetailSuccess(String s) {
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            if ("0".equals(jsonObject.getString("errno"))){
+                if (jsonObject.has("data")){
+                    CreateAddressBean bean = AppUtils.parseJsonWithGson(s, CreateAddressBean.class);
+                    AddressDetailBean detailBean = bean.getData();
+                    et_name.setText(detailBean.getUserName());
+                    et_phone.setText(detailBean.getTelNumber());
+                    tv_selectAddress.setText(detailBean.getFull_region());
+                    et_detail.setText(detailBean.getDetailInfo());
+                    if ("1".equals(detailBean.getIsDefault())){
+                        cb_isDetail.setChecked(true);
+                        isDeatil = "1";
+                    }
+                    id = detailBean.getId();
+                }
+
+            }else {
+                ToastUtil.showLong(jsonObject.getString("errmsg"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getDetailFail(String s) {
+        ToastUtil.showLong(s);
     }
 }

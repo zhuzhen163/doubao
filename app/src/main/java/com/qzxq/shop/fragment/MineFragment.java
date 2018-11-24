@@ -8,8 +8,11 @@ import android.widget.TextView;
 import com.qzxq.shop.R;
 import com.qzxq.shop.base.BaseFragment;
 import com.qzxq.shop.presenter.MineFragmentPresenter;
+import com.qzxq.shop.tools.StringUtils;
 import com.qzxq.shop.tools.SwitchActivityManager;
 import com.qzxq.shop.view.MineFragmentView;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -56,6 +59,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        mFragmentPresenter.getUserAccount();
     }
 
     @Override
@@ -105,4 +109,21 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
         setShowLoading(false);
     }
 
+    @Override
+    public void getAccountSuccess(String s) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String data = jsonObject.getString("data");
+            if (StringUtils.isNotBlank(data)){
+                tv_ptMoney.setText(data);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getAccountFail(String s) {
+
+    }
 }
