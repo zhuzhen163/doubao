@@ -13,6 +13,9 @@ import rx.Observable;
 
 public interface HttpService {
 
+    @POST("cart/checkout")
+    Observable<String> checkCart();
+
     @FormUrlEncoded()
     @POST("address/delete")
     Observable<String> deleteAddress(@Field("id") String id);
