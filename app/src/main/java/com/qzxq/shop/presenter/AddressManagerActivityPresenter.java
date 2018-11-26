@@ -12,6 +12,30 @@ import com.qzxq.shop.model.AddressManagerActivityModel;
 public class AddressManagerActivityPresenter extends BasePresenter<AddressManagerActivityModel,AddressManagerActivity> {
 
 
+    public void deleteAddress(String id) {
+        if (getView()!=null){
+            getView().showLoading();
+        }
+
+        getModel().deleteAddress(id, new AddressManagerActivityModel.DeleteAddressInterFace() {
+            @Override
+            public void deleteSuccess(String s) {
+                if (getView() != null){
+                    getView().hideLoading();
+                    getView().deleteSuccess(s);
+                }
+            }
+
+            @Override
+            public void deleteFail(String s) {
+                if (getView()!=null){
+                    getView().hideLoading();
+                    getView().deleteFail(s);
+                }
+            }
+        });
+    }
+
     public void getAddressList() {
         if (getView()!=null){
             getView().showLoading();

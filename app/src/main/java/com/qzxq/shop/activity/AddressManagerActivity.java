@@ -1,5 +1,6 @@
 package com.qzxq.shop.activity;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import com.qzxq.shop.tools.AppUtils;
 import com.qzxq.shop.tools.SwitchActivityManager;
 import com.qzxq.shop.tools.ToastUtil;
 import com.qzxq.shop.view.AddressManagerActivityView;
+import com.qzxq.shop.widget.DeleteAddressDialog;
 import com.qzxq.shop.widget.xrecyclerview.XRecyclerView;
 
 import org.json.JSONObject;
@@ -23,14 +25,18 @@ import butterknife.BindView;
 * create at 2018/11/20
 * description:地址管理
 */
-public class AddressManagerActivity extends BaseActivity<AddressManagerActivityPresenter> implements AddressManagerActivityView, View.OnClickListener{
+public class AddressManagerActivity extends BaseActivity<AddressManagerActivityPresenter> implements AddressManagerActivityView,AddressManagerAdapter.DeleteCallBack,DeleteAddressDialog.DeleteDialog{
 
     @BindView(R.id.xrv_list)
     XRecyclerView xrv_list;
     @BindView(R.id.tv_newAddress)
     TextView tv_newAddress;
 
-    AddressManagerAdapter managerAdapter;
+    private AddressManagerAdapter managerAdapter;
+    private DeleteAddressDialog deleteAddressDialog;
+
+    private int position;
+    private String id;
 
     @Override
     protected AddressManagerActivityPresenter loadPresenter() {
@@ -64,6 +70,12 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
         xrv_list.setLoadingMoreEnabled(false);
         xrv_list.setPullRefreshEnabled(false);
         managerAdapter = new AddressManagerAdapter(mContext);
+        managerAdapter.setDeleteCallBack(this);
+        xrv_list.setAdapter(managerAdapter);
+        xrv_list.setLayoutManager(new LinearLayoutManager(mContext));
+
+        deleteAddressDialog = new DeleteAddressDialog(mContext);
+        deleteAddressDialog.setDeleteDialog(this);
     }
 
     @Override
@@ -91,6 +103,28 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
     }
 
     @Override
+    public void deleteSuccess(String s) {
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            if ("0".equals(jsonObject.getString("errno"))){
+               managerAdapter.remove(position);
+            }else {
+                ToastUtil.showLong(jsonObject.getString("errmsg"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            if (deleteAddressDialog != null){
+                deleteAddressDialog.cancel();
+            }
+        }
+    }
+
+    @Override
+    public void deleteFail(String s) {
+        ToastUtil.showLong(s);
+    }
+
+    @Override
     public void getListSuccess(String s) {
         try {
             JSONObject jsonObject = new JSONObject(s);
@@ -98,6 +132,7 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
                 AddressManagerBean bean = AppUtils.parseJsonWithGson(s, AddressManagerBean.class);
 
                 managerAdapter.setDataList(bean.getData());
+                managerAdapter.notifyDataSetChanged();
             }else {
                 ToastUtil.showLong(jsonObject.getString("errmsg"));
             }
@@ -109,5 +144,20 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
     @Override
     public void getListFail(String s) {
 
+    }
+
+    @Override
+    public void deletePosition(int position, String id) {
+        this.position = position;
+        this.id = id;
+        if (deleteAddressDialog != null){
+            deleteAddressDialog.show();
+        }
+
+    }
+
+    @Override
+    public void delete() {
+        mPresenter.deleteAddress(id);
     }
 }

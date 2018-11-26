@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/confirm_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:background="@drawable/background_corners_white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dimen30dp"
+        android:layout_marginLeft="@dimen/dimen30dp"
+        android:orientation="vertical">
+        <TextView
+            android:textColor="@color/black"
+            android:padding="@dimen/dimen20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确定要删除地址？"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@color/colorLine" />
+        <LinearLayout
+            android:layout_marginBottom="@dimen/dimen2dp"
+            android:layout_marginRight="@dimen/dimen2dp"
+            android:layout_marginLeft="@dimen/dimen2dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/text_99"
+                android:textSize="@dimen/dimen15dp" />
+
+            <View
+                android:layout_width="0.5dip"
+                android:layout_height="fill_parent"
+                android:background="@color/line" />
+
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/colorTheme"
+                android:textSize="@dimen/dimen15dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -7,7 +7,6 @@ import com.google.gson.GsonBuilder;
 import com.qzxq.shop.BuildConfig;
 import com.qzxq.shop.application.ZApplication;
 import com.qzxq.shop.tools.AppUtils;
-import com.qzxq.shop.tools.ConfigUtils;
 import com.qzxq.shop.tools.LogUtil;
 import com.qzxq.shop.tools.NetworkUtil;
 import com.qzxq.shop.transformer.StringConverterFactory;
@@ -88,7 +87,7 @@ public class Http {
                 Request.Builder requestBuilder = originalRequest.newBuilder();
                 requestBuilder
                         .addHeader("device", "android")
-                        .addHeader("X-Nideshop-Token", ConfigUtils.getToken())
+                        .addHeader("X-Nideshop-Token", "td4pfeegbjcb1wcfyztfizp5vybkafuf")
                         .addHeader("version", BuildConfig.VERSION_NAME)
                         .addHeader("versionCode", BuildConfig.VERSION_CODE + "")
                         .addHeader("Content-Encoding", "gzip")
@@ -97,14 +96,14 @@ public class Http {
                         //里面做一下适配
                         .addHeader("User-Agent", AppUtils.getUserAgent());
                 //get post请求添加的不同
-                if (originalRequest.method().equals("GET")){
-                    requestBuilder.addHeader("Content-Type", "application/json; charset=utf-8");
-                }
-                else {
-                    requestBuilder.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-                }
-
-                requestBuilder.addHeader("Accept", "application/json;versions=1");
+//                if (originalRequest.method().equals("GET")){
+//                    requestBuilder.addHeader("Content-Type", "application/json; charset=utf-8");
+//                }
+//                else {
+//                    requestBuilder.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+//                }
+                requestBuilder.addHeader("Content-Type", "application/json;charset=utf-8");
+                requestBuilder.addHeader("Accept", "application/json;charset=utf-8");
                 if (NetworkUtil.isNetworkConnected(ZApplication.getAppContext())) {
                     int maxAge = 60;
                     requestBuilder.addHeader("Cache-Control", "public, max-age=" + maxAge);

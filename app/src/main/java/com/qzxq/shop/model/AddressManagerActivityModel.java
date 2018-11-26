@@ -10,6 +10,31 @@ import com.qzxq.shop.transformer.StrTransformer;
 
 public class AddressManagerActivityModel {
 
+    public void deleteAddress(String id,final DeleteAddressInterFace deleteAddressInterFace){
+
+        Http.getHttpService(UrlHelper.BASE_URL).deleteAddress(id).
+                compose(new StrTransformer<String>())
+                .subscribe(new CommonSubscriber<String>(ZApplication.getAppContext()) {
+
+                    @Override
+                    public void onNext(String s) {
+                        deleteAddressInterFace.deleteSuccess(s);
+                    }
+
+                    @Override
+                    protected void onError(ApiException e) {
+                        super.onError(e);
+                        deleteAddressInterFace.deleteFail(e.msg);
+                    }
+                });
+
+    }
+
+    public interface DeleteAddressInterFace{
+        void deleteSuccess(String s);
+        void deleteFail(String s);
+    }
+
     public void getAddressList(final AddressListInterFace listInterFace){
 
         Http.getHttpService(UrlHelper.BASE_URL).getAddressList().

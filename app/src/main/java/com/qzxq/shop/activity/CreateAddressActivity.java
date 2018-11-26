@@ -120,6 +120,18 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
                         if (StringUtils.isNotBlank(selectAddress)){
                             if (StringUtils.isNotBlank(detail)){
                                 mPresenter.getSaveDetail(id,name,phone,detail,isDeatil);
+
+//                                Gson gson=new Gson();
+//                                HashMap<String,String> paramsMap=new HashMap<>();
+//                                paramsMap.put("id",id);
+//                                paramsMap.put("name",name);
+//                                paramsMap.put("phone",phone);
+//                                paramsMap.put("detail",detail);
+//                                paramsMap.put("isDeatil",isDeatil);
+//                                String strEntity = gson.toJson(paramsMap);
+//                                 RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
+//                                 mPresenter.getSaveDetail(body);
+
                             }else {
                                 ToastUtil.showLong("请输入详细地址");
                             }

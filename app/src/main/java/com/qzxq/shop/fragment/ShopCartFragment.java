@@ -75,6 +75,7 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     public void onResume() {
         super.onResume();
         if (NetworkUtil.isNetworkConnected(mContext)) {
+            list.clear();
             mFragmentPresenter.getShopCartList();
             iv_none.setVisibility(View.GONE);
             ll_net_connect.setVisibility(View.VISIBLE);
@@ -245,8 +246,8 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
             JSONObject jsonObject = new JSONObject(s);
             if ("0".equals(jsonObject.getString("errno"))){
                 ShopCartListBean bean = AppUtils.parseJsonWithGson(s, ShopCartListBean.class);
-
-                shopCartFragmentAdapter.addAll(bean.getData().getCartList());
+                list  = bean.getData().getCartList();
+                shopCartFragmentAdapter.setDataList(list);
                 shopCartFragmentAdapter.notifyDataSetChanged();
             }else {
                 ToastUtil.showLong(jsonObject.getString("errmsg"));

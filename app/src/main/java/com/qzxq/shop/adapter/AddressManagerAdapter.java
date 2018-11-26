@@ -19,8 +19,17 @@ public class AddressManagerAdapter extends ListBaseAdapter<AddressDetailBean>{
 
     TextView tv_name,tv_phone,tv_address;
     ImageView iv_default_pic,iv_delete;
+    public DeleteCallBack deleteCallBack;
     public AddressManagerAdapter(Context context) {
         super(context);
+    }
+
+    public interface DeleteCallBack{
+        void deletePosition(int position,String id);
+    }
+
+    public void setDeleteCallBack(DeleteCallBack deleteCallBack) {
+        this.deleteCallBack = deleteCallBack;
     }
 
     @Override
@@ -29,14 +38,14 @@ public class AddressManagerAdapter extends ListBaseAdapter<AddressDetailBean>{
     }
 
     @Override
-    public void onBindItemHolder(SuperViewHolder holder, int position) {
+    public void onBindItemHolder(SuperViewHolder holder, final int position) {
         tv_name = holder.getView(R.id.tv_name);
         tv_phone = holder.getView(R.id.tv_phone);
         iv_default_pic = holder.getView(R.id.iv_default_pic);
         tv_address = holder.getView(R.id.tv_address);
         iv_delete = holder.getView(R.id.iv_delete);
 
-        AddressDetailBean bean = mDataList.get(position);
+        final AddressDetailBean bean = mDataList.get(position);
         tv_name.setText(bean.getUserName());
         tv_phone.setText(bean.getTelNumber());
         tv_address.setText(bean.getFull_region());
@@ -45,5 +54,11 @@ public class AddressManagerAdapter extends ListBaseAdapter<AddressDetailBean>{
         }else {
             iv_default_pic.setVisibility(View.GONE);
         }
+        iv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteCallBack.deletePosition(position,bean.getId());
+            }
+        });
     }
 }

@@ -14,6 +14,16 @@ import rx.Observable;
 public interface HttpService {
 
     @FormUrlEncoded()
+    @POST("address/delete")
+    Observable<String> deleteAddress(@Field("id") String id);
+
+    @FormUrlEncoded()
+    @POST("feedback/save")
+    Observable<String> saveFeedBack(@Field("mobile") String mobile,@Field("index") String index,@Field("content") String content);
+
+//    @POST("address/save")
+//    Observable<String> getSaveDetail(@Body RequestBody body);
+    @FormUrlEncoded()
     @POST("address/save")
     Observable<String> getSaveDetail(@Field("id") String id,@Field("userName") String userName,@Field("telNumber") String telNumber,
                                      @Field("detailInfo") String detailInfo,@Field("is_default") String is_default);

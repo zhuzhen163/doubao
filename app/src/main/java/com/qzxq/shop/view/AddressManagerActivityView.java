@@ -11,6 +11,9 @@ import com.qzxq.shop.base.BaseView;
 
 public interface AddressManagerActivityView extends BaseView {
 
+    void deleteSuccess(String s);
+    void deleteFail(String s);
+
     void getListSuccess(String s);
     void getListFail(String s);
 }

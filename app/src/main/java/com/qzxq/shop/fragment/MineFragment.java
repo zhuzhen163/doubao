@@ -59,6 +59,11 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mFragmentPresenter.getUserAccount();
     }
 
@@ -112,7 +117,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
     @Override
     public void getAccountSuccess(String s) {
         try {
-            JSONObject jsonObject = new JSONObject();
+            JSONObject jsonObject = new JSONObject(s);
             String data = jsonObject.getString("data");
             if (StringUtils.isNotBlank(data)){
                 tv_ptMoney.setText(data);

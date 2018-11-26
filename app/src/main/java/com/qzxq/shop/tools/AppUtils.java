@@ -13,7 +13,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.qzxq.shop.R;
 import com.qzxq.shop.application.ZApplication;
 
 import java.util.regex.Matcher;
@@ -98,11 +97,7 @@ public class AppUtils {
 
     //加载网络图片
     public static void setImage(Context context, String url, ImageView imageView){
-        Glide.with(context).load(url)
-                .placeholder(R.drawable.img_two_bi_one)
-                .error(R.drawable.img_two_bi_one)
-                .crossFade(1000)
-                .into(imageView);
+        Glide.with(context).load(url).into(imageView);
     }
 
     /**

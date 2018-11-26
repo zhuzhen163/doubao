@@ -11,6 +11,30 @@ import com.qzxq.shop.model.CreateAddressActivityModel;
 
 public class CreateAddressActivityPresenter extends BasePresenter<CreateAddressActivityModel,CreateAddressActivity> {
 
+//    public void getSaveDetail(RequestBody body) {
+//        if (getView()!=null){
+//            getView().showLoading();
+//        }
+//
+//        getModel().getSaveDetail(body,new CreateAddressActivityModel.SaveDetailInterFace() {
+//            @Override
+//            public void saveDetailSuccess(String s) {
+//                if (getView() != null){
+//                    getView().hideLoading();
+//                    getView().saveDetailSuccess(s);
+//                }
+//            }
+//
+//            @Override
+//            public void saveDetailFail(String s) {
+//                if (getView()!=null){
+//                    getView().hideLoading();
+//                    getView().saveDetailFail(s);
+//                }
+//            }
+//        });
+//    }
+
     public void getSaveDetail(String id,String userName,String telNumber,String detailInfo,String is_default) {
         if (getView()!=null){
             getView().showLoading();

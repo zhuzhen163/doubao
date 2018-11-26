@@ -66,7 +66,7 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
         tv_productPrice = holder.getView(R.id.tv_productPrice);
         tv_productNum = holder.getView(R.id.tv_productNum);
 
-        AppUtils.setImage(mContext,entity.getGood_url(),iv_productImg);
+        AppUtils.setImage(mContext,entity.getList_pic_url(),iv_productImg);
         tv_productName.setText(entity.getGoods_name());
         tv_productPrice.setText(entity.getMarket_price());
         tv_productNum.setText(entity.getNumber());

@@ -80,4 +80,18 @@
         <item name="android:windowExitAnimation">@anim/address_picker_out</item>
     </style>
 
+    <style name="delete_address_dialog" parent="@android:style/Theme.Dialog">
+        <!--是否悬浮在activity上-->
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!--是否去除标题-->
+        <item name="android:windowNoTitle">true</item>
+        <!--是否去除边框-->
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowFullscreen">false</item>
+        <!--是否透明-->
+        <item name="android:windowBackground">@color/colorBanTransparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
 </resources>

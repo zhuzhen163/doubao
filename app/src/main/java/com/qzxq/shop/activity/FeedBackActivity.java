@@ -18,8 +18,13 @@ import android.widget.TextView;
 import com.qzxq.shop.R;
 import com.qzxq.shop.base.BaseActivity;
 import com.qzxq.shop.presenter.FeedBackActivityPresenter;
+import com.qzxq.shop.tools.AppUtils;
+import com.qzxq.shop.tools.StringUtils;
 import com.qzxq.shop.tools.SwitchActivityManager;
 import com.qzxq.shop.tools.ToastUtil;
+import com.qzxq.shop.view.FeedBackActivityView;
+
+import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 
@@ -30,7 +35,7 @@ import butterknife.BindView;
 * create at 2018/11/20
 * description: 意见反馈
 */
-public class FeedBackActivity extends BaseActivity <FeedBackActivityPresenter> implements NumberPicker.Formatter{
+public class FeedBackActivity extends BaseActivity <FeedBackActivityPresenter> implements FeedBackActivityView,NumberPicker.Formatter{
 
     @BindView(R.id.et_input)
     EditText et_input;
@@ -41,10 +46,15 @@ public class FeedBackActivity extends BaseActivity <FeedBackActivityPresenter> i
     @BindView(R.id.tv_inputKind)
     TextView tv_inputKind;
     private String kind;
+    @BindView(R.id.tv_commit)
+    TextView tv_commit;
+    @BindView(R.id.et_phone)
+    TextView et_phone;
 
     private PopupWindow popupWindow;
     private NumberPicker mNumberPicker;
-    private String[] mCities  = {"请选择反馈类型","商品相关","物流状况","客服服务","优惠活动","产品建议","其他"};
+    private String[] mCities  = {"请选择反馈类型","商品相关","物流状况","客服服务","优惠活动","功能异常","产品建议","其他"};
+    private int pickerIndex = 0;
     @Override
     protected FeedBackActivityPresenter loadPresenter() {
         return new FeedBackActivityPresenter();
@@ -56,6 +66,7 @@ public class FeedBackActivity extends BaseActivity <FeedBackActivityPresenter> i
 
     @Override
     protected void initListener() {
+        tv_commit.setOnClickListener(this);
         ll_kind.setOnClickListener(this);
         setBackListener(new View.OnClickListener() {
             @Override
@@ -105,6 +116,23 @@ public class FeedBackActivity extends BaseActivity <FeedBackActivityPresenter> i
             case R.id.ll_kind:
                 showAddressPickerPop();
                 break;
+            case R.id.tv_commit:
+                if (0 != pickerIndex){
+                    String content = et_input.getText().toString().trim();
+                    if (StringUtils.isNotBlank(content)){
+                        String phone = et_phone.getText().toString();
+                        if (AppUtils.isMobileNO(phone)){
+                            mPresenter.saveFeedBack(phone,Integer.toString(pickerIndex),content);
+                        }else {
+                            ToastUtil.showLong("请输入正确的手机号");
+                        }
+                    }else {
+                        ToastUtil.showLong("请输入反馈内容");
+                    }
+                }else {
+                    ToastUtil.showLong("请选择反馈类型");
+                }
+                break;
         }
     }
 
@@ -138,6 +166,7 @@ public class FeedBackActivity extends BaseActivity <FeedBackActivityPresenter> i
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 kind = mCities[mNumberPicker.getValue()];
+                pickerIndex = mNumberPicker.getValue();
             }
         });
         tv_confirm.setOnClickListener(new View.OnClickListener() {
@@ -229,11 +258,31 @@ public class FeedBackActivity extends BaseActivity <FeedBackActivityPresenter> i
 
     @Override
     public void showLoading() {
-
+        setShowLoading(true);
     }
 
     @Override
     public void hideLoading() {
+        setShowLoading(false);
+    }
 
+    @Override
+    public void saveSuccess(String s) {
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            if ("0".equals(jsonObject.getString("errno"))){
+                String data = jsonObject.getString("感谢你的反馈");
+                ToastUtil.showLong(data);
+            }else {
+                ToastUtil.showLong(jsonObject.getString("errmsg"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void saveFail(String s) {
+        ToastUtil.showLong(s);
     }
 }

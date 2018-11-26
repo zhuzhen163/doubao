@@ -59,6 +59,7 @@
         android:layout_marginTop="@dimen/dimen5dp"
         android:layout_marginLeft="@dimen/dimen15dp"/>
     <EditText
+        android:id="@+id/et_phone"
         android:paddingLeft="@dimen/dimen15dp"
         android:textSize="@dimen/dimen15dp"
         android:background="@color/white"
@@ -73,6 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/tv_commit"
             android:textColor="@color/white"
             android:textSize="@dimen/dimen15dp"
             android:text="提交"
