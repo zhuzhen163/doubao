@@ -1,6 +1,8 @@
 package com.qzxq.shop.http;
 
 
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -39,6 +41,12 @@ public interface HttpService {
 
     @POST("user/userAccount")
     Observable<String> getAccount();
+
+    @POST("cart/delete")
+    Observable<String> cartDelete(@Body RequestBody body);
+
+    @POST("cart/checked")
+    Observable<String> isCheck(@Body RequestBody body);
 
     @POST("cart/index")
     Observable<String> getShopCartList();
