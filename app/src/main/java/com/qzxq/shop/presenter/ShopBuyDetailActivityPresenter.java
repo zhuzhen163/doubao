@@ -5,20 +5,18 @@ import com.qzxq.shop.activity.ShopBuyDetailActivity;
 import com.qzxq.shop.base.BasePresenter;
 import com.qzxq.shop.model.ShopBuyDetailActivityModel;
 
-import okhttp3.RequestBody;
-
 /**
  * Created by zhuzhen
  */
 
 public class ShopBuyDetailActivityPresenter extends BasePresenter<ShopBuyDetailActivityModel,ShopBuyDetailActivity> {
 
-    public void checkCart(RequestBody body) {
+    public void checkCart(String type,String addressId,String couponId) {
         if (getView()!=null){
             getView().showLoading();
         }
 
-        getModel().checkCart(body,new ShopBuyDetailActivityModel.CheckCartInterFace() {
+        getModel().checkCart(type,addressId,couponId,new ShopBuyDetailActivityModel.CheckCartInterFace() {
             @Override
             public void checkSuccess(String s) {
                 if (getView() != null) {

@@ -4,7 +4,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.qzxq.shop.R;
 import com.qzxq.shop.adapter.AddressManagerAdapter;
 import com.qzxq.shop.base.BaseActivity;
@@ -19,10 +18,7 @@ import com.qzxq.shop.widget.xrecyclerview.XRecyclerView;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
-
 import butterknife.BindView;
-import okhttp3.RequestBody;
 
 /**
 * @author zhuzhen
@@ -169,11 +165,6 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
 
     @Override
     public void delete() {
-        Gson gson=new Gson();
-        HashMap<String,String> paramsMap=new HashMap<>();
-        paramsMap.put("id",id);
-        String strEntity = gson.toJson(paramsMap);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
-        mPresenter.deleteAddress(body);
+        mPresenter.deleteAddress(id);
     }
 }

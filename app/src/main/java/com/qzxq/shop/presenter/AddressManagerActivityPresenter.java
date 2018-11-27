@@ -5,8 +5,6 @@ import com.qzxq.shop.activity.AddressManagerActivity;
 import com.qzxq.shop.base.BasePresenter;
 import com.qzxq.shop.model.AddressManagerActivityModel;
 
-import okhttp3.RequestBody;
-
 /**
  * Created by zhuzhen
  */
@@ -14,12 +12,12 @@ import okhttp3.RequestBody;
 public class AddressManagerActivityPresenter extends BasePresenter<AddressManagerActivityModel,AddressManagerActivity> {
 
 
-    public void deleteAddress(RequestBody body) {
+    public void deleteAddress(String id) {
         if (getView()!=null){
             getView().showLoading();
         }
 
-        getModel().deleteAddress(body, new AddressManagerActivityModel.DeleteAddressInterFace() {
+        getModel().deleteAddress(id, new AddressManagerActivityModel.DeleteAddressInterFace() {
             @Override
             public void deleteSuccess(String s) {
                 if (getView() != null){

@@ -7,7 +7,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.qzxq.shop.R;
 import com.qzxq.shop.adapter.ShopBuyDetailAdapter;
 import com.qzxq.shop.base.BaseActivity;
@@ -22,10 +21,7 @@ import com.qzxq.shop.widget.xrecyclerview.XRecyclerView;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
-
 import butterknife.BindView;
-import okhttp3.RequestBody;
 
 /**
 * @author zhuzhen
@@ -59,14 +55,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
         String addressId = getIntent().getStringExtra("addressId");
         String couponId = getIntent().getStringExtra("couponId");
 
-        Gson gson=new Gson();
-        HashMap<String,String> paramsMap=new HashMap<>();
-        paramsMap.put("type",type);
-        paramsMap.put("addressId",addressId);
-        paramsMap.put("couponId",couponId);
-        String strEntity = gson.toJson(paramsMap);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
-        mPresenter.checkCart(body);
+        mPresenter.checkCart(type,addressId,couponId);
     }
 
     @Override

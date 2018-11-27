@@ -15,7 +15,6 @@ import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.qzxq.shop.R;
 import com.qzxq.shop.base.BaseActivity;
 import com.qzxq.shop.presenter.FeedBackActivityPresenter;
@@ -28,10 +27,8 @@ import com.qzxq.shop.view.FeedBackActivityView;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 
 import butterknife.BindView;
-import okhttp3.RequestBody;
 
 /**
 * @author zhuzhen
@@ -125,14 +122,7 @@ public class FeedBackActivity extends BaseActivity <FeedBackActivityPresenter> i
                     if (StringUtils.isNotBlank(content)){
                         String phone = et_phone.getText().toString();
                         if (AppUtils.isMobileNO(phone)){
-                            Gson gson=new Gson();
-                            HashMap<String,String> paramsMap=new HashMap<>();
-                            paramsMap.put("mobile",phone);
-                            paramsMap.put("index",Integer.toString(pickerIndex));
-                            paramsMap.put("content",content);
-                            String strEntity = gson.toJson(paramsMap);
-                            RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
-                            mPresenter.saveFeedBack(body);
+                            mPresenter.saveFeedBack(phone,Integer.toString(pickerIndex),content);
                         }else {
                             ToastUtil.showLong("请输入正确的手机号");
                         }

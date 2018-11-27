@@ -5,20 +5,18 @@ import com.qzxq.shop.activity.CreateAddressActivity;
 import com.qzxq.shop.base.BasePresenter;
 import com.qzxq.shop.model.CreateAddressActivityModel;
 
-import okhttp3.RequestBody;
-
 /**
  * Created by zhuzhen
  */
 
 public class CreateAddressActivityPresenter extends BasePresenter<CreateAddressActivityModel,CreateAddressActivity> {
 
-    public void getSaveDetail(RequestBody body) {
+    public void getSaveDetail(String id,String name,String phone,String detail,String provinceName,String cityName,String countyName,String isDetail) {
         if (getView()!=null){
             getView().showLoading();
         }
 
-        getModel().getSaveDetail(body,new CreateAddressActivityModel.SaveDetailInterFace() {
+        getModel().getSaveDetail(id,name,phone,detail,provinceName,cityName,countyName,isDetail,new CreateAddressActivityModel.SaveDetailInterFace() {
             @Override
             public void saveDetailSuccess(String s) {
                 if (getView() != null){
@@ -37,12 +35,12 @@ public class CreateAddressActivityPresenter extends BasePresenter<CreateAddressA
         });
     }
 
-    public void getAddressDetail(RequestBody body) {
+    public void getAddressDetail(String id) {
         if (getView()!=null){
             getView().showLoading();
         }
 
-        getModel().getAddressDetail(body,new CreateAddressActivityModel.AddressDetailInterFace() {
+        getModel().getAddressDetail(id,new CreateAddressActivityModel.AddressDetailInterFace() {
             @Override
             public void getDetailSuccess(String s) {
                 if (getView() != null){

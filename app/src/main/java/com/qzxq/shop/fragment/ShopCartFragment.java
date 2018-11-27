@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.qzxq.shop.R;
 import com.qzxq.shop.adapter.ShopCartFragmentAdapter;
 import com.qzxq.shop.base.BaseFragment;
@@ -25,12 +24,10 @@ import com.qzxq.shop.widget.xrecyclerview.XRecyclerView;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
-import okhttp3.RequestBody;
 
 /**
  * 购物车
@@ -71,8 +68,6 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
 
     private ShopCartFragmentAdapter shopCartFragmentAdapter;
     private List<CartListBean> list = new ArrayList<>();
-    private List<String> buyList = new ArrayList<>();
-    private List<String> deleteList = new ArrayList<>();
 
     @Override
     protected int getFragmentLayoutId() {
@@ -211,12 +206,7 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
             }
         }
 
-        Gson gson=new Gson();
-        HashMap<String,String> paramsMap=new HashMap<>();
-        paramsMap.put("productIds",deleteIds);
-        String strEntity = gson.toJson(paramsMap);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
-        mFragmentPresenter.cartDelete(body);
+        mFragmentPresenter.cartDelete(deleteIds);
     }
 
     /**
@@ -232,14 +222,7 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
             checkShop+=entity.getProduct_id()+",";
         }
 
-        Gson gson=new Gson();
-        HashMap<String,String> paramsMap=new HashMap<>();
-        paramsMap.put("isChecked",isChecked);
-        paramsMap.put("productIds",checkShop);
-        String strEntity = gson.toJson(paramsMap);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
-
-        mFragmentPresenter.isCheck(body);
+        mFragmentPresenter.isCheck(isChecked,checkShop);
     }
 
     @Override
@@ -264,27 +247,13 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
 
     @Override
     public void isCheckShop(String isChecked, String productIds) {
-        Gson gson=new Gson();
-        HashMap<String,String> paramsMap=new HashMap<>();
-        paramsMap.put("isChecked",isChecked);
-        paramsMap.put("productIds",productIds);
-        String strEntity = gson.toJson(paramsMap);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
-        mFragmentPresenter.isCheck(body);
+        mFragmentPresenter.isCheck(isChecked,productIds);
     }
 
 
     @Override
     public void productNum(int number, String goods_id, String id, String product_id) {
-        Gson gson=new Gson();
-        HashMap<String,String> paramsMap=new HashMap<>();
-        paramsMap.put("goodsId",goods_id);
-        paramsMap.put("id",id);
-        paramsMap.put("productId",product_id);
-        paramsMap.put("number",Integer.toString(number));
-        String strEntity = gson.toJson(paramsMap);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
-        mFragmentPresenter.update(body);
+        mFragmentPresenter.update(goods_id,id,product_id,number);
     }
 
     @Override

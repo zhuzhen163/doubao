@@ -1,6 +1,7 @@
 package com.qzxq.shop.model;
 
 
+import com.google.gson.Gson;
 import com.qzxq.shop.application.ZApplication;
 import com.qzxq.shop.exception.ApiException;
 import com.qzxq.shop.http.Http;
@@ -8,11 +9,26 @@ import com.qzxq.shop.http.UrlHelper;
 import com.qzxq.shop.subscriber.CommonSubscriber;
 import com.qzxq.shop.transformer.StrTransformer;
 
+import java.util.HashMap;
+
 import okhttp3.RequestBody;
 
 public class CreateAddressActivityModel {
 
-    public void getSaveDetail(RequestBody body, final SaveDetailInterFace saveDetailInterFace){
+    public void getSaveDetail(String id,String name,String phone,String detail,String provinceName,String cityName,String countyName,String isDetail, final SaveDetailInterFace saveDetailInterFace){
+
+        Gson gson=new Gson();
+        HashMap<String,String> paramsMap=new HashMap<>();
+        paramsMap.put("id",id);
+        paramsMap.put("userName",name);
+        paramsMap.put("telNumber",phone);
+        paramsMap.put("detailInfo",detail);
+        paramsMap.put("provinceName",provinceName);
+        paramsMap.put("cityName",cityName);
+        paramsMap.put("countyName",countyName);
+        paramsMap.put("is_default",isDetail);
+        String strEntity = gson.toJson(paramsMap);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
 
         Http.getHttpService(UrlHelper.BASE_URL).getSaveDetail(body).
                 compose(new StrTransformer<String>())
@@ -37,7 +53,13 @@ public class CreateAddressActivityModel {
     }
 
 
-    public void getAddressDetail(RequestBody body,final AddressDetailInterFace detailInterFace){
+    public void getAddressDetail(String id,final AddressDetailInterFace detailInterFace){
+
+        Gson gson=new Gson();
+        HashMap<String,String> paramsMap=new HashMap<>();
+        paramsMap.put("id",id);
+        String strEntity = gson.toJson(paramsMap);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
 
         Http.getHttpService(UrlHelper.BASE_URL).getAddressDetail(body).
                 compose(new StrTransformer<String>())

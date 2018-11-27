@@ -5,20 +5,18 @@ import com.qzxq.shop.base.BasePresenter;
 import com.qzxq.shop.fragment.ShopCartFragment;
 import com.qzxq.shop.model.ShopCartFragmentModel;
 
-import okhttp3.RequestBody;
-
 /**
  * Created by zhuzhen
  */
 
 public class ShopCartFragmentPresenter extends BasePresenter<ShopCartFragmentModel,ShopCartFragment> {
 
-    public void update(RequestBody body){
+    public void update(String goodsId,String id,String productId,int number){
         if (getView()!=null){
             getView().showLoading();
         }
 
-        getModel().update(body,new ShopCartFragmentModel.UpdateCallBack() {
+        getModel().update(goodsId,id,productId,number,new ShopCartFragmentModel.UpdateCallBack() {
             @Override
             public void updateSuccess(String s) {
                 if (getView() != null){
@@ -37,12 +35,12 @@ public class ShopCartFragmentPresenter extends BasePresenter<ShopCartFragmentMod
         });
     }
 
-    public void isCheck(RequestBody body){
+    public void isCheck(String isChecked,String checkShop){
         if (getView()!=null){
             getView().showLoading();
         }
 
-        getModel().isCheck(body,new ShopCartFragmentModel.IsCheckCallBack() {
+        getModel().isCheck(isChecked,checkShop,new ShopCartFragmentModel.IsCheckCallBack() {
             @Override
             public void isCheckSuccess(String s) {
                 if (getView() != null){
@@ -62,12 +60,12 @@ public class ShopCartFragmentPresenter extends BasePresenter<ShopCartFragmentMod
     }
 
 
-    public void cartDelete(RequestBody body){
+    public void cartDelete(String deleteIds){
         if (getView()!=null){
             getView().showLoading();
         }
 
-        getModel().cartDelete(body,new ShopCartFragmentModel.DeleteCallBack() {
+        getModel().cartDelete(deleteIds,new ShopCartFragmentModel.DeleteCallBack() {
             @Override
             public void deleteSuccess(String s) {
                 if (getView() != null){

@@ -1,6 +1,7 @@
 package com.qzxq.shop.model;
 
 
+import com.google.gson.Gson;
 import com.qzxq.shop.application.ZApplication;
 import com.qzxq.shop.exception.ApiException;
 import com.qzxq.shop.http.Http;
@@ -8,11 +9,19 @@ import com.qzxq.shop.http.UrlHelper;
 import com.qzxq.shop.subscriber.CommonSubscriber;
 import com.qzxq.shop.transformer.StrTransformer;
 
+import java.util.HashMap;
+
 import okhttp3.RequestBody;
 
 public class AddressManagerActivityModel {
 
-    public void deleteAddress(RequestBody body, final DeleteAddressInterFace deleteAddressInterFace){
+    public void deleteAddress(String id, final DeleteAddressInterFace deleteAddressInterFace){
+
+        Gson gson=new Gson();
+        HashMap<String,String> paramsMap=new HashMap<>();
+        paramsMap.put("id",id);
+        String strEntity = gson.toJson(paramsMap);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
 
         Http.getHttpService(UrlHelper.BASE_URL).deleteAddress(body).
                 compose(new StrTransformer<String>())
