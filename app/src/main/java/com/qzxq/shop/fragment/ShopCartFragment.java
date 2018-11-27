@@ -17,7 +17,6 @@ import com.qzxq.shop.entity.ShopCartListBean;
 import com.qzxq.shop.presenter.ShopCartFragmentPresenter;
 import com.qzxq.shop.tools.AppUtils;
 import com.qzxq.shop.tools.NetworkUtil;
-import com.qzxq.shop.tools.StringUtils;
 import com.qzxq.shop.tools.SwitchActivityManager;
 import com.qzxq.shop.tools.ToastUtil;
 import com.qzxq.shop.view.ShopCartFragmentView;
@@ -121,11 +120,13 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
                         CartListBean entity = list.get(i);
                         entity.setCheck(true);
                     }
+                    buySelectAll("1");
                 }else {
                     for (int i = 0; i < list.size(); i++) {
                         CartListBean entity = list.get(i);
                         entity.setCheck(false);
                     }
+                    buySelectAll("0");
                 }
                 shopCartFragmentAdapter.notifyDataSetChanged();
             }
@@ -159,7 +160,6 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
         tv_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                buySelect();
                 SwitchActivityManager.startShopBuyDetailActivity(mContext,"","","cart");
             }
         });
@@ -208,13 +208,7 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
             boolean checkDelete = entity.isCheckDelete();
             if (checkDelete){
                 deleteIds+=entity.getProduct_id()+",";
-                deleteList.add(entity.getProduct_id());
-                it.remove();
             }
-        }
-        if (StringUtils.isNotBlank(deleteIds)){
-            deleteIds = deleteIds.substring(0,deleteIds.length()-1);
-            ToastUtil.showLong(deleteIds);
         }
 
         Gson gson=new Gson();
@@ -223,26 +217,29 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
         String strEntity = gson.toJson(paramsMap);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
         mFragmentPresenter.cartDelete(body);
-
-//        cb_select_delete.setChecked(false);
-//        shopCartFragmentAdapter.setDataList(list);
-//        shopCartFragmentAdapter.notifyDataSetChanged();
     }
 
     /**
-     * 购买所选
+     * 全选购买
      * @return
+     * @param isChecked
      */
-    public List<String> buySelect(){
+    public void buySelectAll(String isChecked){
+        String checkShop = "";
         Iterator<CartListBean> it = list.iterator();
         while(it.hasNext()){
             CartListBean entity = it.next();
-            boolean checkDelete = entity.isCheck();
-            if (checkDelete){
-                buyList.add(entity.getId());
-            }
+            checkShop+=entity.getProduct_id()+",";
         }
-        return buyList;
+
+        Gson gson=new Gson();
+        HashMap<String,String> paramsMap=new HashMap<>();
+        paramsMap.put("isChecked",isChecked);
+        paramsMap.put("productIds",checkShop);
+        String strEntity = gson.toJson(paramsMap);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
+
+        mFragmentPresenter.isCheck(body);
     }
 
     @Override
@@ -273,14 +270,9 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
         paramsMap.put("productIds",productIds);
         String strEntity = gson.toJson(paramsMap);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
-
         mFragmentPresenter.isCheck(body);
     }
 
-    @Override
-    public void isCheckDelete(String isChecked, String productIds) {
-
-    }
 
     @Override
     public void productNum(int number, String goods_id, String id, String product_id) {

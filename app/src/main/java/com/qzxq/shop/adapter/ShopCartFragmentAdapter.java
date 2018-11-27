@@ -36,7 +36,7 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
         void checkAllDelete(boolean checkAllDelete);//是否全选删除
 
         void isCheckShop(String isChecked,String productIds);//是否勾选商品
-        void isCheckDelete(String isChecked,String productIds);//是否勾选删除
+//        void isCheckDelete(String isChecked,String productIds);//是否勾选删除
 
         void productNum(int number, String goods_id, String id, String product_id);//购物车商品数量变更
     }
@@ -107,11 +107,9 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
                     if (entity.isCheckDelete()){
                         cb_select.setChecked(false);
                         entity.setCheckDelete(false);
-                        checkBoxCallback.isCheckDelete("0",entity.getProduct_id());
                     }else {
                         cb_select.setChecked(true);
                         entity.setCheckDelete(true);
-                        checkBoxCallback.isCheckDelete("1",entity.getProduct_id());
                     }
                     checkBoxCallback.checkAllDelete(isCheckAllDelete());
                     notifyDataSetChanged();
