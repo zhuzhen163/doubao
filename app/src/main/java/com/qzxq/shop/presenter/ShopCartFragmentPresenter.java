@@ -13,6 +13,30 @@ import okhttp3.RequestBody;
 
 public class ShopCartFragmentPresenter extends BasePresenter<ShopCartFragmentModel,ShopCartFragment> {
 
+    public void update(RequestBody body){
+        if (getView()!=null){
+            getView().showLoading();
+        }
+
+        getModel().update(body,new ShopCartFragmentModel.UpdateCallBack() {
+            @Override
+            public void updateSuccess(String s) {
+                if (getView() != null){
+                    getView().hideLoading();
+                    getView().isCheckSuccess(s);
+                }
+            }
+
+            @Override
+            public void updateFail(String s) {
+                if (getView()!=null){
+                    getView().hideLoading();
+                    getView().isCheckFail(s);
+                }
+            }
+        });
+    }
+
     public void isCheck(RequestBody body){
         if (getView()!=null){
             getView().showLoading();

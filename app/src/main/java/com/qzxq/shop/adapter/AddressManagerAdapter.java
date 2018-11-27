@@ -49,7 +49,7 @@ public class AddressManagerAdapter extends ListBaseAdapter<AddressDetailBean>{
         tv_name.setText(bean.getUserName());
         tv_phone.setText(bean.getTelNumber());
         tv_address.setText(bean.getFull_region());
-        if ("0".equals(bean.getIsDefault())){
+        if ("1".equals(bean.getIsDefault())){
             iv_default_pic.setVisibility(View.VISIBLE);
         }else {
             iv_default_pic.setVisibility(View.GONE);

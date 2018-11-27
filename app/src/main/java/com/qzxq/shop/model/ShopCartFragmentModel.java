@@ -15,6 +15,31 @@ import okhttp3.RequestBody;
 
 public class ShopCartFragmentModel {
 
+    public void update(RequestBody body, final UpdateCallBack updateCallBack){
+
+        Http.getHttpService(UrlHelper.BASE_URL).update(body).
+                compose(new StrTransformer<String>())
+                .subscribe(new CommonSubscriber<String>(ZApplication.getAppContext()) {
+
+                    @Override
+                    public void onNext(String s) {
+                        updateCallBack.updateSuccess(s);
+                    }
+
+                    @Override
+                    protected void onError(ApiException e) {
+                        super.onError(e);
+                        updateCallBack.updateFail(e.msg);
+                    }
+                });
+
+    }
+
+    public interface UpdateCallBack{
+        void updateSuccess(String s);
+        void updateFail(String s);
+    }
+
     public void isCheck(RequestBody body, final IsCheckCallBack checkCallBack){
 
         Http.getHttpService(UrlHelper.BASE_URL).isCheck(body).

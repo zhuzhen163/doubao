@@ -52,11 +52,12 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     @BindView(R.id.ll_net_connect)
     LinearLayout ll_net_connect;
 
-
     @BindView(R.id.tv_Delete)
     TextView tv_Delete;
     @BindView(R.id.cb_select_delete)
     CheckBox cb_select_delete;
+    @BindView(R.id.tv_delete_num)
+    TextView tv_delete_num;
     @BindView(R.id.ll_shop)
     LinearLayout ll_shop;
     @BindView(R.id.ll_delete)
@@ -277,6 +278,29 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     @Override
     public void isCheckDelete(String isChecked, String productIds) {
 
+    }
+
+    @Override
+    public void productNum(int number, String goods_id, String id, String product_id) {
+        Gson gson=new Gson();
+        HashMap<String,String> paramsMap=new HashMap<>();
+        paramsMap.put("goodsId",goods_id);
+        paramsMap.put("id",id);
+        paramsMap.put("productId",product_id);
+        paramsMap.put("number",Integer.toString(number));
+        String strEntity = gson.toJson(paramsMap);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
+        mFragmentPresenter.update(body);
+    }
+
+    @Override
+    public void updateSuccess(String s) {
+        updateData(s);
+    }
+
+    @Override
+    public void updateFail(String s) {
+        ToastUtil.showLong(s);
     }
 
     @Override

@@ -8,35 +8,13 @@ import com.qzxq.shop.http.UrlHelper;
 import com.qzxq.shop.subscriber.CommonSubscriber;
 import com.qzxq.shop.transformer.StrTransformer;
 
+import okhttp3.RequestBody;
+
 public class CreateAddressActivityModel {
 
-//    public void getSaveDetail(RequestBody body, final SaveDetailInterFace saveDetailInterFace){
-//
-//        Http.getHttpService(UrlHelper.BASE_URL).getSaveDetail(body).
-//                compose(new StrTransformer<String>())
-//                .subscribe(new CommonSubscriber<String>(ZApplication.getAppContext()) {
-//
-//                    @Override
-//                    public void onNext(String s) {
-//                        saveDetailInterFace.saveDetailSuccess(s);
-//                    }
-//
-//                    @Override
-//                    protected void onError(ApiException e) {
-//                        super.onError(e);
-//                        saveDetailInterFace.saveDetailFail(e.msg);
-//                    }
-//                });
-//
-//    }
-//    public interface SaveDetailInterFace{
-//        void saveDetailSuccess(String s);
-//        void saveDetailFail(String s);
-//    }
+    public void getSaveDetail(RequestBody body, final SaveDetailInterFace saveDetailInterFace){
 
-    public void getSaveDetail(String id,String userName,String telNumber,String detailInfo,String is_default,final SaveDetailInterFace saveDetailInterFace){
-
-        Http.getHttpService(UrlHelper.BASE_URL).getSaveDetail(id,userName,telNumber,detailInfo,is_default).
+        Http.getHttpService(UrlHelper.BASE_URL).getSaveDetail(body).
                 compose(new StrTransformer<String>())
                 .subscribe(new CommonSubscriber<String>(ZApplication.getAppContext()) {
 
@@ -57,6 +35,7 @@ public class CreateAddressActivityModel {
         void saveDetailSuccess(String s);
         void saveDetailFail(String s);
     }
+
 
     public void getAddressDetail(final AddressDetailInterFace detailInterFace){
 

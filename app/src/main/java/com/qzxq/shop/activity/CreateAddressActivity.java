@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.qzxq.shop.R;
 import com.qzxq.shop.base.BaseActivity;
 import com.qzxq.shop.entity.AddressDetailBean;
@@ -26,7 +27,10 @@ import com.qzxq.shop.widget.addresspicker.AddressPickerView;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 import butterknife.BindView;
+import okhttp3.RequestBody;
 
 /**
 * @author zhuzhen
@@ -50,7 +54,7 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
     TextView tv_cancelDetail;
     @BindView(R.id.tv_saveAddress)
     TextView tv_saveAddress;
-    private String isDeatil = "0",id = "";//记录是否默认地址
+    private String isDetail = "0",id = "";//记录是否默认地址
 
     @Override
     protected CreateAddressActivityPresenter loadPresenter() {
@@ -71,9 +75,9 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b){
-                    isDeatil = "1";
+                    isDetail = "1";
                 }else {
-                    isDeatil = "0";
+                    isDetail = "0";
                 }
             }
         });
@@ -118,19 +122,21 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
                 if (StringUtils.isNotBlank(name)){
                     if (StringUtils.isNotBlank(phone) && AppUtils.isMobileNO(phone)){
                         if (StringUtils.isNotBlank(selectAddress)){
+                            String[] address = selectAddress.split(" ");
                             if (StringUtils.isNotBlank(detail)){
-                                mPresenter.getSaveDetail(id,name,phone,detail,isDeatil);
-
-//                                Gson gson=new Gson();
-//                                HashMap<String,String> paramsMap=new HashMap<>();
-//                                paramsMap.put("id",id);
-//                                paramsMap.put("name",name);
-//                                paramsMap.put("phone",phone);
-//                                paramsMap.put("detail",detail);
-//                                paramsMap.put("isDeatil",isDeatil);
-//                                String strEntity = gson.toJson(paramsMap);
-//                                 RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
-//                                 mPresenter.getSaveDetail(body);
+                                Gson gson=new Gson();
+                                HashMap<String,String> paramsMap=new HashMap<>();
+                                paramsMap.put("id",id);
+                                paramsMap.put("userName",name);
+                                paramsMap.put("telNumber",phone);
+                                paramsMap.put("detailInfo",detail);
+                                paramsMap.put("provinceName",address[0]);
+                                paramsMap.put("cityName",address[1]);
+                                paramsMap.put("countyName",address[2]);
+                                paramsMap.put("is_default",isDetail);
+                                String strEntity = gson.toJson(paramsMap);
+                                RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
+                                mPresenter.getSaveDetail(body);
 
                             }else {
                                 ToastUtil.showLong("请输入详细地址");
@@ -237,7 +243,7 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
                     et_detail.setText(detailBean.getDetailInfo());
                     if ("1".equals(detailBean.getIsDefault())){
                         cb_isDetail.setChecked(true);
-                        isDeatil = "1";
+                        isDetail = "1";
                     }
                     id = detailBean.getId();
                 }

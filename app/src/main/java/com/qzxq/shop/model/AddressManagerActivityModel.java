@@ -8,11 +8,13 @@ import com.qzxq.shop.http.UrlHelper;
 import com.qzxq.shop.subscriber.CommonSubscriber;
 import com.qzxq.shop.transformer.StrTransformer;
 
+import okhttp3.RequestBody;
+
 public class AddressManagerActivityModel {
 
-    public void deleteAddress(String id,final DeleteAddressInterFace deleteAddressInterFace){
+    public void deleteAddress(RequestBody body, final DeleteAddressInterFace deleteAddressInterFace){
 
-        Http.getHttpService(UrlHelper.BASE_URL).deleteAddress(id).
+        Http.getHttpService(UrlHelper.BASE_URL).deleteAddress(body).
                 compose(new StrTransformer<String>())
                 .subscribe(new CommonSubscriber<String>(ZApplication.getAppContext()) {
 

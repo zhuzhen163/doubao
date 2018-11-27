@@ -9,6 +9,10 @@ import com.qzxq.shop.base.BaseView;
 
 public interface ShopCartFragmentView extends BaseView {
 
+    //更新购物车
+    void updateSuccess(String s);
+    void updateFail(String s);
+
     //是否选中
     void isCheckSuccess(String s);
     void isCheckFail(String s);

@@ -18,20 +18,15 @@ public interface HttpService {
     @POST("cart/checkout")
     Observable<String> checkCart();
 
-    @FormUrlEncoded()
     @POST("address/delete")
-    Observable<String> deleteAddress(@Field("id") String id);
+    Observable<String> deleteAddress(@Body RequestBody body);
 
     @FormUrlEncoded()
     @POST("feedback/save")
     Observable<String> saveFeedBack(@Field("mobile") String mobile,@Field("index") String index,@Field("content") String content);
 
-//    @POST("address/save")
-//    Observable<String> getSaveDetail(@Body RequestBody body);
-    @FormUrlEncoded()
     @POST("address/save")
-    Observable<String> getSaveDetail(@Field("id") String id,@Field("userName") String userName,@Field("telNumber") String telNumber,
-                                     @Field("detailInfo") String detailInfo,@Field("is_default") String is_default);
+    Observable<String> getSaveDetail(@Body RequestBody body);
 
     @POST("address/detail")
     Observable<String> getAddressDetail();
@@ -44,6 +39,9 @@ public interface HttpService {
 
     @POST("cart/delete")
     Observable<String> cartDelete(@Body RequestBody body);
+
+    @POST("cart/update")
+    Observable<String> update(@Body RequestBody body);
 
     @POST("cart/checked")
     Observable<String> isCheck(@Body RequestBody body);

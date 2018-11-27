@@ -37,6 +37,8 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
 
         void isCheckShop(String isChecked,String productIds);//是否勾选商品
         void isCheckDelete(String isChecked,String productIds);//是否勾选删除
+
+        void productNum(int number, String goods_id, String id, String product_id);//购物车商品数量变更
     }
 
 
@@ -128,8 +130,15 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
             }
         });
 
-        addView.setMaxValue(Integer.parseInt(entity.getNumber()));
         addView.setValue(Integer.parseInt(entity.getNumber()));
+        addView.setOnValueChangeListene(new AdderView.OnValueChangeListener() {
+            @Override
+            public void onValueChange(int value) {
+                if (1 != value){
+                    checkBoxCallback.productNum(value,entity.getGoods_id(),entity.getId(),entity.getProduct_id());
+                }
+            }
+        });
     }
 
 
