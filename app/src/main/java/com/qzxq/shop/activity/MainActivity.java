@@ -11,18 +11,18 @@ import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.qzxq.shop.R;
 import com.qzxq.shop.adapter.ViewPagerAdapter;
 import com.qzxq.shop.application.ZApplication;
 import com.qzxq.shop.base.BaseActivity;
+import com.qzxq.shop.fragment.ClassifyFragment;
+import com.qzxq.shop.fragment.HomeFragment;
 import com.qzxq.shop.fragment.MineFragment;
 import com.qzxq.shop.fragment.ShopCartFragment;
-import com.qzxq.shop.fragment.HomeFragment;
-import com.qzxq.shop.fragment.ClassifyFragment;
 import com.qzxq.shop.presenter.MainPresenter;
 import com.qzxq.shop.tools.ToastUtil;
+import com.qzxq.shop.transformer.StrErrorTransformer;
 import com.qzxq.shop.view.MainModelView;
 import com.qzxq.shop.widget.NoScrollViewPager;
 
@@ -34,18 +34,18 @@ import butterknife.BindView;
 
 import static android.os.Process.killProcess;
 
-public class MainActivity extends BaseActivity<MainPresenter> implements MainModelView {
+public class MainActivity extends BaseActivity<MainPresenter> implements MainModelView ,StrErrorTransformer.SingleCallBack{
 
     @BindView(R.id.viewpager)
     NoScrollViewPager viewpager;
-    @BindView(R.id.rb_first)
-    RadioButton rb_first;
-    @BindView(R.id.rb_two)
-    RadioButton rb_two;
-    @BindView(R.id.rb_three)
-    RadioButton rb_three;
-    @BindView(R.id.rb_four)
-    TextView rb_four;
+    @BindView(R.id.rb_homePage)
+    RadioButton rb_homePage;
+    @BindView(R.id.rb_classify)
+    RadioButton rb_classify;
+    @BindView(R.id.rb_shopCart)
+    RadioButton rb_shopCart;
+    @BindView(R.id.rb_mine)
+    RadioButton rb_mine;
     private List<Fragment> viewpagerFragments;
     private HomeFragment homeFragment;
     private ClassifyFragment classifyFragment;
@@ -66,14 +66,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
 
     @Override
     protected void initListener() {
-        rb_first.setOnClickListener(this);
-        rb_two.setOnClickListener(this);
-        rb_three.setOnClickListener(this);
-        rb_four.setOnClickListener(this);
+        rb_homePage.setOnClickListener(this);
+        rb_classify.setOnClickListener(this);
+        rb_shopCart.setOnClickListener(this);
+        rb_mine.setOnClickListener(this);
     }
 
     @Override
     protected void initView() {
+        StrErrorTransformer errorTransformer = StrErrorTransformer.getInstance();
+        errorTransformer.setSingleCallBack(this);
         setBaseTitleState(View.GONE);
         viewpagerFragments = new ArrayList<>();
         viewpager.setNoScroll(true);
@@ -90,8 +92,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
         adapter = new ViewPagerAdapter(viewpagerFragments, getSupportFragmentManager());
         viewpager.setAdapter(adapter);
 
-
-//        mPresenter.postPresener(1,10);
     }
 
     @Override
@@ -102,16 +102,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
     @Override
     protected void otherViewClick(View view) {
         switch (view.getId()){
-            case R.id.rb_first:
+            case R.id.rb_homePage:
                 viewpager.setCurrentItem(0);
                 break;
-            case R.id.rb_two:
+            case R.id.rb_classify:
                 viewpager.setCurrentItem(1);
                 break;
-            case R.id.rb_three:
+            case R.id.rb_shopCart:
                 viewpager.setCurrentItem(2);
                 break;
-            case R.id.rb_four:
+            case R.id.rb_mine:
                 viewpager.setCurrentItem(3);
                 break;
         }
@@ -214,5 +214,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void singleCallBack() {
+        //token失效，从新登陆
+        viewpager.setCurrentItem(3);
+        rb_mine.setChecked(true);
     }
 }
