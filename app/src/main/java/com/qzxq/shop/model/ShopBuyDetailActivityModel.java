@@ -8,12 +8,14 @@ import com.qzxq.shop.http.UrlHelper;
 import com.qzxq.shop.subscriber.CommonSubscriber;
 import com.qzxq.shop.transformer.StrTransformer;
 
+import okhttp3.RequestBody;
+
 public class ShopBuyDetailActivityModel {
 
 
-    public void checkCart(final CheckCartInterFace cartInterFace){
+    public void checkCart(RequestBody body,final CheckCartInterFace cartInterFace){
 
-        Http.getHttpService(UrlHelper.BASE_URL).checkCart().
+        Http.getHttpService(UrlHelper.BASE_URL).checkCart(body).
                 compose(new StrTransformer<String>())
                 .subscribe(new CommonSubscriber<String>(ZApplication.getAppContext()) {
 

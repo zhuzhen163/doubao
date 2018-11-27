@@ -10,6 +10,7 @@ import com.qzxq.shop.activity.CreateAddressActivity;
 import com.qzxq.shop.activity.FeedBackActivity;
 import com.qzxq.shop.activity.LoginActivity;
 import com.qzxq.shop.activity.MainActivity;
+import com.qzxq.shop.activity.ShopBuyDetailActivity;
 import com.qzxq.shop.activity.webview.WebViewActivity;
 
 
@@ -20,6 +21,18 @@ import com.qzxq.shop.activity.webview.WebViewActivity;
 
 public class SwitchActivityManager {
 
+    /**
+     * 商品购买详情
+     * @param mContext
+     */
+    public static void startShopBuyDetailActivity(Context mContext,String addressId,String couponId,String type){
+        Intent intent = new Intent(mContext, ShopBuyDetailActivity.class);
+        intent.putExtra("addressId", addressId);
+        intent.putExtra("couponId", couponId);
+        intent.putExtra("type", type);
+        mContext.startActivity(intent);
+        ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
+    }
     /**
      * 登录
      * @param mContext
@@ -41,9 +54,11 @@ public class SwitchActivityManager {
     /**
      * 新建地址
      * @param mContext
+     * @param id
      */
-    public static void startCreateAddressActivity(Context mContext){
+    public static void startCreateAddressActivity(Context mContext, String id){
         Intent intent = new Intent(mContext, CreateAddressActivity.class);
+        intent.putExtra("id",id);
         mContext.startActivity(intent);
         ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
     }
@@ -51,9 +66,11 @@ public class SwitchActivityManager {
     /**
      * 地址管理
      * @param mContext
+     * @param type 区分“购物车：1”进入还是从“我的：0”进入
      */
-    public static void startMyAddressActivity(Context mContext){
+    public static void startAddressManagerActivity(Context mContext,String type){
         Intent intent = new Intent(mContext, AddressManagerActivity.class);
+        intent.putExtra("type",type);
         mContext.startActivity(intent);
         ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
     }

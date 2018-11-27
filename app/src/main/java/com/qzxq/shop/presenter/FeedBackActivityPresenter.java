@@ -5,18 +5,20 @@ import com.qzxq.shop.activity.FeedBackActivity;
 import com.qzxq.shop.base.BasePresenter;
 import com.qzxq.shop.model.FeedBackActivityModel;
 
+import okhttp3.RequestBody;
+
 /**
  * Created by zhuzhen
  */
 
 public class FeedBackActivityPresenter extends BasePresenter<FeedBackActivityModel,FeedBackActivity> {
 
-    public void saveFeedBack(String mobile,String index,String content) {
+    public void saveFeedBack(RequestBody body) {
         if (getView()!=null){
             getView().showLoading();
         }
 
-        getModel().saveFeedBack(mobile, index, content, new FeedBackActivityModel.SaveFeedBackInterFace() {
+        getModel().saveFeedBack(body, new FeedBackActivityModel.SaveFeedBackInterFace() {
             @Override
             public void saveSuccess(String s) {
                 if (getView() != null){

@@ -46,6 +46,6 @@ public class ShopBuyDetailAdapter extends ListBaseAdapter<CartListBean> {
         AppUtils.setImage(mContext,entity.getList_pic_url(),iv_productImg);
         tv_productName.setText(entity.getGoods_name());
         tv_productPrice.setText(entity.getMarket_price());
-        tv_productNum.setText(entity.getNumber());
+        tv_productNum.setText("*"+entity.getNumber());
     }
 }

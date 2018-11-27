@@ -7,9 +7,36 @@
     >
 
     <com.qzxq.shop.widget.xrecyclerview.XRecyclerView
+        android:layout_marginBottom="@dimen/dimen10dp"
+        android:layout_weight="1"
         android:id="@+id/xrv_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </com.qzxq.shop.widget.xrecyclerview.XRecyclerView>
+
+    <LinearLayout
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen50dp">
+        <TextView
+            android:id="@+id/tv_actualPrice"
+            android:layout_weight="1"
+            android:textSize="@dimen/dimen15dp"
+            android:textColor="@color/colorTheme"
+            android:layout_marginLeft="@dimen/dimen15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="实付：￥"/>
+        <TextView
+            android:id="@+id/tv_payment"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="@dimen/dimen15dp"
+            android:text="去付款"
+            android:background="@color/colorTheme"
+            android:layout_width="@dimen/dimen120dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </LinearLayout>

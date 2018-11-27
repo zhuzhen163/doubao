@@ -63,7 +63,13 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
 
     @Override
     protected void initData() {
-        mPresenter.getAddressDetail();
+        id = getIntent().getStringExtra("id");
+        Gson gson=new Gson();
+        HashMap<String,String> paramsMap=new HashMap<>();
+        paramsMap.put("id",id);
+        String strEntity = gson.toJson(paramsMap);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
+        mPresenter.getAddressDetail(body);
     }
 
     @Override

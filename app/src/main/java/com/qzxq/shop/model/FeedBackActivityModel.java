@@ -8,11 +8,13 @@ import com.qzxq.shop.http.UrlHelper;
 import com.qzxq.shop.subscriber.CommonSubscriber;
 import com.qzxq.shop.transformer.StrTransformer;
 
+import okhttp3.RequestBody;
+
 public class FeedBackActivityModel {
 
-    public void saveFeedBack(String mobile,String index,String content,final SaveFeedBackInterFace interFace){
+    public void saveFeedBack(RequestBody body, final SaveFeedBackInterFace interFace){
 
-        Http.getHttpService(UrlHelper.BASE_URL).saveFeedBack(mobile,index,content).
+        Http.getHttpService(UrlHelper.BASE_URL).saveFeedBack(body).
                 compose(new StrTransformer<String>())
                 .subscribe(new CommonSubscriber<String>(ZApplication.getAppContext()) {
 

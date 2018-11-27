@@ -82,7 +82,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
         ll_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.startMyAddressActivity(mContext);
+                SwitchActivityManager.startAddressManagerActivity(mContext,"0");
             }
         });
         ll_feedback.setOnClickListener(new View.OnClickListener() {

@@ -8,67 +8,80 @@ import java.util.List;
  */
 public class ShopBuyDetailBean extends BaseEntity {
 
-    private AddressDetailBean checkedAddress;
-    private List<CartListBean> checkedGoodsList;
-    private String actualPrice;
-    private String orderTotalPrice;
-    private String couponPrice;
-    private String freightPrice;
-    private String goodsTotalPrice;
+    private ShopBuy data;
 
-    public AddressDetailBean getCheckedAddress() {
-        return checkedAddress;
+    public ShopBuy getData() {
+        return data;
     }
 
-    public void setCheckedAddress(AddressDetailBean checkedAddress) {
-        this.checkedAddress = checkedAddress;
+    public void setData(ShopBuy data) {
+        this.data = data;
     }
 
-    public List<CartListBean> getCheckedGoodsList() {
-        return checkedGoodsList;
+    public class ShopBuy{
+        private AddressDetailBean checkedAddress;
+        private List<CartListBean> checkedGoodsList;
+        private String actualPrice;
+        private String orderTotalPrice;
+        private String couponPrice;
+        private String freightPrice;
+        private String goodsTotalPrice;
+
+        public AddressDetailBean getCheckedAddress() {
+            return checkedAddress;
+        }
+
+        public void setCheckedAddress(AddressDetailBean checkedAddress) {
+            this.checkedAddress = checkedAddress;
+        }
+
+        public List<CartListBean> getCheckedGoodsList() {
+            return checkedGoodsList;
+        }
+
+        public void setCheckedGoodsList(List<CartListBean> checkedGoodsList) {
+            this.checkedGoodsList = checkedGoodsList;
+        }
+
+        public String getActualPrice() {
+            return actualPrice;
+        }
+
+        public void setActualPrice(String actualPrice) {
+            this.actualPrice = actualPrice;
+        }
+
+        public String getOrderTotalPrice() {
+            return orderTotalPrice;
+        }
+
+        public void setOrderTotalPrice(String orderTotalPrice) {
+            this.orderTotalPrice = orderTotalPrice;
+        }
+
+        public String getCouponPrice() {
+            return couponPrice;
+        }
+
+        public void setCouponPrice(String couponPrice) {
+            this.couponPrice = couponPrice;
+        }
+
+        public String getFreightPrice() {
+            return freightPrice;
+        }
+
+        public void setFreightPrice(String freightPrice) {
+            this.freightPrice = freightPrice;
+        }
+
+        public String getGoodsTotalPrice() {
+            return goodsTotalPrice;
+        }
+
+        public void setGoodsTotalPrice(String goodsTotalPrice) {
+            this.goodsTotalPrice = goodsTotalPrice;
+        }
     }
 
-    public void setCheckedGoodsList(List<CartListBean> checkedGoodsList) {
-        this.checkedGoodsList = checkedGoodsList;
-    }
-
-    public String getActualPrice() {
-        return actualPrice;
-    }
-
-    public void setActualPrice(String actualPrice) {
-        this.actualPrice = actualPrice;
-    }
-
-    public String getOrderTotalPrice() {
-        return orderTotalPrice;
-    }
-
-    public void setOrderTotalPrice(String orderTotalPrice) {
-        this.orderTotalPrice = orderTotalPrice;
-    }
-
-    public String getCouponPrice() {
-        return couponPrice;
-    }
-
-    public void setCouponPrice(String couponPrice) {
-        this.couponPrice = couponPrice;
-    }
-
-    public String getFreightPrice() {
-        return freightPrice;
-    }
-
-    public void setFreightPrice(String freightPrice) {
-        this.freightPrice = freightPrice;
-    }
-
-    public String getGoodsTotalPrice() {
-        return goodsTotalPrice;
-    }
-
-    public void setGoodsTotalPrice(String goodsTotalPrice) {
-        this.goodsTotalPrice = goodsTotalPrice;
-    }
 }

@@ -18,6 +18,7 @@ import com.qzxq.shop.presenter.ShopCartFragmentPresenter;
 import com.qzxq.shop.tools.AppUtils;
 import com.qzxq.shop.tools.NetworkUtil;
 import com.qzxq.shop.tools.StringUtils;
+import com.qzxq.shop.tools.SwitchActivityManager;
 import com.qzxq.shop.tools.ToastUtil;
 import com.qzxq.shop.view.ShopCartFragmentView;
 import com.qzxq.shop.widget.xrecyclerview.XRecyclerView;
@@ -158,7 +159,8 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
         tv_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buySelect();
+//                buySelect();
+                SwitchActivityManager.startShopBuyDetailActivity(mContext,"","","cart");
             }
         });
 

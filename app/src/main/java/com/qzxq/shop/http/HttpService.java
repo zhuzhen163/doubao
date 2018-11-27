@@ -16,20 +16,19 @@ import rx.Observable;
 public interface HttpService {
 
     @POST("cart/checkout")
-    Observable<String> checkCart();
+    Observable<String> checkCart(@Body RequestBody body);
 
     @POST("address/delete")
     Observable<String> deleteAddress(@Body RequestBody body);
 
-    @FormUrlEncoded()
     @POST("feedback/save")
-    Observable<String> saveFeedBack(@Field("mobile") String mobile,@Field("index") String index,@Field("content") String content);
+    Observable<String> saveFeedBack(@Body RequestBody body);
 
     @POST("address/save")
     Observable<String> getSaveDetail(@Body RequestBody body);
 
     @POST("address/detail")
-    Observable<String> getAddressDetail();
+    Observable<String> getAddressDetail(@Body RequestBody body);
 
     @POST("address/list")
     Observable<String> getAddressList();

@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen80dp">
 
@@ -43,6 +44,7 @@
             android:layout_alignParentRight="true"/>
 
         <View
+            android:layout_marginLeft="@dimen/dimen15dp"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen1dp"

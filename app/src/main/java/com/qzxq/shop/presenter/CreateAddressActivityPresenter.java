@@ -37,12 +37,12 @@ public class CreateAddressActivityPresenter extends BasePresenter<CreateAddressA
         });
     }
 
-    public void getAddressDetail() {
+    public void getAddressDetail(RequestBody body) {
         if (getView()!=null){
             getView().showLoading();
         }
 
-        getModel().getAddressDetail(new CreateAddressActivityModel.AddressDetailInterFace() {
+        getModel().getAddressDetail(body,new CreateAddressActivityModel.AddressDetailInterFace() {
             @Override
             public void getDetailSuccess(String s) {
                 if (getView() != null){

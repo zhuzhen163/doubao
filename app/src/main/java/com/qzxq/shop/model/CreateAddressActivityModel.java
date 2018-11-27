@@ -37,9 +37,9 @@ public class CreateAddressActivityModel {
     }
 
 
-    public void getAddressDetail(final AddressDetailInterFace detailInterFace){
+    public void getAddressDetail(RequestBody body,final AddressDetailInterFace detailInterFace){
 
-        Http.getHttpService(UrlHelper.BASE_URL).getAddressDetail().
+        Http.getHttpService(UrlHelper.BASE_URL).getAddressDetail(body).
                 compose(new StrTransformer<String>())
                 .subscribe(new CommonSubscriber<String>(ZApplication.getAppContext()) {
 

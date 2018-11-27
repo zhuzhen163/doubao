@@ -40,7 +40,7 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
     private DeleteAddressDialog deleteAddressDialog;
 
     private int position;
-    private String id;
+    private String id,type = "1";
 
     @Override
     protected AddressManagerActivityPresenter loadPresenter() {
@@ -49,6 +49,8 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
 
     @Override
     protected void initData() {
+        type = getIntent().getStringExtra("type");
+        managerAdapter.setType(type);
     }
 
     @Override
@@ -75,6 +77,7 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
         xrv_list.setPullRefreshEnabled(false);
         managerAdapter = new AddressManagerAdapter(mContext);
         managerAdapter.setDeleteCallBack(this);
+
         xrv_list.setAdapter(managerAdapter);
         xrv_list.setLayoutManager(new LinearLayoutManager(mContext));
 
@@ -91,7 +94,7 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
     protected void otherViewClick(View view) {
         switch (view.getId()){
             case R.id.tv_newAddress:
-                SwitchActivityManager.startCreateAddressActivity(mContext);
+                SwitchActivityManager.startCreateAddressActivity(mContext,"0");
                 break;
         }
     }
