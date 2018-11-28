@@ -96,11 +96,6 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     }
 
     @Override
-    protected void release() {
-
-    }
-
-    @Override
     protected ShopCartFragmentPresenter loadMPresenter() {
         return new ShopCartFragmentPresenter();
     }

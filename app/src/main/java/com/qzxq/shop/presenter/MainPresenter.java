@@ -22,11 +22,6 @@ public class MainPresenter extends BasePresenter<MainModel, MainActivity> {
 
     private ServiceConnection conn;
 
-    public void postPresener(int page, int num) {
-        if (getView() != null){
-            getView().showLoading();
-        }
-    }
 
     public void downApk(Context context) {
         final String url = "https://dianfenqi.cn/data/ffmpeg/upload/images/android/20171206/dianfenqi.apk";

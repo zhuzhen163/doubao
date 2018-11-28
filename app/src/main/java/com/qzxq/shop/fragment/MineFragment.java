@@ -68,11 +68,6 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
     }
 
     @Override
-    protected void release() {
-
-    }
-
-    @Override
     protected MineFragmentPresenter loadMPresenter() {
         return new MineFragmentPresenter();
     }

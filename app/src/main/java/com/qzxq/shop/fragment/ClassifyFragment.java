@@ -15,7 +15,6 @@ public class ClassifyFragment extends BaseFragment<ClassifyFragmentPresenter> im
 
     private static final String TAG = "ClassifyFragment";
 
-
     @Override
     protected int getFragmentLayoutId() {
         return R.layout.fragment_classify;
@@ -23,11 +22,6 @@ public class ClassifyFragment extends BaseFragment<ClassifyFragmentPresenter> im
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    protected void release() {
 
     }
 

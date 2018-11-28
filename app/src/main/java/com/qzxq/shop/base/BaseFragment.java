@@ -2,15 +2,24 @@ package com.qzxq.shop.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
+import com.qzxq.shop.tools.AppUtils;
 import com.qzxq.shop.widget.LoadingDialog;
+
+import java.lang.reflect.Method;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -27,6 +36,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     private Unbinder unbinder;
     private LoadingDialog loadingDialog;
     public P mFragmentPresenter;
+    private WebView baseWebView;
 
     public BaseFragment() {
         super();
@@ -39,8 +49,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     protected abstract int getFragmentLayoutId();
     // 加载数据
     abstract protected void initData(Bundle savedInstanceState);
-    // 释放资源
-    abstract protected void release();
     //加载P
     protected abstract P loadMPresenter();
 
@@ -123,7 +131,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         if (mFragmentPresenter!=null){
             mFragmentPresenter.detachView();
         }
-        release();
     }
     @Override
     public void onDetach() {
@@ -144,6 +151,78 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         } else {
             if (loadingDialog!=null){
                 loadingDialog.dismiss();
+            }
+        }
+    }
+
+    /**
+     * 初始化WebView
+     *
+     * @param webView
+     * @param webViewClient
+     * @param webChromeClient
+     */
+    public void initWebViewSetting(WebView webView, WebViewClient webViewClient, WebChromeClient webChromeClient) {
+        this.baseWebView = webView;
+        disableAccessibility();
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(false);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        webView.getSettings().setAllowFileAccess(true);
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.getSettings().setLoadsImagesAutomatically(true);//支持自动加载图片
+        //设置 缓存模式
+        String user_agent = AppUtils.getUserAgent();
+        webView.getSettings().setUserAgentString(user_agent);
+        int skdInt = Build.VERSION.SDK_INT;
+        if (skdInt <= 18) {
+//            webView.getSettings().setSavePassword(false);
+        }
+        if (skdInt >= 19) {
+            webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        }
+        if (skdInt >= Build.VERSION_CODES.LOLLIPOP) {
+            webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+        if (skdInt >= 11) {
+            webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        webView.getSettings().setAppCacheEnabled(false);
+        webView.setWebViewClient(webViewClient);
+        webView.setWebChromeClient(webChromeClient);
+        webView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View arg0) {
+                return true;
+            }
+        });
+    }
+
+    /**
+     * 关闭辅助功能，针对4.2.1和4.2.2 崩溃问题 java.lang.NullPointerException at
+     * android.webkit.AccessibilityInjector$TextToSpeechWrapper$1.onInit(
+     * AccessibilityInjector.java: 753) ... ... at
+     * android.webkit.CallbackProxy.handleMessage(CallbackProxy.java:321)
+     */
+    private void disableAccessibility() {
+        /*
+         * 4.2
+         * (Build.VERSION_CODES.JELLY_BEAN_MR1)
+         */
+        if (Build.VERSION.SDK_INT == 17) {
+            try {
+                AccessibilityManager am = (AccessibilityManager) mContext
+                        .getSystemService(Context.ACCESSIBILITY_SERVICE);
+                if (!am.isEnabled()) {
+                    return;
+                }
+                Method set = am.getClass().getDeclaredMethod("setState", int.class);
+                set.setAccessible(true);
+                set.invoke(am, 0);
+            } catch (Exception e) {
             }
         }
     }

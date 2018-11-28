@@ -1,7 +1,6 @@
 package com.qzxq.shop.activity.webview;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -35,8 +33,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     // 进度条
     private ProgressBar mProgressBar;
     private WebView webView;
-    // 全屏时视频加载view
-    private FrameLayout videoFullView;
     // 进度条是否加载到90%
     public boolean mProgress90;
     // 网页是否加载完成
@@ -65,7 +61,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         webView = (WebView) findViewById(R.id.webview_detail);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_back = (ImageView) findViewById(R.id.iv_back);
-        videoFullView = (FrameLayout) findViewById(R.id.video_fullView);
         tv_title.setText(mTitle);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,16 +163,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
                 "objs[i].onclick=function(){window.injectedObject.imageClick(this.getAttribute(\"src\"),this.getAttribute(\"has_link\"));}" +
                 "}" +
                 "})()");
-
-        // 遍历所有的a节点,将节点里的属性传递过去(属性自定义,用于页面跳转)
-        webView.loadUrl("javascript:(function(){" +
-                "var objs =document.getElementsByTagName(\"a\");" +
-                "for(var i=0;i<objs.length;i++)" +
-                "{" +
-                "objs[i].onclick=function(){" +
-                "window.injectedObject.textClick(this.getAttribute(\"type\"),this.getAttribute(\"item_pk\"));}" +
-                "}" +
-                "})()");
     }
 
     /**
@@ -221,18 +206,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     }
 
 
-    /**
-     * 上传图片之后的回调
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == MyWebChromeClient.FILECHOOSER_RESULTCODE) {
-            mWebChromeClient.mUploadMessage(intent, resultCode);
-        } else if (requestCode == MyWebChromeClient.FILECHOOSER_RESULTCODE_FOR_ANDROID_5) {
-            mWebChromeClient.mUploadMessageForAndroid5(intent, resultCode);
-        }
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -261,16 +234,11 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         webView.onResume();
         // 支付宝网页版在打开文章详情之后,无法点击按钮下一步
         webView.resumeTimers();
-        // 设置为横屏
-        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        videoFullView.removeAllViews();
         if (webView != null) {
             ViewGroup parent = (ViewGroup) webView.getParent();
             if (parent != null) {
