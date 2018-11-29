@@ -37,7 +37,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
     @BindView(R.id.tv_payment)
     TextView tv_payment;
 
-    private RelativeLayout rl_checkAddress;
+    private RelativeLayout rl_checkAddress,rl_noAddress;
     private LinearLayout ll_checkCoupon;
     private TextView tv_shopTotal,tv_freight,tv_couponPrice,tv_name,tv_phone,tv_address;
     private ImageView iv_default_pic;
@@ -60,6 +60,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
 
     @Override
     protected void initListener() {
+        rl_noAddress.setOnClickListener(this);
         tv_payment.setOnClickListener(this);
         ll_checkCoupon.setOnClickListener(this);
         rl_checkAddress.setOnClickListener(this);
@@ -88,6 +89,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
             mHeaderView = View.inflate(mContext, R.layout.head_shop_buy_detail, null);
             xrv_list.addHeaderView(mHeaderView);
 
+            rl_noAddress = (RelativeLayout) mHeaderView.findViewById(R.id.rl_noAddress);
             tv_name = (TextView) mHeaderView.findViewById(R.id.tv_name);
             tv_phone = (TextView) mHeaderView.findViewById(R.id.tv_phone);
             tv_address = (TextView) mHeaderView.findViewById(R.id.tv_address);
@@ -117,6 +119,9 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
             case R.id.tv_payment:
 
                 break;
+            case R.id.rl_noAddress:
+                SwitchActivityManager.startAddressManagerActivity(mContext,"1");
+                break;
         }
     }
 
@@ -142,13 +147,20 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
                 tv_couponPrice.setText("-￥"+data.getCouponPrice());
 
                 AddressDetailBean checkedAddress = bean.getData().getCheckedAddress();
-                tv_name.setText(checkedAddress.getUserName());
-                tv_phone.setText(checkedAddress.getTelNumber());
-                tv_address.setText(checkedAddress.getFull_region());
-                if ("1".equals(checkedAddress.getIsDefault())){
-                    iv_default_pic.setVisibility(View.VISIBLE);
+                if (checkedAddress.getId() != null){
+                    tv_name.setText(checkedAddress.getUserName());
+                    tv_phone.setText(checkedAddress.getTelNumber());
+                    tv_address.setText(checkedAddress.getFull_region());
+                    if ("1".equals(checkedAddress.getIsDefault())){
+                        iv_default_pic.setVisibility(View.VISIBLE);
+                    }else {
+                        iv_default_pic.setVisibility(View.GONE);
+                    }
+                    rl_checkAddress.setVisibility(View.VISIBLE);
+                    rl_noAddress.setVisibility(View.GONE);
                 }else {
-                    iv_default_pic.setVisibility(View.GONE);
+                    rl_checkAddress.setVisibility(View.GONE);
+                    rl_noAddress.setVisibility(View.VISIBLE);
                 }
                 tv_actualPrice.setText("实付：￥"+data.getActualPrice());
                 detailAdapter.setDataList(data.getCheckedGoodsList());

@@ -21,8 +21,10 @@
             android:id="@+id/tv_productName"
             android:layout_marginLeft="@dimen/dimen10dp"
             android:layout_marginTop="@dimen/dimen15dp"
+            android:singleLine="true"
             android:layout_toRightOf="@id/iv_productImg"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="@dimen/dimen50dp"
             android:layout_height="wrap_content"
             android:text="0"/>
         <TextView

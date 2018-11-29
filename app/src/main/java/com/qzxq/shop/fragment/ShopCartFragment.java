@@ -65,9 +65,22 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     TextView tv_checkedGoodsCount;
     @BindView(R.id.tv_checkedGoodsAmount)
     TextView tv_checkedGoodsAmount;
+    @BindView(R.id.ll_noCart)
+    LinearLayout ll_noCart;
+    @BindView(R.id.tv_goShop)
+    TextView tv_goShop;
+    public ToHomeCallBack homeCallBack;
 
     private ShopCartFragmentAdapter shopCartFragmentAdapter;
     private List<CartListBean> list = new ArrayList<>();
+
+    public interface ToHomeCallBack{
+        void toHomeCallBack();
+    }
+
+    public void setHomeCallBack(ToHomeCallBack homeCallBack) {
+        this.homeCallBack = homeCallBack;
+    }
 
     @Override
     protected int getFragmentLayoutId() {
@@ -150,7 +163,9 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
         tv_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.startShopBuyDetailActivity(mContext,"","","cart");
+                if (isSelectShop()){
+                    SwitchActivityManager.startShopBuyDetailActivity(mContext,"","","cart");
+                }
             }
         });
 
@@ -171,6 +186,12 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
                 ll_delete.setVisibility(View.GONE);
                 shopCartFragmentAdapter.notifyDataSetChanged();
 
+            }
+        });
+        tv_goShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                homeCallBack.toHomeCallBack();
             }
         });
     }
@@ -218,6 +239,20 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
         }
 
         mFragmentPresenter.isCheck(isChecked,checkShop);
+    }
+
+    /**
+     * 是否有选中的商品
+     * @return
+     */
+    public boolean isSelectShop(){
+        for (int i = 0; i <list.size() ; i++) {
+            CartListBean cartListBean = list.get(i);
+            if ("1".equals(cartListBean.getChecked())){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -302,6 +337,13 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
                 list  = bean.getData().getCartList();
                 shopCartFragmentAdapter.setDataList(list);
                 shopCartFragmentAdapter.notifyDataSetChanged();
+                if (list.size() == 0){
+                    ll_noCart.setVisibility(View.VISIBLE);
+                    ll_net_connect.setVisibility(View.GONE);
+                }else {
+                    ll_noCart.setVisibility(View.GONE);
+                    ll_net_connect.setVisibility(View.VISIBLE);
+                }
             }else {
                 ToastUtil.showLong(jsonObject.getString("errmsg"));
             }

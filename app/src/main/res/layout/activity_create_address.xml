@@ -75,12 +75,14 @@
                 <CheckBox
                     android:layout_marginLeft="@dimen/dimen15dp"
                     android:id="@+id/cb_isDetail"
-                    android:layout_width="@dimen/dimen10dp"
-                    android:layout_height="@dimen/dimen10dp" />
+                    android:background="@drawable/background_checkbox_cart"
+                    android:button="@null"
+                    android:layout_width="@dimen/dimen20dp"
+                    android:layout_height="@dimen/dimen20dp" />
                 <TextView
+                    android:layout_marginLeft="@dimen/dimen10dp"
                     android:textColor="@color/color_33"
                     android:textSize="@dimen/dimen15dp"
-                    android:layout_marginLeft="@dimen/dimen10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="设置为默认地址"/>

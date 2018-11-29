@@ -11,7 +11,8 @@
 
         <CheckBox
             android:id="@+id/cb_select"
-            android:background="@drawable/checkbox_unselected"
+            android:background="@drawable/background_checkbox_cart"
+            android:button="@null"
             android:focusable="false"
             android:clickable="false"
             android:layout_marginLeft="@dimen/dimen12dp"

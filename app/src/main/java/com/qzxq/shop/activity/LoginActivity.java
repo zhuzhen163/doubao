@@ -53,10 +53,17 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
     protected void initListener() {
         btn_sendMessage.setOnClickListener(this);
         tv_login.setOnClickListener(this);
+        setBackListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.exitActivity(LoginActivity.this);
+            }
+        });
     }
 
     @Override
     protected void initView() {
+        setTitleName("登录");
         String agreement = "<font color='#999999'>" + "已阅读并同意" + "</font>" + "<font color='#FF7020'>" + "《平台服务协议》" + "</font>";
         tv_agreement.setText(Html.fromHtml(agreement));
     }

@@ -5,8 +5,6 @@ import com.qzxq.shop.exception.ErrorType;
 import com.qzxq.shop.exception.ExceptionEngine;
 import com.qzxq.shop.exception.ServerException;
 
-import org.json.JSONObject;
-
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -35,15 +33,15 @@ public class StrErrorTransformer<T> implements Observable.Transformer<String, T>
             public T call(String s) {
                 if (s == null || s.equals(""))
                     throw new ServerException(ErrorType.EMPTY_BEAN, "解析对象为空");
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    String errmsg = jsonObject.getString("errmsg");
-                    if (errmsg.contains("token失效")){
-                        singleCallBack.singleCallBack();
-                    }
-                }catch (Exception e){
-                        e.printStackTrace();
-                }
+//                try {
+//                    JSONObject jsonObject = new JSONObject(s);
+//                    String errmsg = jsonObject.getString("errmsg");
+//                    if (errmsg.contains("token失效")){
+//                        singleCallBack.singleCallBack();
+//                    }
+//                }catch (Exception e){
+//                        e.printStackTrace();
+//                }
                 return (T) s;
             }
         }).onErrorResumeNext(new Func1<Throwable, Observable<? extends T>>() {

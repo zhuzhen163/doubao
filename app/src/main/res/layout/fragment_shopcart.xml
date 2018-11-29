@@ -57,15 +57,17 @@
             android:layout_height="@dimen/dimen50dp">
 
             <CheckBox
-                android:padding="@dimen/dimen10dp"
+                android:padding="@dimen/dimen20dp"
                 android:id="@+id/cb_select"
-                android:background="@drawable/checkbox_unselected"
+                android:background="@drawable/background_checkbox_cart"
+                android:button="@null"
                 android:checked="false"
                 android:layout_marginLeft="@dimen/dimen15dp"
-                android:layout_width="@dimen/dimen40dp"
-                android:layout_height="@dimen/dimen40dp" />
+                android:layout_width="@dimen/dimen20dp"
+                android:layout_height="@dimen/dimen20dp" />
 
             <TextView
+                android:layout_marginLeft="10dp"
                 android:textSize="@dimen/dimen12dp"
                 android:textColor="@color/color_33"
                 android:id="@+id/tv_checkedGoodsCount"
@@ -105,8 +107,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:background="@color/white"
             android:visibility="gone"
+            android:background="@color/white"
             android:id="@+id/ll_delete"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
@@ -115,11 +117,12 @@
             <CheckBox
                 android:padding="@dimen/dimen10dp"
                 android:id="@+id/cb_select_delete"
-                android:background="@drawable/checkbox_unselected"
+                android:background="@drawable/background_checkbox_cart"
+                android:button="@null"
                 android:checked="false"
                 android:layout_marginLeft="@dimen/dimen15dp"
-                android:layout_width="@dimen/dimen40dp"
-                android:layout_height="@dimen/dimen40dp" />
+                android:layout_width="@dimen/dimen20dp"
+                android:layout_height="@dimen/dimen20dp" />
 
             <TextView
                 android:textSize="@dimen/dimen12dp"
@@ -153,6 +156,36 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_noCart"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="@dimen/dimen60dp"
+            android:layout_height="@dimen/dimen60dp"
+            android:src="@drawable/img_nocart"/>
+
+        <TextView
+            android:textSize="@dimen/dimen17dp"
+            android:layout_marginTop="@dimen/dimen20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="购物车空空如也～"/>
+        <TextView
+            android:id="@+id/tv_goShop"
+            android:layout_marginTop="@dimen/dimen20dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="去逛逛"
+            android:background="@drawable/button_background"
+            android:layout_width="@dimen/dimen120dp"
+            android:layout_height="@dimen/dimen40dp"
+            />
+    </LinearLayout>
 
     <ImageView
         android:layout_centerHorizontal="true"

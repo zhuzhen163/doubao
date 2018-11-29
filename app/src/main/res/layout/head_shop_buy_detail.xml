@@ -7,6 +7,29 @@
     >
 
     <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_noAddress"
+        android:background="@color/white"
+        android:paddingRight="@dimen/dimen15dp"
+        android:paddingLeft="@dimen/dimen15dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen80dp">
+        <TextView
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/dimen13dp"
+            android:text="您还没有收货地址，去添加"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/rl_checkAddress"
         android:background="@color/white"
         android:paddingRight="@dimen/dimen15dp"
@@ -54,14 +77,14 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dimen20dp"/>
 
-        <ImageView
-            android:src="@mipmap/ic_launcher"
+        <TextView
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text=">"/>
     </RelativeLayout>
-    
+
     <LinearLayout
         android:id="@+id/ll_checkCoupon"
         android:gravity="center_vertical"

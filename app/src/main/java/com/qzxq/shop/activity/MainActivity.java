@@ -34,7 +34,7 @@ import butterknife.BindView;
 
 import static android.os.Process.killProcess;
 
-public class MainActivity extends BaseActivity<MainPresenter> implements MainModelView ,StrErrorTransformer.SingleCallBack{
+public class MainActivity extends BaseActivity<MainPresenter> implements MainModelView ,StrErrorTransformer.SingleCallBack,ShopCartFragment.ToHomeCallBack{
 
     @BindView(R.id.viewpager)
     NoScrollViewPager viewpager;
@@ -83,6 +83,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
         homeFragment = new HomeFragment();
         classifyFragment = new ClassifyFragment();
         shopCartFragment = new ShopCartFragment();
+        shopCartFragment.setHomeCallBack(this);
         mineFragment = new MineFragment();
         viewpagerFragments.clear();
         viewpagerFragments.add(homeFragment);
@@ -221,5 +222,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
         //token失效，从新登陆
         viewpager.setCurrentItem(3);
         rb_mine.setChecked(true);
+    }
+
+    @Override
+    public void toHomeCallBack() {
+        viewpager.setCurrentItem(0);
+        rb_homePage.setChecked(true);
     }
 }
