@@ -1,5 +1,6 @@
 package com.qzxq.shop.activity;
 
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +34,8 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
     TextView tv_login;
     @BindView(R.id.et_message)
     EditText et_message;
+    @BindView(R.id.tv_agreement)
+    TextView tv_agreement;
 
     private String inputPhone;
     CountDownButtonHelper helper;
@@ -44,7 +47,6 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
 
     @Override
     protected void initData() {
-        setTitleName("登录");
     }
 
     @Override
@@ -55,6 +57,8 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
 
     @Override
     protected void initView() {
+        String agreement = "<font color='#999999'>" + "已阅读并同意" + "</font>" + "<font color='#FF7020'>" + "《平台服务协议》" + "</font>";
+        tv_agreement.setText(Html.fromHtml(agreement));
     }
 
     @Override

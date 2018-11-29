@@ -20,9 +20,11 @@
     <RadioGroup
         android:id="@+id/tabradios"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen45dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal"
+        android:paddingTop="@dimen/dimen5dp"
+        android:paddingBottom="@dimen/dimen3dp"
         >
 
         <RadioButton
@@ -31,38 +33,43 @@
             android:layout_weight="1"
             android:background="@color/white"
             android:checked="true"
+            android:drawableTop="@drawable/radiobutton_image_home"
+            android:drawablePadding="@dimen/dimen3dp"
             android:text="首页"
             android:textColor="@drawable/radiobutton_text"
-            android:textSize="@dimen/dimen15dp" />
+            android:textSize="@dimen/dimen10dp" />
 
         <RadioButton
-            android:padding="@dimen/dimen3dp"
             android:id="@+id/rb_classify"
             style="@style/radioButton"
             android:layout_weight="1"
             android:background="@color/white"
+            android:drawableTop="@drawable/radiobutton_image_classify"
+            android:drawablePadding="@dimen/dimen3dp"
             android:text="分类"
             android:textColor="@drawable/radiobutton_text"
-            android:textSize="@dimen/dimen15dp" />
+            android:textSize="@dimen/dimen10dp" />
 
         <RadioButton
-            android:padding="@dimen/dimen3dp"
             android:id="@+id/rb_shopCart"
             style="@style/radioButton"
             android:layout_weight="1"
             android:background="@color/white"
+            android:drawableTop="@drawable/radiobutton_image_cart"
+            android:drawablePadding="@dimen/dimen3dp"
             android:text="购物车"
             android:textColor="@drawable/radiobutton_text"
-            android:textSize="@dimen/dimen15dp" />
+            android:textSize="@dimen/dimen10dp" />
 
         <RadioButton
-            android:padding="@dimen/dimen3dp"
             android:id="@+id/rb_mine"
             style="@style/radioButton"
             android:layout_weight="1"
             android:background="@color/white"
+            android:drawableTop="@drawable/radiobutton_image_mine"
+            android:drawablePadding="@dimen/dimen3dp"
             android:text="我的"
             android:textColor="@drawable/radiobutton_text"
-            android:textSize="@dimen/dimen15dp" />
+            android:textSize="@dimen/dimen10dp" />
     </RadioGroup>
 </LinearLayout>

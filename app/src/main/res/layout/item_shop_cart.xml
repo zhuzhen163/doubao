@@ -14,31 +14,39 @@
             android:background="@drawable/checkbox_unselected"
             android:focusable="false"
             android:clickable="false"
-            android:layout_marginLeft="@dimen/dimen15dp"
+            android:layout_marginLeft="@dimen/dimen12dp"
             android:layout_centerVertical="true"
             android:layout_width="@dimen/dimen20dp"
             android:layout_height="@dimen/dimen20dp" />
 
 
         <ImageView
+            android:scaleType="fitXY"
             android:id="@+id/iv_productImg"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dimen15dp"
             android:layout_toRightOf="@id/cb_select"
-            android:layout_width="@dimen/dimen60dp"
-            android:layout_height="@dimen/dimen60dp" />
+            android:layout_width="@dimen/dimen56dp"
+            android:layout_height="@dimen/dimen56dp" />
 
         <TextView
             android:id="@+id/tv_productName"
-            android:layout_marginLeft="@dimen/dimen10dp"
+            android:layout_marginLeft="@dimen/dimen12dp"
             android:layout_marginTop="@dimen/dimen15dp"
             android:layout_toRightOf="@id/iv_productImg"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/dimen12dp"
+            android:textColor="@color/color_33"
+            android:maxLength="2"
+            android:ellipsize="end"
+            android:layout_marginRight="@dimen/dimen50dp"
             android:text="0"/>
         <TextView
             android:id="@+id/tv_productPrice"
             android:text="￥0"
+            android:textColor="@color/colorTheme"
+            android:textSize="@dimen/dimen12dp"
             android:layout_marginTop="@dimen/dimen10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,8 +56,10 @@
 
         <TextView
             android:id="@+id/tv_productNum"
-            android:layout_marginRight="@dimen/dimen15dp"
+            android:layout_marginRight="@dimen/dimen12dp"
             android:layout_marginTop="@dimen/dimen15dp"
+            android:textColor="@color/color_33"
+            android:textSize="@dimen/dimen12dp"
             android:text="*1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,7 +82,8 @@
         <View
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen1dp"
+            android:layout_marginLeft="@dimen/dimen45dp"
+            android:layout_height="0.5dp"
             android:background="@color/colorLine"/>
     </RelativeLayout>
 </RelativeLayout>

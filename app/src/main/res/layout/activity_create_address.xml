@@ -69,14 +69,17 @@
             android:layout_height="1dp"/>
 
         <LinearLayout
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen50dp">
                 <CheckBox
+                    android:layout_marginLeft="@dimen/dimen15dp"
                     android:id="@+id/cb_isDetail"
                     android:layout_width="@dimen/dimen10dp"
                     android:layout_height="@dimen/dimen10dp" />
                 <TextView
+                    android:textColor="@color/color_33"
+                    android:textSize="@dimen/dimen15dp"
                     android:layout_marginLeft="@dimen/dimen10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -97,10 +100,10 @@
             android:id="@+id/tv_cancelDetail"
             android:gravity="center"
             android:text="取消"
-            android:textSize="@dimen/dimen16dp"
+            android:textSize="@dimen/dimen17dp"
             android:textColor="@color/white"
             android:layout_weight="1"
-            android:background="@color/color_33"
+            android:background="@color/color_text_hint"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen50dp" />
 
@@ -109,7 +112,7 @@
             android:gravity="center"
             android:text="保存"
             android:layout_weight="1"
-            android:textSize="@dimen/dimen16dp"
+            android:textSize="@dimen/dimen17dp"
             android:textColor="@color/white"
             android:background="@color/colorTheme"
             android:layout_width="wrap_content"
