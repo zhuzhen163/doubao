@@ -5,7 +5,7 @@ package com.qzxq.shop.entity;
  * 购物车商品
  */
 public class CartListBean {
-    private boolean isCheck;//购物是否勾选标识
+//    private boolean isCheck;//购物是否勾选标识
     private boolean isCheckDelete;//删除是否勾选标识
     private String id;
     private String user_id;
@@ -18,18 +18,18 @@ public class CartListBean {
     private String retail_price;
     private String retail_product_price;
     private String number;
-    private String checked;
+    private String checked;//购物是否勾选标识
     private String crash_save_price;
     private String list_pic_url;
     private String good_url;
 
-    public boolean isCheck() {
-        return isCheck;
-    }
-
-    public void setCheck(boolean check) {
-        isCheck = check;
-    }
+//    public boolean isCheck() {
+//        return isCheck;
+//    }
+//
+//    public void setCheck(boolean check) {
+//        isCheck = check;
+//    }
 
     public boolean isCheckDelete() {
         return isCheckDelete;

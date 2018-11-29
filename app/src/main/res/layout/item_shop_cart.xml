@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/dimen12dp"
             android:textColor="@color/color_33"
-            android:maxLength="2"
+            android:maxLines="2"
             android:ellipsize="end"
             android:layout_marginRight="@dimen/dimen50dp"
             android:text="0"/>

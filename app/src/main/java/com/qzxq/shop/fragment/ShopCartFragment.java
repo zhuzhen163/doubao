@@ -89,8 +89,20 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
 
 
     @Override
-    public void onResume() {
-        super.onResume();
+    protected void initData(Bundle savedInstanceState) {
+        if (NetworkUtil.isNetworkConnected(mContext)) {
+            list.clear();
+            mFragmentPresenter.getShopCartList();
+            iv_none.setVisibility(View.GONE);
+            ll_net_connect.setVisibility(View.VISIBLE);
+        } else {
+            iv_none.setVisibility(View.VISIBLE);
+            ll_net_connect.setVisibility(View.GONE);
+            ToastUtil.showLong("请检查网络");
+        }
+    }
+
+    public void initData(){
         if (NetworkUtil.isNetworkConnected(mContext)) {
             list.clear();
             mFragmentPresenter.getShopCartList();
@@ -104,11 +116,6 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     }
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
-
-    }
-
-    @Override
     protected ShopCartFragmentPresenter loadMPresenter() {
         return new ShopCartFragmentPresenter();
     }
@@ -119,16 +126,8 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
             @Override
             public void onClick(View view) {
                 if (cb_select.isChecked()){
-                    for (int i = 0; i < list.size(); i++) {
-                        CartListBean entity = list.get(i);
-                        entity.setCheck(true);
-                    }
                     buySelectAll("1");
                 }else {
-                    for (int i = 0; i < list.size(); i++) {
-                        CartListBean entity = list.get(i);
-                        entity.setCheck(false);
-                    }
                     buySelectAll("0");
                 }
                 shopCartFragmentAdapter.notifyDataSetChanged();
@@ -165,6 +164,8 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
             public void onClick(View view) {
                 if (isSelectShop()){
                     SwitchActivityManager.startShopBuyDetailActivity(mContext,"","","cart");
+                }else {
+                    ToastUtil.showLong("您还没有选中要购买的商品");
                 }
             }
         });
@@ -334,6 +335,11 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
                 ShopCartListBean.CartTotal cartTotal = bean.getData().getCartTotal();
                 tv_checkedGoodsCount.setText("全选("+cartTotal.getCheckedGoodsCount()+")");
                 tv_checkedGoodsAmount.setText("￥"+cartTotal.getCheckedGoodsAmount());
+                if (cartTotal.getGoodsCount().equals(cartTotal.getCheckedGoodsCount())){
+                    cb_select.setChecked(true);
+                }else {
+                    cb_select.setChecked(false);
+                }
                 list  = bean.getData().getCartList();
                 shopCartFragmentAdapter.setDataList(list);
                 shopCartFragmentAdapter.notifyDataSetChanged();

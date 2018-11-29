@@ -111,6 +111,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
                 break;
             case R.id.rb_shopCart:
                 viewpager.setCurrentItem(2);
+                shopCartFragment.initData();
                 break;
             case R.id.rb_mine:
                 viewpager.setCurrentItem(3);

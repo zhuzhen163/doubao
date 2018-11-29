@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Handler;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,6 +53,8 @@ public class ZApplication extends Application {
         super.onCreate();
         mBaseApplication = this;
         mMainThreadHandler = new Handler();
+        if (LeakCanary.isInAnalyzerProcess(this)) {  return;  }
+        LeakCanary.install(this);
     }
 
     /**

@@ -51,17 +51,6 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
         return R.layout.item_shop_cart;
     }
 
-    public boolean isCheckAll(){
-        boolean check = true;
-        for (int i = 0; i < mDataList.size(); i++) {
-            CartListBean entity = mDataList.get(i);
-            if (!entity.isCheck()) {
-                check = false;
-                return check;
-            }
-        }
-        return check;
-    }
 
     @Override
     public void onBindItemHolder(SuperViewHolder holder, int position) {
@@ -81,10 +70,8 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
 
         if ("1".equals(entity.getChecked())){
             cb_select.setChecked(true);
-            entity.setCheck(true);
         }else {
             cb_select.setChecked(false);
-            entity.setCheck(false);
         }
 
         if (isDelete){
@@ -93,12 +80,10 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
             tv_productNum.setVisibility(View.GONE);
             addView.setVisibility(View.VISIBLE);
         }else {
-            cb_select.setChecked(entity.isCheck());
             tv_productName.setVisibility(View.VISIBLE);
             tv_productNum.setVisibility(View.VISIBLE);
             addView.setVisibility(View.GONE);
         }
-
 
         cb_select.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,16 +99,11 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
                     checkBoxCallback.checkAllDelete(isCheckAllDelete());
                     notifyDataSetChanged();
                 }else {
-                    if (entity.isCheck()){
-                        cb_select.setChecked(false);
-                        entity.setCheck(false);
+                    if ("1".equals(entity.getChecked())){
                         checkBoxCallback.isCheckShop("0",entity.getProduct_id());
                     }else {
-                        cb_select.setChecked(true);
-                        entity.setCheck(true);
                         checkBoxCallback.isCheckShop("1",entity.getProduct_id());
                     }
-                    checkBoxCallback.checkAll(isCheckAll());
                 }
             }
         });

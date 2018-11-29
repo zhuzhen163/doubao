@@ -60,4 +60,7 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.2.0'
     //为了解决小米测试问题Didn't find class "com.umeng.message.provider.MessageProvider"
     compile 'com.android.support:multidex:1.0.1'
+    //内存检测
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }
