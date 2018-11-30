@@ -19,8 +19,8 @@ import com.qzxq.shop.tools.SwitchActivityManager;
 */
 public class AddressManagerAdapter extends ListBaseAdapter<AddressDetailBean>{
 
-    TextView tv_name,tv_phone,tv_address;
-    ImageView iv_default_pic,iv_delete,iv_change;
+    TextView tv_name,tv_phone,tv_address,tv_default;
+    ImageView iv_delete,iv_change;
     RelativeLayout rl_item;
     public DeleteCallBack deleteCallBack;
     private String type;
@@ -46,7 +46,7 @@ public class AddressManagerAdapter extends ListBaseAdapter<AddressDetailBean>{
         rl_item = holder.getView(R.id.rl_item);
         tv_name = holder.getView(R.id.tv_name);
         tv_phone = holder.getView(R.id.tv_phone);
-        iv_default_pic = holder.getView(R.id.iv_default_pic);
+        tv_default = holder.getView(R.id.tv_default);
         tv_address = holder.getView(R.id.tv_address);
         iv_delete = holder.getView(R.id.iv_delete);
         iv_change = holder.getView(R.id.iv_change);
@@ -56,9 +56,9 @@ public class AddressManagerAdapter extends ListBaseAdapter<AddressDetailBean>{
         tv_phone.setText(bean.getTelNumber());
         tv_address.setText(bean.getFull_region());
         if ("1".equals(bean.getIsDefault())){
-            iv_default_pic.setVisibility(View.VISIBLE);
+            tv_default.setVisibility(View.VISIBLE);
         }else {
-            iv_default_pic.setVisibility(View.GONE);
+            tv_default.setVisibility(View.GONE);
         }
         if ("1".equals(type)){//购物车修改地址
             iv_change.setVisibility(View.VISIBLE);

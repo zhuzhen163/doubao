@@ -71,11 +71,11 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
         setTitleName("地址管理");
         xrv_list.setLoadingMoreEnabled(false);
         xrv_list.setPullRefreshEnabled(false);
-        managerAdapter = new AddressManagerAdapter(mContext);
+        managerAdapter = new AddressManagerAdapter(AddressManagerActivity.this);
         managerAdapter.setDeleteCallBack(this);
 
         xrv_list.setAdapter(managerAdapter);
-        xrv_list.setLayoutManager(new LinearLayoutManager(mContext));
+        xrv_list.setLayoutManager(new LinearLayoutManager(AddressManagerActivity.this));
 
         deleteAddressDialog = new DeleteAddressDialog(mContext);
         deleteAddressDialog.setDeleteDialog(this);
