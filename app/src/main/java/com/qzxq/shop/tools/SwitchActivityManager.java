@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.qzxq.shop.R;
+import com.qzxq.shop.activity.AccountCenterActivity;
 import com.qzxq.shop.activity.AddressManagerActivity;
 import com.qzxq.shop.activity.CreateAddressActivity;
+import com.qzxq.shop.activity.CustomServiceActivity;
 import com.qzxq.shop.activity.FeedBackActivity;
 import com.qzxq.shop.activity.LoginActivity;
 import com.qzxq.shop.activity.MainActivity;
@@ -21,6 +23,24 @@ import com.qzxq.shop.activity.webview.WebViewActivity;
 
 public class SwitchActivityManager {
 
+    /**
+     * 客户服务
+     * @param mContext
+     */
+    public static void startCustomServiceActivity(Context mContext){
+        Intent intent = new Intent(mContext, CustomServiceActivity.class);
+        mContext.startActivity(intent);
+        ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
+    }
+    /**
+     * 账户中心
+     * @param mContext
+     */
+    public static void startAccountCenterActivity(Context mContext){
+        Intent intent = new Intent(mContext, AccountCenterActivity.class);
+        mContext.startActivity(intent);
+        ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
+    }
     /**
      * 商品购买详情
      * @param mContext

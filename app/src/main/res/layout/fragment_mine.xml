@@ -172,6 +172,7 @@
             android:layout_height="@dimen/dimen90dp">
 
             <TextView
+                android:id="@+id/tv_accountCenter"
                 android:textSize="@dimen/dimen12dp"
                 android:textColor="@color/color_33"
                 android:layout_weight="1"
@@ -203,7 +204,7 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
                 android:gravity="center"
-                android:text="我的收藏" />
+                android:text="我的浏览" />
 
 
         </LinearLayout>
@@ -215,6 +216,7 @@
             android:layout_height="@dimen/dimen90dp">
 
             <TextView
+                android:id="@+id/tv_customService"
                 android:textSize="@dimen/dimen12dp"
                 android:textColor="@color/color_33"
                 android:layout_weight="1"

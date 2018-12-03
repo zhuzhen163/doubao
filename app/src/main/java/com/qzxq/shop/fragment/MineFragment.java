@@ -1,12 +1,14 @@
 package com.qzxq.shop.fragment;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.qzxq.shop.R;
 import com.qzxq.shop.base.BaseFragment;
 import com.qzxq.shop.presenter.MineFragmentPresenter;
 import com.qzxq.shop.tools.StringUtils;
+import com.qzxq.shop.tools.SwitchActivityManager;
 import com.qzxq.shop.view.MineFragmentView;
 
 import org.json.JSONObject;
@@ -27,6 +29,10 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
     TextView tv_name;
     @BindView(R.id.tv_ptMoney)
     TextView tv_ptMoney;
+    @BindView(R.id.tv_accountCenter)
+    TextView tv_accountCenter;
+    @BindView(R.id.tv_customService)
+    TextView tv_customService;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -50,24 +56,24 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
 
     @Override
     protected void initListener() {
-//        ll_address.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                SwitchActivityManager.startAddressManagerActivity(mContext,"0");
-//            }
-//        });
-//        ll_feedback.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                SwitchActivityManager.startFeedBackActivity(mContext);
-//            }
-//        });
-//        ll_bindPhone.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                SwitchActivityManager.startLoginActivity(mContext);
-//            }
-//        });
+        tv_accountCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.startAccountCenterActivity(mContext);
+            }
+        });
+        tv_customService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.startCustomServiceActivity(mContext);
+            }
+        });
+        civ_headImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.startLoginActivity(mContext);
+            }
+        });
     }
 
     @Override
