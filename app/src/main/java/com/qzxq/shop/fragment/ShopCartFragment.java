@@ -267,11 +267,6 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     }
 
     @Override
-    public void checkAll(boolean checkAll) {
-        cb_select.setChecked(checkAll);
-    }
-
-    @Override
     public void checkAllDelete(boolean checkAllDelete) {
         cb_select_delete.setChecked(checkAllDelete);
     }

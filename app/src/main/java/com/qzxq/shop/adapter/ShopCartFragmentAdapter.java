@@ -32,7 +32,6 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
     }
 
     public interface CheckBoxCallback{
-        void checkAll(boolean checkAll);//是否全选购买
         void checkAllDelete(boolean checkAllDelete);//是否全选删除
 
         void isCheckShop(String isChecked,String productIds);//是否勾选商品

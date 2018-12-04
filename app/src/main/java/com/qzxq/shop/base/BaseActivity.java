@@ -30,7 +30,6 @@ import butterknife.Unbinder;
  */
 
 public abstract class BaseActivity <P extends BasePresenter>  extends FragmentActivity implements BaseView,View.OnClickListener{
-    protected View view;
     protected P mPresenter;
     public Context mContext;
     private LinearLayout content;
@@ -93,13 +92,6 @@ public abstract class BaseActivity <P extends BasePresenter>  extends FragmentAc
 
     protected abstract void otherViewClick(View view);
 
-    /**
-     * @return 显示的内容
-     */
-    public View getView() {
-        view = View.inflate(this, getLayoutId(), null);
-        return view;
-    }
 
     /**
      * 点击的事件的统一的处理

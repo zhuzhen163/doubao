@@ -55,7 +55,7 @@ public class AccountCenterActivity extends BaseActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()){
             case R.id.ll_addressManager:
-                SwitchActivityManager.startAddressManagerActivity(mContext,"0");
+                SwitchActivityManager.startAddressManagerActivity(AccountCenterActivity.this,"0");
                 break;
         }
     }

@@ -55,7 +55,7 @@ public class CustomServiceActivity extends BaseActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()){
             case R.id.ll_feedback:
-                SwitchActivityManager.startFeedBackActivity(mContext);
+                SwitchActivityManager.startFeedBackActivity(CustomServiceActivity.this);
                 break;
         }
     }
