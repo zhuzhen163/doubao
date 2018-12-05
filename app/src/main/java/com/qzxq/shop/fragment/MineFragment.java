@@ -41,12 +41,13 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        mFragmentPresenter.getUserAccount();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mFragmentPresenter.getUserAccount();
+
     }
 
     @Override

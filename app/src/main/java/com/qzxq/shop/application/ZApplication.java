@@ -53,7 +53,6 @@ public class ZApplication extends Application {
         super.onCreate();
         mBaseApplication = this;
         mMainThreadHandler = new Handler();
-        if (LeakCanary.isInAnalyzerProcess(this)) {  return;  }
         LeakCanary.install(this);
     }
 

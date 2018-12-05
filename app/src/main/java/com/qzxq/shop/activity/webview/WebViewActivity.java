@@ -1,7 +1,5 @@
 package com.qzxq.shop.activity.webview;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +35,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     public boolean mProgress90;
     // 网页是否加载完成
     public boolean mPageFinish;
-    // 加载视频相关
     private MyWebChromeClient mWebChromeClient;
     // title
     private String mTitle;
@@ -52,7 +49,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         getIntentData();
         initTitle();
         initWebView();
-        loadUrl(mUrl);
     }
 
     private void initTitle() {
@@ -126,6 +122,8 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         // 与js交互
         webView.addJavascriptInterface(new WebViewClickInterface(this), "injectedObject");
         webView.setWebViewClient(new MyWebViewClient(this));
+
+        webView.loadUrl(mUrl);
     }
 
     @Override
@@ -251,22 +249,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
             webView.setWebViewClient(null);
             webView.destroy();
             webView = null;
-        }
-    }
-
-    private void loadUrl(String url) {
-        // bilibili跳转到浏览器
-        if (url.startsWith("http://www.bilibili.com")) {
-            Intent intent = new Intent();
-            intent.setAction("android.intent.action.VIEW");
-            intent.addCategory("android.intent.category.DEFAULT");
-            intent.addCategory("android.intent.category.BROWSABLE");
-            Uri contentUrl = Uri.parse(url);
-            intent.setData(contentUrl);
-            startActivity(intent);
-            finish();
-        } else {
-            webView.loadUrl(url);
         }
     }
 }

@@ -1,47 +1,40 @@
 package com.qzxq.shop.activity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.qzxq.shop.R;
-import com.qzxq.shop.base.BaseActivity;
-import com.qzxq.shop.base.BasePresenter;
 import com.qzxq.shop.tools.CommonUtils;
 import com.qzxq.shop.tools.ConstantsImageUrl;
+import com.qzxq.shop.widget.statusbar.StatusBarUtil;
 
 import java.util.Random;
 
-import butterknife.BindView;
+public class TransitionActivity extends FragmentActivity{
 
-public class TransitionActivity extends BaseActivity {
-
-    @BindView(R.id.iv_pic)
-    ImageView iv_pic;
-    @BindView(R.id.tv_jump)
-    TextView tv_jump;
+    private ImageView iv_pic;
+    private TextView tv_jump;
     private boolean isIn;
 
     @Override
-    protected BasePresenter loadPresenter() {
-        return null;
-    }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setContentView(R.layout.activity_transition);
+        StatusBarUtil.setColor(this, CommonUtils.getColor(R.color.colorTheme),0);
 
-    @Override
-    protected void initData() {
-        setBaseTitleState(View.GONE);
-    }
+        iv_pic = (ImageView) findViewById(R.id.iv_pic);
+        tv_jump = (TextView) findViewById(R.id.tv_jump);
 
-    @Override
-    protected void initListener() {
-        tv_jump.setOnClickListener(this);
-    }
-
-    @Override
-    protected void initView() {
         int i = new Random().nextInt(ConstantsImageUrl.TRANSITION_URLS.length);
         // 先显示默认图
         iv_pic.setImageDrawable(CommonUtils.getDrawable(R.drawable.img_transition_default));
@@ -57,22 +50,14 @@ public class TransitionActivity extends BaseActivity {
                 toMainActivity();
             }
         }, 3500);
-    }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_transition;
-    }
-
-    @Override
-    protected void otherViewClick(View view) {
-        switch (view.getId()){
-            case R.id.tv_jump:
+        tv_jump.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 toMainActivity();
-                break;
-        }
+            }
+        });
     }
-
 
     private void toMainActivity() {
         if (isIn) {
@@ -83,15 +68,5 @@ public class TransitionActivity extends BaseActivity {
         overridePendingTransition(R.anim.screen_zoom_in, R.anim.screen_zoom_out);
         finish();
         isIn = true;
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
     }
 }
