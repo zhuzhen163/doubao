@@ -90,16 +90,16 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        if (NetworkUtil.isNetworkConnected(mContext)) {
-            list.clear();
-            mFragmentPresenter.getShopCartList();
-            iv_none.setVisibility(View.GONE);
-            ll_net_connect.setVisibility(View.VISIBLE);
-        } else {
-            iv_none.setVisibility(View.VISIBLE);
-            ll_net_connect.setVisibility(View.GONE);
-            ToastUtil.showLong("请检查网络");
-        }
+//        if (NetworkUtil.isNetworkConnected(mContext)) {
+//            list.clear();
+//            mFragmentPresenter.getShopCartList();
+//            iv_none.setVisibility(View.GONE);
+//            ll_net_connect.setVisibility(View.VISIBLE);
+//        } else {
+//            iv_none.setVisibility(View.VISIBLE);
+//            ll_net_connect.setVisibility(View.GONE);
+//            ToastUtil.showLong(getString(R.string.network_error));
+//        }
     }
 
     public void initData(){
@@ -111,7 +111,7 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
         } else {
             iv_none.setVisibility(View.VISIBLE);
             ll_net_connect.setVisibility(View.GONE);
-            ToastUtil.showLong("请检查网络");
+            ToastUtil.showLong(getString(R.string.network_error));
         }
     }
 

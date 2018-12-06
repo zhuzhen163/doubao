@@ -7,8 +7,10 @@ import android.widget.TextView;
 import com.qzxq.shop.R;
 import com.qzxq.shop.base.BaseFragment;
 import com.qzxq.shop.presenter.MineFragmentPresenter;
+import com.qzxq.shop.tools.NetworkUtil;
 import com.qzxq.shop.tools.StringUtils;
 import com.qzxq.shop.tools.SwitchActivityManager;
+import com.qzxq.shop.tools.ToastUtil;
 import com.qzxq.shop.view.MineFragmentView;
 
 import org.json.JSONObject;
@@ -41,7 +43,14 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mFragmentPresenter.getUserAccount();
+    }
+
+    public void initData() {
+        if (NetworkUtil.isNetworkConnected(mContext)){
+            mFragmentPresenter.getUserAccount();
+        }else {
+            ToastUtil.showLong(getString(R.string.network_error));
+        }
     }
 
     @Override

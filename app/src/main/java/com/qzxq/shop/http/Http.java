@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.qzxq.shop.BuildConfig;
 import com.qzxq.shop.application.ZApplication;
 import com.qzxq.shop.tools.AppUtils;
+import com.qzxq.shop.tools.ConfigUtils;
 import com.qzxq.shop.tools.LogUtil;
 import com.qzxq.shop.tools.NetworkUtil;
 import com.qzxq.shop.transformer.StringConverterFactory;
@@ -87,7 +88,7 @@ public class Http {
                 Request.Builder requestBuilder = originalRequest.newBuilder();
                 requestBuilder
                         .addHeader("device", "android")
-                        .addHeader("X-Nideshop-Token", "y7wd3mfteix1zu2hq37kzdf0ntj8gvwg")
+                        .addHeader("X-Nideshop-Token", ConfigUtils.getToken())
                         .addHeader("version", BuildConfig.VERSION_NAME)
                         .addHeader("versionCode", BuildConfig.VERSION_CODE + "")
                         .addHeader("Content-Encoding", "gzip")

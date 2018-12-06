@@ -91,7 +91,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
                             mPresenter.getSmsCodePresenter(inputPhone);
                         }
                         else {
-                            ToastUtil.showLong("请检查网络");
+                            ToastUtil.showLong(getString(R.string.network_error));
                         }
                     }else {
                         ToastUtil.showLong("请填写正确的手机号码");
@@ -110,7 +110,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
                         ToastUtil.showLong("请输入手机号或验证码");
                     }
                 }else {
-                    ToastUtil.showLong("请检查网络");
+                    ToastUtil.showLong(getString(R.string.network_error));
                 }
                 break;
         }
