@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"/>
 
-        <com.qzxq.shop.widget.AdderView
+        <com.doubao.shop.widget.AdderView
             android:layout_centerVertical="true"
             android:visibility="gone"
             android:layout_marginRight="@dimen/dimen15dp"
@@ -78,7 +78,7 @@
             android:layout_height="@dimen/dimen20dp"
             >
 
-        </com.qzxq.shop.widget.AdderView>
+        </com.doubao.shop.widget.AdderView>
 
         <View
             android:layout_alignParentBottom="true"

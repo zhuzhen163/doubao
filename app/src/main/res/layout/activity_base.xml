@@ -10,7 +10,7 @@
         android:background="#ffffff"
         android:orientation="vertical">
 
-        <com.qzxq.shop.widget.PublicTitleView
+        <com.doubao.shop.widget.PublicTitleView
             android:id="@+id/base_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen40dp"/>

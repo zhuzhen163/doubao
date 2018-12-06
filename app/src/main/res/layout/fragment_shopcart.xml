@@ -43,7 +43,7 @@
                 android:text="免邮费"/>
         </LinearLayout>
 
-        <com.qzxq.shop.widget.xrecyclerview.XRecyclerView
+        <com.doubao.shop.widget.xrecyclerview.XRecyclerView
             android:layout_weight="1"
             android:id="@+id/xrv_list"
             android:layout_width="match_parent"

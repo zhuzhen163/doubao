@@ -10,12 +10,12 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <com.qzxq.shop.widget.addresspicker.AddressPickerView
+    <com.doubao.shop.widget.addresspicker.AddressPickerView
         android:id="@+id/apvAddress"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen250dp"
         >
 
-    </com.qzxq.shop.widget.addresspicker.AddressPickerView>
+    </com.doubao.shop.widget.addresspicker.AddressPickerView>
 
 </LinearLayout>
