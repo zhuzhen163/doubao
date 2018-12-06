@@ -2,10 +2,12 @@ package com.qzxq.shop.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qzxq.shop.R;
 import com.qzxq.shop.base.BaseFragment;
+import com.qzxq.shop.http.UrlHelper;
 import com.qzxq.shop.presenter.MineFragmentPresenter;
 import com.qzxq.shop.tools.NetworkUtil;
 import com.qzxq.shop.tools.StringUtils;
@@ -31,10 +33,18 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
     TextView tv_name;
     @BindView(R.id.tv_ptMoney)
     TextView tv_ptMoney;
-    @BindView(R.id.tv_accountCenter)
-    TextView tv_accountCenter;
-    @BindView(R.id.tv_customService)
-    TextView tv_customService;
+    @BindView(R.id.ll_accountCenter)
+    LinearLayout ll_accountCenter;
+    @BindView(R.id.ll_customService)
+    LinearLayout ll_customService;
+    @BindView(R.id.ll_messageCenter)
+    LinearLayout ll_messageCenter;
+    @BindView(R.id.ll_browse)
+    LinearLayout ll_browse;
+    @BindView(R.id.ll_collect)
+    LinearLayout ll_collect;
+    @BindView(R.id.ll_coupon)
+    LinearLayout ll_coupon;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -66,13 +76,13 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
 
     @Override
     protected void initListener() {
-        tv_accountCenter.setOnClickListener(new View.OnClickListener() {
+        ll_accountCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SwitchActivityManager.startAccountCenterActivity(mContext);
             }
         });
-        tv_customService.setOnClickListener(new View.OnClickListener() {
+        ll_customService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SwitchActivityManager.startCustomServiceActivity(mContext);
@@ -84,6 +94,24 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
                 SwitchActivityManager.startLoginActivity(mContext);
             }
         });
+        ll_coupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"pages/ucenter/coupon","优惠券");
+            }
+        });
+        ll_collect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"pages/ucenter/collect","我的收藏");
+            }
+        });
+        ll_browse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"pages/ucenter/footprint","我的浏览");
+            }
+        });
     }
 
     @Override
@@ -93,7 +121,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
 
     @Override
     public void showLoading() {
-
+        setShowLoading(true);
     }
 
     @Override

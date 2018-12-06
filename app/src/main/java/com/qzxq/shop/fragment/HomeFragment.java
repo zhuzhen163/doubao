@@ -3,7 +3,6 @@ package com.qzxq.shop.fragment;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
@@ -14,7 +13,9 @@ import android.webkit.WebViewClient;
 import com.qzxq.shop.R;
 import com.qzxq.shop.activity.webview.WebViewClickInterface;
 import com.qzxq.shop.base.BaseFragment;
+import com.qzxq.shop.http.UrlHelper;
 import com.qzxq.shop.presenter.HomeFragmentPresenter;
+import com.qzxq.shop.tools.ConfigUtils;
 import com.qzxq.shop.tools.LogUtil;
 import com.qzxq.shop.view.HomeFragmentView;
 
@@ -33,7 +34,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     @BindView(R.id.wv_home)
     WebView wv_home;
     private Map<String, String> extraHeaders;
-    private String loadUrl = "http://192.168.124.29:8081/#";
 
     @Override
     protected int getFragmentLayoutId() {
@@ -71,9 +71,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         CookieSyncManager.getInstance().sync();
         CookieSyncManager.getInstance().startSync();
         extraHeaders = new HashMap<>();
-        extraHeaders.put("X-Nideshop-Token", "y7wd3mfteix1zu2hq37kzdf0ntj8gvwg");
-        if (wv_home != null && !TextUtils.isEmpty(loadUrl)) {
-            wv_home.loadUrl(loadUrl, extraHeaders);
+        extraHeaders.put("X-Nideshop-Token", ConfigUtils.getToken());
+        if (wv_home != null) {
+            wv_home.loadUrl(UrlHelper.WEB_URL+"?device=android", extraHeaders);
         }
     }
 

@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 import com.qzxq.shop.R;
 import com.qzxq.shop.activity.webview.WebViewClickInterface;
 import com.qzxq.shop.base.BaseFragment;
+import com.qzxq.shop.http.UrlHelper;
 import com.qzxq.shop.presenter.ClassifyFragmentPresenter;
 import com.qzxq.shop.tools.LogUtil;
 import com.qzxq.shop.view.ClassifyFragmentView;
@@ -32,7 +33,7 @@ public class ClassifyFragment extends BaseFragment<ClassifyFragmentPresenter> im
     @BindView(R.id.wb_classify)
     WebView wb_classify;
     private Map<String, String> extraHeaders;
-    private String loadUrl = "http://192.168.124.29:8081/#";
+    private String loadUrl = "";
 
     @Override
     protected int getFragmentLayoutId() {
@@ -56,6 +57,7 @@ public class ClassifyFragment extends BaseFragment<ClassifyFragmentPresenter> im
 
     @Override
     protected void initView() {
+        loadUrl = UrlHelper.WEB_URL+"pages/classification?device=android";
         initWebView();
     }
 

@@ -2,9 +2,10 @@ package com.qzxq.shop.activity.webview;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
+
+import com.qzxq.shop.tools.SwitchActivityManager;
 
 public class WebViewClickInterface {
     private Context context;
@@ -14,18 +15,14 @@ public class WebViewClickInterface {
     }
 
     @JavascriptInterface
-    public void imageClick(String imgUrl, String hasLink) {
-//        Toast.makeText(context, "----点击了图片", Toast.LENGTH_SHORT).show();
-        // 查看大图
-//        Intent intent = new Intent(context, ViewBigImageActivity.class);
-//        context.startActivity(intent);
-        Log.e("----点击了图片 url: ", "" + imgUrl);
-    }
-
-    @JavascriptInterface
     public void textClick(String type, String item_pk) {
         if (!TextUtils.isEmpty(type) && !TextUtils.isEmpty(item_pk)) {
             Toast.makeText(context, "----点击了文字", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @JavascriptInterface
+    public void productDeatil(String detailUrl) {
+        SwitchActivityManager.loadUrl(context,detailUrl,"商品详情");
     }
 }

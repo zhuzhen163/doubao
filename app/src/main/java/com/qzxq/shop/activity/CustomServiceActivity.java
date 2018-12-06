@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import com.qzxq.shop.R;
 import com.qzxq.shop.base.BaseActivity;
 import com.qzxq.shop.base.BasePresenter;
+import com.qzxq.shop.http.UrlHelper;
 import com.qzxq.shop.tools.SwitchActivityManager;
 
 import butterknife.BindView;
@@ -19,6 +20,8 @@ public class CustomServiceActivity extends BaseActivity {
 
     @BindView(R.id.ll_feedback)
     LinearLayout ll_feedback;
+    @BindView(R.id.ll_helpCenter)
+    LinearLayout ll_helpCenter;
 
     @Override
     protected BasePresenter loadPresenter() {
@@ -33,6 +36,7 @@ public class CustomServiceActivity extends BaseActivity {
     @Override
     protected void initListener() {
         ll_feedback.setOnClickListener(this);
+        ll_helpCenter.setOnClickListener(this);
         setBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +60,9 @@ public class CustomServiceActivity extends BaseActivity {
         switch (view.getId()){
             case R.id.ll_feedback:
                 SwitchActivityManager.startFeedBackActivity(CustomServiceActivity.this);
+                break;
+            case R.id.ll_helpCenter:
+                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"pages/ucenter/helpCenter","帮助中心");
                 break;
         }
     }
