@@ -15,6 +15,9 @@ import rx.Observable;
 
 public interface HttpService {
 
+    @POST("user/userInfo")
+    Observable<String> userInfo();
+
     @POST("cart/checkout")
     Observable<String> checkCart(@Body RequestBody body);
 

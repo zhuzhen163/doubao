@@ -49,6 +49,7 @@
         <activity android:name=".activity.AccountCenterActivity" />
         <activity android:name=".activity.CustomServiceActivity" />
         <activity android:name=".activity.webview.WebViewActivity" />
+        <activity android:name=".activity.AccountSafeActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

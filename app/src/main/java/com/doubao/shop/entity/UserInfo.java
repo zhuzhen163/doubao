@@ -36,4 +36,12 @@ public class UserInfo {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 }

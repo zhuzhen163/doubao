@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import com.doubao.shop.R;
 import com.doubao.shop.activity.AccountCenterActivity;
+import com.doubao.shop.activity.AccountSafeActivity;
 import com.doubao.shop.activity.AddressManagerActivity;
 import com.doubao.shop.activity.CreateAddressActivity;
 import com.doubao.shop.activity.CustomServiceActivity;
@@ -23,6 +24,15 @@ import com.doubao.shop.activity.webview.WebViewActivity;
 
 public class SwitchActivityManager {
 
+    /**
+     * 账户安全
+     * @param mContext
+     */
+    public static void startAccountSafeActivity(Context mContext){
+        Intent intent = new Intent(mContext, AccountSafeActivity.class);
+        mContext.startActivity(intent);
+        ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
+    }
     /**
      * 客户服务
      * @param mContext

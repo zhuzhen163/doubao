@@ -1,5 +1,6 @@
 package com.doubao.shop.activity;
 
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -19,6 +20,8 @@ public class AccountCenterActivity extends BaseActivity {
 
     @BindView(R.id.ll_addressManager)
     LinearLayout ll_addressManager;
+    @BindView(R.id.ll_accountSafe)
+    LinearLayout ll_accountSafe;
 
     @Override
     protected BasePresenter loadPresenter() {
@@ -33,6 +36,7 @@ public class AccountCenterActivity extends BaseActivity {
     @Override
     protected void initListener() {
         ll_addressManager.setOnClickListener(this);
+        ll_accountSafe.setOnClickListener(this);
         setBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +61,9 @@ public class AccountCenterActivity extends BaseActivity {
             case R.id.ll_addressManager:
                 SwitchActivityManager.startAddressManagerActivity(AccountCenterActivity.this,"0");
                 break;
+            case R.id.ll_accountSafe:
+                SwitchActivityManager.startAccountSafeActivity(AccountCenterActivity.this);
+                break;
         }
     }
 
@@ -68,5 +75,14 @@ public class AccountCenterActivity extends BaseActivity {
     @Override
     public void hideLoading() {
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            SwitchActivityManager.exitActivity(AccountCenterActivity.this);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
