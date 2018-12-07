@@ -12,17 +12,14 @@ import android.webkit.WebView;
 public class MyWebChromeClient extends WebChromeClient {
 
     private WebViewActivity mActivity;
-    private IWebPageView mIWebPageView;
 
     public MyWebChromeClient(IWebPageView mIWebPageView) {
-        this.mIWebPageView = mIWebPageView;
         this.mActivity = (WebViewActivity) mIWebPageView;
     }
 
     @Override
     public void onProgressChanged(WebView view, int newProgress) {
         super.onProgressChanged(view, newProgress);
-        mIWebPageView.progressChanged(newProgress);
     }
 
     @Override

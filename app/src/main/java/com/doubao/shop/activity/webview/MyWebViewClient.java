@@ -9,8 +9,6 @@ import android.text.TextUtils;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.doubao.shop.tools.NetworkUtil;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
@@ -54,20 +52,11 @@ public class MyWebViewClient extends WebViewClient {
             }
             return true;
         }
-        mIWebPageView.startProgress();
         return false;
     }
 
     @Override
     public void onPageFinished(WebView view, String url) {
-        if (mActivity.mProgress90) {
-            mIWebPageView.hindProgressBar();
-        } else {
-            mActivity.mPageFinish = true;
-        }
-        if (!NetworkUtil.isNetworkConnected(mActivity)) {
-            mIWebPageView.hindProgressBar();
-        }
         // html加载完成之后，添加监听点击js函数
         mIWebPageView.addClickListener();
         super.onPageFinished(view, url);

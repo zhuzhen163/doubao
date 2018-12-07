@@ -13,6 +13,7 @@ import com.doubao.shop.tools.NetworkUtil;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.tools.ToastUtil;
 import com.doubao.shop.view.AccountSafeActivityView;
+import com.doubao.shop.widget.LogoutDialog;
 
 import org.json.JSONObject;
 
@@ -24,7 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 * create at 2018/12/7
 * description: 账户安全
 */
-public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresenter> implements AccountSafeActivityView{
+public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresenter> implements AccountSafeActivityView,LogoutDialog.LogoutDialogCallBack{
 
     @BindView(R.id.tv_logout)
     TextView tv_logout;
@@ -36,6 +37,8 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
     TextView tv_authName;
     @BindView(R.id.civ_headImage)
     CircleImageView civ_headImage;
+
+    private LogoutDialog dialog;
 
     @Override
     protected AccountSafeActivityPresenter loadPresenter() {
@@ -53,6 +56,7 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
 
     @Override
     protected void initListener() {
+        tv_logout.setOnClickListener(this);
         tv_authName.setOnClickListener(this);
         tv_authIdNo.setOnClickListener(this);
         setBackListener(new View.OnClickListener() {
@@ -81,6 +85,11 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
                 break;
             case R.id.tv_authIdNo:
                 SwitchActivityManager.startRealNameActivity(AccountSafeActivity.this);
+                break;
+            case R.id.tv_logout:
+                dialog = new LogoutDialog(this);
+                dialog.setCallBack(this);
+                dialog.show();
                 break;
         }
     }
@@ -131,5 +140,18 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void logout() {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null){
+            dialog = null;
+        }
     }
 }

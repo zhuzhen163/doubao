@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.doubao.shop.R;
@@ -28,13 +27,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     private TextView tv_title;
     private ImageView iv_back;
-    // 进度条
-    private ProgressBar mProgressBar;
     private WebView webView;
-    // 进度条是否加载到90%
-    public boolean mProgress90;
-    // 网页是否加载完成
-    public boolean mPageFinish;
     private MyWebChromeClient mWebChromeClient;
     // title
     private String mTitle;
@@ -53,7 +46,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     private void initTitle() {
         StatusBarUtil.setColor(this, CommonUtils.getColor(R.color.colorTheme), 0);
-        mProgressBar = (ProgressBar) findViewById(R.id.pb_progress);
         webView = (WebView) findViewById(R.id.webview_detail);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_back = (ImageView) findViewById(R.id.iv_back);
@@ -80,7 +72,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
 
     private void initWebView() {
-        mProgressBar.setVisibility(View.VISIBLE);
         WebSettings ws = webView.getSettings();
         // 网页内容的宽度是否可大于WebView控件的宽度
         ws.setLoadWithOverviewMode(false);
@@ -123,29 +114,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     }
 
     @Override
-    public void hindProgressBar() {
-        mProgressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void startProgress() {
-        startProgress90();
-    }
-
-    @Override
-    public void progressChanged(int newProgress) {
-        if (mProgress90) {
-            int progress = newProgress * 100;
-            if (progress > 900) {
-                mProgressBar.setProgress(progress);
-                if (progress == 1000) {
-                    mProgressBar.setVisibility(View.GONE);
-                }
-            }
-        }
-    }
-
-    @Override
     public void addClickListener() {
         // 这段js函数的功能就是，遍历所有的img节点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
         // 如要点击一张图片在弹出的页面查看所有的图片集合,则获取的值应该是个图片数组
@@ -158,47 +126,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
                 "}" +
                 "})()");
     }
-
-    /**
-     * 进度条 假装加载到90%
-     */
-    public void startProgress90() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        for (int i = 0; i < 900; i++) {
-            final int progress = i + 1;
-            mProgressBar.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mProgressBar.setProgress(progress);
-                    if (progress == 900) {
-                        mProgress90 = true;
-                        if (mPageFinish) {
-                            startProgress90to100();
-                        }
-                    }
-                }
-            }, (i + 1) * 2);
-        }
-    }
-
-    /**
-     * 进度条 加载到100%
-     */
-    public void startProgress90to100() {
-        for (int i = 900; i <= 1000; i++) {
-            final int progress = i + 1;
-            mProgressBar.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mProgressBar.setProgress(progress);
-                    if (progress == 1000) {
-                        mProgressBar.setVisibility(View.GONE);
-                    }
-                }
-            }, (i + 1) * 2);
-        }
-    }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
