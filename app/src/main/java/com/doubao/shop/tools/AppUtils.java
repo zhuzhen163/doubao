@@ -117,4 +117,17 @@ public class AppUtils {
         return result;
     }
 
+    /**
+     * 验证身份证号是否符合规则
+     * @param text 身份证号
+     * @return
+     */
+    public static boolean personIdValidation(String text) {
+        String regx = "[0-9]{17}x";
+        String regx0 = "[0-9]{17}X";
+        String reg1 = "[0-9]{15}";
+        String regex = "[0-9]{18}";
+        return text.matches(regx) || text.matches(regx0) || text.matches(reg1) || text.matches(regex);
+    }
+
 }

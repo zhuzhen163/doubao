@@ -75,9 +75,9 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
     @Override
     protected void initView() {
         setTitleName("购买详情");
-        detailAdapter = new ShopBuyDetailAdapter(mContext);
+        detailAdapter = new ShopBuyDetailAdapter(ShopBuyDetailActivity.this);
         xrv_list.setAdapter(detailAdapter);
-        xrv_list.setLayoutManager(new LinearLayoutManager(mContext));
+        xrv_list.setLayoutManager(new LinearLayoutManager(ShopBuyDetailActivity.this));
 
         xrv_list.setPullRefreshEnabled(false);
         xrv_list.setLoadingMoreEnabled(false);
@@ -86,7 +86,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
 
     private void initHeadView(){
         if (mHeaderView == null){
-            mHeaderView = View.inflate(mContext, R.layout.head_shop_buy_detail, null);
+            mHeaderView = View.inflate(ShopBuyDetailActivity.this, R.layout.head_shop_buy_detail, null);
             xrv_list.addHeaderView(mHeaderView);
 
             rl_noAddress = (RelativeLayout) mHeaderView.findViewById(R.id.rl_noAddress);
@@ -112,7 +112,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
     protected void otherViewClick(View view) {
         switch (view.getId()){
             case R.id.rl_checkAddress:
-                SwitchActivityManager.startAddressManagerActivity(mContext,"1");
+                SwitchActivityManager.startAddressManagerActivity(ShopBuyDetailActivity.this,"1");
                 break;
             case R.id.ll_checkCoupon:
                 break;
@@ -120,7 +120,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
 
                 break;
             case R.id.rl_noAddress:
-                SwitchActivityManager.startAddressManagerActivity(mContext,"1");
+                SwitchActivityManager.startAddressManagerActivity(ShopBuyDetailActivity.this,"1");
                 break;
         }
     }

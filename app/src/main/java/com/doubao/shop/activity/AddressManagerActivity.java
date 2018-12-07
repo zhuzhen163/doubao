@@ -77,7 +77,7 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
         xrv_list.setAdapter(managerAdapter);
         xrv_list.setLayoutManager(new LinearLayoutManager(AddressManagerActivity.this));
 
-        deleteAddressDialog = new DeleteAddressDialog(mContext);
+        deleteAddressDialog = new DeleteAddressDialog(AddressManagerActivity.this);
         deleteAddressDialog.setDeleteDialog(this);
     }
 
@@ -90,7 +90,7 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
     protected void otherViewClick(View view) {
         switch (view.getId()){
             case R.id.tv_newAddress:
-                SwitchActivityManager.startCreateAddressActivity(mContext,"0");
+                SwitchActivityManager.startCreateAddressActivity(AddressManagerActivity.this,"0");
                 break;
         }
     }

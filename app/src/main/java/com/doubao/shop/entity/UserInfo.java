@@ -20,6 +20,7 @@ public class UserInfo {
     private String register_ip;
     private String avatar;
     private String weixin_openid;
+    private String idcard;
 
     public String getUserId() {
         return userId;
@@ -43,5 +44,13 @@ public class UserInfo {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getIdcard() {
+        return idcard;
+    }
+
+    public void setIdcard(String idcard) {
+        this.idcard = idcard;
     }
 }

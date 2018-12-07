@@ -13,6 +13,7 @@ import com.doubao.shop.activity.CustomServiceActivity;
 import com.doubao.shop.activity.FeedBackActivity;
 import com.doubao.shop.activity.LoginActivity;
 import com.doubao.shop.activity.MainActivity;
+import com.doubao.shop.activity.RealNameActivity;
 import com.doubao.shop.activity.ShopBuyDetailActivity;
 import com.doubao.shop.activity.webview.WebViewActivity;
 
@@ -23,7 +24,15 @@ import com.doubao.shop.activity.webview.WebViewActivity;
  */
 
 public class SwitchActivityManager {
-
+    /**
+     * 实名认证
+     * @param mContext
+     */
+    public static void startRealNameActivity(Context mContext){
+        Intent intent = new Intent(mContext, RealNameActivity.class);
+        mContext.startActivity(intent);
+        ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
+    }
     /**
      * 账户安全
      * @param mContext

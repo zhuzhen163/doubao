@@ -53,7 +53,8 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
 
     @Override
     protected void initListener() {
-
+        tv_authName.setOnClickListener(this);
+        tv_authIdNo.setOnClickListener(this);
         setBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,7 +75,14 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
 
     @Override
     protected void otherViewClick(View view) {
-
+        switch (view.getId()){
+            case R.id.tv_authName:
+                SwitchActivityManager.startRealNameActivity(AccountSafeActivity.this);
+                break;
+            case R.id.tv_authIdNo:
+                SwitchActivityManager.startRealNameActivity(AccountSafeActivity.this);
+                break;
+        }
     }
 
     @Override
@@ -94,6 +102,15 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
             if ("0".equals(jsonObject.getString("errno"))){
                 UserInfo bean = AppUtils.parseJsonWithGson(s, UserInfo.class);
                 AppUtils.setImage(AccountSafeActivity.this,bean.getAvatar(),civ_headImage);
+                if (bean.getUsername() != null){
+                    tv_authName.setText("已认证");
+                    tv_authName.setEnabled(false);
+                }
+                if (bean.getIdcard() != null){
+                    tv_authIdNo.setText("已认证");
+                    tv_authIdNo.setEnabled(false);
+                }
+
             }else {
                 ToastUtil.showLong(jsonObject.getString("errmsg"));
             }
