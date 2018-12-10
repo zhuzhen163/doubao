@@ -28,7 +28,7 @@ public class ConfigUtils {
     /**
      * 保存用户名
      */
-    public static final String USER_NAME = "user_name_us";
+    public static final String USER_NAME = "user_name";
 
     public static void saveUserName(String username) {
         if (StringUtils.isNotBlank(username)){

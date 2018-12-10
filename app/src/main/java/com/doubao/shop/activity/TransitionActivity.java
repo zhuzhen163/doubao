@@ -10,13 +10,9 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.doubao.shop.R;
 import com.doubao.shop.tools.CommonUtils;
-import com.doubao.shop.tools.ConstantsImageUrl;
 import com.doubao.shop.widget.statusbar.StatusBarUtil;
-
-import java.util.Random;
 
 public class TransitionActivity extends FragmentActivity{
 
@@ -35,14 +31,14 @@ public class TransitionActivity extends FragmentActivity{
         iv_pic = (ImageView) findViewById(R.id.iv_pic);
         tv_jump = (TextView) findViewById(R.id.tv_jump);
 
-        int i = new Random().nextInt(ConstantsImageUrl.TRANSITION_URLS.length);
         // 先显示默认图
         iv_pic.setImageDrawable(CommonUtils.getDrawable(R.drawable.img_transition_default));
-        Glide.with(this)
-                .load(ConstantsImageUrl.TRANSITION_URLS[i])
-                .placeholder(R.drawable.img_transition_default)
-                .error(R.drawable.img_transition_default)
-                .into(iv_pic);
+//         加载网络图片
+//        Glide.with(this)
+//                .load("")
+//                .placeholder(R.drawable.img_transition_default)
+//                .error(R.drawable.img_transition_default)
+//                .into(iv_pic);
 
         new Handler().postDelayed(new Runnable() {
             @Override

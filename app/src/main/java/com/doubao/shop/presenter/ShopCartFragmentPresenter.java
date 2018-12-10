@@ -21,7 +21,7 @@ public class ShopCartFragmentPresenter extends BasePresenter<ShopCartFragmentMod
             public void updateSuccess(String s) {
                 if (getView() != null){
                     getView().hideLoading();
-                    getView().isCheckSuccess(s);
+                    getView().updateSuccess(s);
                 }
             }
 
@@ -29,7 +29,7 @@ public class ShopCartFragmentPresenter extends BasePresenter<ShopCartFragmentMod
             public void updateFail(String s) {
                 if (getView()!=null){
                     getView().hideLoading();
-                    getView().isCheckFail(s);
+                    getView().updateFail(s);
                 }
             }
         });

@@ -1,9 +1,7 @@
 package com.doubao.shop.activity.webview;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.webkit.JavascriptInterface;
-import android.widget.Toast;
 
 import com.doubao.shop.tools.SwitchActivityManager;
 
@@ -12,13 +10,6 @@ public class WebViewClickInterface {
 
     public WebViewClickInterface(Context context) {
         this.context = context;
-    }
-
-    @JavascriptInterface
-    public void textClick(String type, String item_pk) {
-        if (!TextUtils.isEmpty(type) && !TextUtils.isEmpty(item_pk)) {
-            Toast.makeText(context, "----点击了文字", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @JavascriptInterface

@@ -8,6 +8,7 @@ import com.doubao.shop.R;
 import com.doubao.shop.activity.AccountCenterActivity;
 import com.doubao.shop.activity.AccountSafeActivity;
 import com.doubao.shop.activity.AddressManagerActivity;
+import com.doubao.shop.activity.BaseWebViewActivity;
 import com.doubao.shop.activity.CreateAddressActivity;
 import com.doubao.shop.activity.CustomServiceActivity;
 import com.doubao.shop.activity.FeedBackActivity;
@@ -15,7 +16,6 @@ import com.doubao.shop.activity.LoginActivity;
 import com.doubao.shop.activity.MainActivity;
 import com.doubao.shop.activity.RealNameActivity;
 import com.doubao.shop.activity.ShopBuyDetailActivity;
-import com.doubao.shop.activity.webview.WebViewActivity;
 
 
 /**
@@ -121,7 +121,7 @@ public class SwitchActivityManager {
      * @param mTitle   title
      */
     public static void loadUrl(Context mContext, String mUrl, String mTitle) {
-        Intent intent = new Intent(mContext, WebViewActivity.class);
+        Intent intent = new Intent(mContext, BaseWebViewActivity.class);
         intent.putExtra("mUrl", mUrl);
         intent.putExtra("mTitle", mTitle);
         mContext.startActivity(intent);
