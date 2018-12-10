@@ -122,7 +122,7 @@ public class SwitchActivityManager {
      */
     public static void loadUrl(Context mContext, String mUrl, String mTitle) {
         Intent intent = new Intent(mContext, BaseWebViewActivity.class);
-        intent.putExtra("mUrl", mUrl);
+        intent.putExtra("mUrl", mUrl+"?device=android");//拼接device是通知h5加载链接来自哪个设备
         intent.putExtra("mTitle", mTitle);
         mContext.startActivity(intent);
         ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);

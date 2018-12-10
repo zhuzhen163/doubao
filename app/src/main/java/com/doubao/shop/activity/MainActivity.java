@@ -21,6 +21,7 @@ import com.doubao.shop.fragment.HomeFragment;
 import com.doubao.shop.fragment.MineFragment;
 import com.doubao.shop.fragment.ShopCartFragment;
 import com.doubao.shop.presenter.MainPresenter;
+import com.doubao.shop.tools.AppUtils;
 import com.doubao.shop.tools.ToastUtil;
 import com.doubao.shop.transformer.StrErrorTransformer;
 import com.doubao.shop.view.MainModelView;
@@ -93,6 +94,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
         adapter = new ViewPagerAdapter(viewpagerFragments, getSupportFragmentManager());
         viewpager.setAdapter(adapter);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (AppUtils.DETAIL_TO_CART == 1){
+            AppUtils.DETAIL_TO_CART = 0;
+            rb_shopCart.setChecked(true);
+            viewpager.setCurrentItem(2);
+        }
     }
 
     @Override

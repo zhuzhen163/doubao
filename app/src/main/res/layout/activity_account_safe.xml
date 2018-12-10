@@ -85,29 +85,6 @@
         android:layout_height="0.5dp"
         android:background="@color/colorLine"/>
 
-    <LinearLayout
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen50dp">
-        <TextView
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/dimen15dp"
-            android:textSize="@dimen/dimen15dp"
-            android:textColor="@color/color_33"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="绑定手机号"/>
-        <TextView
-            android:id="@+id/tv_bindPhone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="去绑定"
-            android:textSize="@dimen/dimen15dp"
-            android:textColor="#4f646a"
-            android:layout_marginRight="@dimen/dimen15dp"/>
-    </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

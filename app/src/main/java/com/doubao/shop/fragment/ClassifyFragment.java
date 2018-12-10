@@ -16,6 +16,7 @@ import com.doubao.shop.activity.webview.WebViewClickInterface;
 import com.doubao.shop.base.BaseFragment;
 import com.doubao.shop.http.UrlHelper;
 import com.doubao.shop.presenter.ClassifyFragmentPresenter;
+import com.doubao.shop.tools.ConfigUtils;
 import com.doubao.shop.tools.LogUtil;
 import com.doubao.shop.view.ClassifyFragmentView;
 
@@ -33,7 +34,7 @@ public class ClassifyFragment extends BaseFragment<ClassifyFragmentPresenter> im
     @BindView(R.id.wb_classify)
     WebView wb_classify;
     private Map<String, String> extraHeaders;
-    private String loadUrl = "";
+    private String loadUrl = UrlHelper.WEB_URL+"pages/classification?device=android";
 
     @Override
     protected int getFragmentLayoutId() {
@@ -57,7 +58,6 @@ public class ClassifyFragment extends BaseFragment<ClassifyFragmentPresenter> im
 
     @Override
     protected void initView() {
-        loadUrl = UrlHelper.WEB_URL+"pages/classification?device=android";
         initWebView();
     }
 
@@ -72,7 +72,7 @@ public class ClassifyFragment extends BaseFragment<ClassifyFragmentPresenter> im
         CookieSyncManager.getInstance().sync();
         CookieSyncManager.getInstance().startSync();
         extraHeaders = new HashMap<>();
-        extraHeaders.put("X-Nideshop-Token", "y7wd3mfteix1zu2hq37kzdf0ntj8gvwg");
+        extraHeaders.put("X-Nideshop-Token", ConfigUtils.getToken());
         if (wb_classify != null && !TextUtils.isEmpty(loadUrl)) {
             wb_classify.loadUrl(loadUrl, extraHeaders);
         }

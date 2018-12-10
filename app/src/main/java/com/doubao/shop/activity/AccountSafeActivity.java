@@ -15,8 +15,6 @@ import com.doubao.shop.tools.ToastUtil;
 import com.doubao.shop.view.AccountSafeActivityView;
 import com.doubao.shop.widget.LogoutDialog;
 
-import org.json.JSONObject;
-
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -29,8 +27,6 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
 
     @BindView(R.id.tv_logout)
     TextView tv_logout;
-    @BindView(R.id.tv_bindPhone)
-    TextView tv_bindPhone;
     @BindView(R.id.tv_authIdNo)
     TextView tv_authIdNo;
     @BindView(R.id.tv_authName)
@@ -107,9 +103,24 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
     @Override
     public void getAccountSuccess(String s) {
         try {
-            JSONObject jsonObject = new JSONObject(s);
-            if ("0".equals(jsonObject.getString("errno"))){
-                UserInfo bean = AppUtils.parseJsonWithGson(s, UserInfo.class);
+//            JSONObject jsonObject = new JSONObject(s);
+//            if ("0".equals(jsonObject.getString("errno"))){
+//                UserInfo bean = AppUtils.parseJsonWithGson(s, UserInfo.class);
+//                AppUtils.setImage(AccountSafeActivity.this,bean.getAvatar(),civ_headImage);
+//                if (bean.getUsername() != null){
+//                    tv_authName.setText("已认证");
+//                    tv_authName.setEnabled(false);
+//                }
+//                if (bean.getIdcard() != null){
+//                    tv_authIdNo.setText("已认证");
+//                    tv_authIdNo.setEnabled(false);
+//                }
+//
+//            }else {
+//                ToastUtil.showLong(jsonObject.getString("errmsg"));
+//            }
+            UserInfo bean = AppUtils.parseJsonWithGson(s, UserInfo.class);
+            if (bean != null){
                 AppUtils.setImage(AccountSafeActivity.this,bean.getAvatar(),civ_headImage);
                 if (bean.getUsername() != null){
                     tv_authName.setText("已认证");
@@ -119,9 +130,6 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
                     tv_authIdNo.setText("已认证");
                     tv_authIdNo.setEnabled(false);
                 }
-
-            }else {
-                ToastUtil.showLong(jsonObject.getString("errmsg"));
             }
         }catch (Exception e){
             e.printStackTrace();

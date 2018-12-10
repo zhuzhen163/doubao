@@ -261,8 +261,13 @@ public class BaseWebViewActivity extends BaseActivity {
             webview.destroy();
             webview = null;
         }
+        if (timer != null){
+            timer.cancel();
+            timer =null;
+        }
         if (timerTask != null){
             timerTask.cancel();
+            timerTask = null;
         }
         if (extraHeaders != null){
             extraHeaders = null;
