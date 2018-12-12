@@ -28,6 +28,15 @@ android {
         }
     }
 
+    signingConfigs {
+        relase {
+            storeFile file('doubaoclub.jks')
+            storePassword "doubaoclub1116"
+            keyAlias "master"
+            keyPassword "doubaoclub1116"
+        }
+    }
+
     //多渠道打包配置
     productFlavors {
         _yingyongbao{}
@@ -49,7 +58,7 @@ android {
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 // apk_渠道名-版本号-版本名称-编译时间.apk
-                def fileName = "apk_${variant.productFlavors[0].name}-${defaultConfig.versionCode}-${defaultConfig.versionName}}.apk"
+                def fileName = "apk_${variant.productFlavors[0].name}-${defaultConfig.versionCode}-${defaultConfig.versionName}.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }
