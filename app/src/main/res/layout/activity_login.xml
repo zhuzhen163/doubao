@@ -111,7 +111,6 @@
                 android:inputType="number"
                 android:maxLength="6"
                 android:textColorHint="@color/color_text_hint"
-                android:textColor="@color/colorTheme"
                 android:textSize="@dimen/dimen16dp" />
 
             <Button
@@ -180,6 +179,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <CheckBox
+                android:id="@+id/cb_xieyi"
                 android:padding="@dimen/dimen5dp"
                 android:layout_width="@dimen/dimen40dp"
                 android:layout_height="@dimen/dimen40dp" />

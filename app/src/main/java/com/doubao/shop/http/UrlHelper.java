@@ -10,5 +10,5 @@ public class UrlHelper {
 
     public static String BASE_URL  = "http://192.168.124.50:6101/platform/api/";
 
-    public static String WEB_URL  = "http://192.168.124.29:8081/#/";
+    public static String WEB_URL  = "http://192.168.124.29:8081/#";
 }

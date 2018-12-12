@@ -280,10 +280,30 @@ public class BaseWebViewActivity extends BaseActivity {
      * js调用本地方法
      */
     public class JSClient {
-
+        /**
+         * 跳转商品详情
+         * @param detailUrl
+         */
         @JavascriptInterface
-        public void productDeatil(String detailUrl) {
+        public void productDetail(String detailUrl) {
+            SwitchActivityManager.loadUrl(BaseWebViewActivity.this,detailUrl,"商品详情");
+        }
 
+        /**
+         * 跳转购物车
+         */
+        @JavascriptInterface
+        public void toShopCart() {
+            AppUtils.DETAIL_TO_CART = 1;
+            SwitchActivityManager.startMainActivity(BaseWebViewActivity.this);
+        }
+
+        /**
+         * 跳转登录
+         */
+        @JavascriptInterface
+        public void toLogin(){
+            SwitchActivityManager.startLoginActivity(BaseWebViewActivity.this);
         }
     }
 }

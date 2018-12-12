@@ -62,6 +62,19 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <service android:name=".service.DownloadService" />
+
+        <!-- ==============================添加UmengAppkey 推送================================= -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5c0f2058f1f5565f670000d6" />
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="93bfd28b1ce55703cdedbc209d938d24"/>
+        <!-- Channel ID用来标识App的推广渠道，作为推送消息时给用户分组的一个维度。-->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+        <!-- ==============================添加UmengAppkey 推送================================= -->
     </application>
 
 </manifest>

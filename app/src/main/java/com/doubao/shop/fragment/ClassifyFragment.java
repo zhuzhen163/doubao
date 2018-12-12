@@ -34,7 +34,7 @@ public class ClassifyFragment extends BaseFragment<ClassifyFragmentPresenter> im
     @BindView(R.id.wb_classify)
     WebView wb_classify;
     private Map<String, String> extraHeaders;
-    private String loadUrl = UrlHelper.WEB_URL+"pages/classification?device=android";
+    private String loadUrl = UrlHelper.WEB_URL+"/pages/classification?device=android";
 
     @Override
     protected int getFragmentLayoutId() {

@@ -4,6 +4,8 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -36,6 +38,9 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
     EditText et_message;
     @BindView(R.id.tv_agreement)
     TextView tv_agreement;
+    @BindView(R.id.cb_xieyi)
+    CheckBox cb_xieyi;
+    private boolean xieyi = false;
 
     private String inputPhone;
     CountDownButtonHelper helper;
@@ -53,6 +58,16 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
     protected void initListener() {
         btn_sendMessage.setOnClickListener(this);
         tv_login.setOnClickListener(this);
+        cb_xieyi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    xieyi = true;
+                }else {
+                    xieyi = false;
+                }
+            }
+        });
         setBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,7 +120,11 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
                 String inputCode = et_message.getText().toString().trim();
                 if (NetworkUtil.isNetworkConnected(mContext)){
                     if (StringUtils.isNotBlank(inputCode) && StringUtils.isNotBlank(inputPhone)){
+                        if (xieyi){
                             mPresenter.getLoginPresenter(inputPhone,inputCode);
+                        }else {
+                            ToastUtil.showLong("请勾选服务协议");
+                        }
                     }else {
                         ToastUtil.showLong("请输入手机号或验证码");
                     }

@@ -25,6 +25,7 @@ import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.widget.LoadingDialog;
 import com.doubao.shop.widget.PublicTitleView;
 import com.doubao.shop.widget.statusbar.StatusBarUtil;
+import com.umeng.message.PushAgent;
 
 import java.lang.reflect.Method;
 import java.util.Calendar;
@@ -53,6 +54,7 @@ public abstract class BaseActivity <P extends BasePresenter>  extends FragmentAc
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        PushAgent.getInstance(mContext).onAppStart();
         setContentView(R.layout.activity_base);
         initApp();
         StatusBarUtil.setColor(this, CommonUtils.getColor(R.color.colorTheme),0);

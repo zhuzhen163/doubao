@@ -97,19 +97,19 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
         ll_coupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"pages/ucenter/coupon","优惠券");
+                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/coupon","优惠券");
             }
         });
         ll_collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"pages/ucenter/collect","我的收藏");
+                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/collect","我的收藏");
             }
         });
         ll_browse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"pages/ucenter/footprint","我的浏览");
+                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/footprint","我的浏览");
             }
         });
     }

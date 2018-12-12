@@ -5,8 +5,6 @@ import android.os.CountDownTimer;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.doubao.shop.R;
-
 
 /**
 * @author zhuzhen
@@ -40,15 +38,15 @@ public class CountDownButtonHelper {
             public void onTick(long time) {
                 // 第一次调用会有1-10ms的误差，因此需要+15ms，防止第一个数不显示，第二个数显示2s
                 mTextView.setText( ((time + 15) / 1000) + "s");
-                mTextView.setBackgroundResource(R.drawable.noclick_selector);
+//                mTextView.setBackgroundResource(R.drawable.noclick_selector);
                 textView.setEnabled(false);
             }
 
             @Override
             public void onFinish() {
                 textView.setEnabled(true);
-                mTextView.setBackgroundResource(R.drawable.btn_selector);
-                textView.setText("点击获取");
+//                mTextView.setBackgroundResource(R.drawable.btn_selector);
+                textView.setText("发送验证码");
                 if (listener != null) {
                     listener.finish();
                 }
@@ -67,9 +65,9 @@ public class CountDownButtonHelper {
     }
     public void cancle(Button mTextView) {
         textView.setEnabled(true);
-        mTextView.setTextColor(Color.parseColor("#ffffff"));
-        mTextView.setBackgroundResource(R.drawable.btn_selector);
-        textView.setText("点击获取");
+        mTextView.setTextColor(Color.parseColor("#666666"));
+//        mTextView.setBackgroundResource(R.drawable.btn_selector);
+        textView.setText("发送验证码");
         mDownTimer.cancel();
     }
 

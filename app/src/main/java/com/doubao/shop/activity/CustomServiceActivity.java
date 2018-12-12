@@ -62,7 +62,7 @@ public class CustomServiceActivity extends BaseActivity {
                 SwitchActivityManager.startFeedBackActivity(CustomServiceActivity.this);
                 break;
             case R.id.ll_helpCenter:
-                SwitchActivityManager.loadUrl(CustomServiceActivity.this, UrlHelper.WEB_URL+"pages/ucenter/helpCenter","帮助中心");
+                SwitchActivityManager.loadUrl(CustomServiceActivity.this, UrlHelper.WEB_URL+"/pages/ucenter/helpCenter","帮助中心");
                 break;
         }
     }

@@ -4,13 +4,16 @@ import android.content.Context;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.doubao.shop.R;
 import com.doubao.shop.base.ListBaseAdapter;
 import com.doubao.shop.base.SuperViewHolder;
 import com.doubao.shop.entity.CartListBean;
+import com.doubao.shop.http.UrlHelper;
 import com.doubao.shop.tools.AppUtils;
+import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.widget.AdderView;
 
 /**
@@ -18,6 +21,7 @@ import com.doubao.shop.widget.AdderView;
  */
 public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
 
+    RelativeLayout rl_item;
     CheckBox cb_select;
     ImageView iv_productImg;
     TextView tv_productName;
@@ -55,6 +59,7 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
     public void onBindItemHolder(SuperViewHolder holder, int position) {
 
         final CartListBean entity = mDataList.get(position);
+        rl_item = holder.getView(R.id.rl_item);
         cb_select = holder.getView(R.id.cb_select);
         iv_productImg = holder.getView(R.id.iv_productImg);
         tv_productName = holder.getView(R.id.tv_productName);
@@ -114,6 +119,12 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
                 if (1 != value){
                     checkBoxCallback.productNum(value,entity.getGoods_id(),entity.getId(),entity.getProduct_id());
                 }
+            }
+        });
+        rl_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+entity.getGood_url(),"商品详情");
             }
         });
     }

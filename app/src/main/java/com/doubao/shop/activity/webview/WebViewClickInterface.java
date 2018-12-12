@@ -3,7 +3,6 @@ package com.doubao.shop.activity.webview;
 import android.content.Context;
 import android.webkit.JavascriptInterface;
 
-import com.doubao.shop.tools.AppUtils;
 import com.doubao.shop.tools.SwitchActivityManager;
 
 public class WebViewClickInterface {
@@ -18,17 +17,8 @@ public class WebViewClickInterface {
      * @param detailUrl
      */
     @JavascriptInterface
-    public void productDeatil(String detailUrl) {
+    public void productDetail(String detailUrl) {
         SwitchActivityManager.loadUrl(context,detailUrl,"商品详情");
-    }
-
-    /**
-     * 跳转购物车
-     */
-    @JavascriptInterface
-    public void toShopCart() {
-        AppUtils.DETAIL_TO_CART = 1;
-        SwitchActivityManager.startMainActivity(context);
     }
 
     /**
@@ -52,6 +42,7 @@ public class WebViewClickInterface {
     /**
      * 跳转登录
      */
+    @JavascriptInterface
     public void toLogin(){
         SwitchActivityManager.startLoginActivity(context);
     }

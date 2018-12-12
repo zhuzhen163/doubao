@@ -27,6 +27,33 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    //多渠道打包配置
+    productFlavors {
+        _yingyongbao{}
+        _360{}
+        _xiaomi {}
+        _meizu {}
+        _wandoujia{}
+        _baidu{}
+        _vivo{}
+        _oppo{}
+        _huawei{}
+        productFlavors.all {
+            flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
+    }
+    //打包包名
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                // apk_渠道名-版本号-版本名称-编译时间.apk
+                def fileName = "apk_${variant.productFlavors[0].name}-${defaultConfig.versionCode}-${defaultConfig.versionName}}.apk"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
 }
 
 dependencies {
@@ -63,4 +90,10 @@ dependencies {
     //内存检测
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    //PushSDK必须依赖基础组件库，所以需要加入对应依赖
+    compile 'com.umeng.sdk:common:1.5.3'
+    //PushSDK必须依赖utdid库，所以需要加入对应依赖
+    compile 'com.umeng.sdk:utdid:1.1.5.3'
+    //PushSDK
+    compile 'com.umeng.sdk:push:4.2.0'
 }
