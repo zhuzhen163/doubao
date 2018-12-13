@@ -2,7 +2,6 @@ package com.doubao.shop.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import com.doubao.shop.entity.AddressDetailBean;
 import com.doubao.shop.entity.ShopBuyDetailBean;
 import com.doubao.shop.presenter.ShopBuyDetailActivityPresenter;
 import com.doubao.shop.tools.AppUtils;
+import com.doubao.shop.tools.ConfigUtils;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.tools.ToastUtil;
 import com.doubao.shop.view.ShopBuyDetailActivityView;
@@ -39,10 +39,10 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
 
     private RelativeLayout rl_checkAddress,rl_noAddress;
     private LinearLayout ll_checkCoupon;
-    private TextView tv_shopTotal,tv_freight,tv_couponPrice,tv_name,tv_phone,tv_address;
-    private ImageView iv_default_pic;
+    private TextView tv_shopTotal,tv_freight,tv_couponPrice,tv_name,tv_phone,tv_address,tv_default;
     private View mHeaderView = null;
     private ShopBuyDetailAdapter detailAdapter;
+    private String type,addressId,couponId;
 
     @Override
     protected ShopBuyDetailActivityPresenter loadPresenter() {
@@ -51,11 +51,19 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
 
     @Override
     protected void initData() {
-        String type = getIntent().getStringExtra("type");
-        String addressId = getIntent().getStringExtra("addressId");
-        String couponId = getIntent().getStringExtra("couponId");
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        type = getIntent().getStringExtra("type");
+        addressId = getIntent().getStringExtra("addressId");
+        couponId = getIntent().getStringExtra("couponId");
+
+        addressId = ConfigUtils.getAddressId();
         mPresenter.checkCart(type,addressId,couponId);
+
     }
 
     @Override
@@ -93,7 +101,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
             tv_name = (TextView) mHeaderView.findViewById(R.id.tv_name);
             tv_phone = (TextView) mHeaderView.findViewById(R.id.tv_phone);
             tv_address = (TextView) mHeaderView.findViewById(R.id.tv_address);
-            iv_default_pic = (ImageView) mHeaderView.findViewById(R.id.iv_default_pic);
+            tv_default = (TextView) mHeaderView.findViewById(R.id.tv_default);
             rl_checkAddress = (RelativeLayout) mHeaderView.findViewById(R.id.rl_checkAddress);
             ll_checkCoupon = (LinearLayout) mHeaderView.findViewById(R.id.ll_checkCoupon);
             tv_shopTotal = (TextView) mHeaderView.findViewById(R.id.tv_shopTotal);
@@ -117,7 +125,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
             case R.id.ll_checkCoupon:
                 break;
             case R.id.tv_payment:
-
+                    mPresenter.orderSubmit(type,addressId,couponId);
                 break;
             case R.id.rl_noAddress:
                 SwitchActivityManager.startAddressManagerActivity(ShopBuyDetailActivity.this,"1");
@@ -133,6 +141,16 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
     @Override
     public void hideLoading() {
         setShowLoading(false);
+    }
+
+    @Override
+    public void submitSuccess(String s) {
+
+    }
+
+    @Override
+    public void submitFail(String s) {
+        ToastUtil.showLong(s);
     }
 
     @Override
@@ -152,9 +170,9 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
                     tv_phone.setText(checkedAddress.getTelNumber());
                     tv_address.setText(checkedAddress.getFull_region());
                     if ("1".equals(checkedAddress.getIsDefault())){
-                        iv_default_pic.setVisibility(View.VISIBLE);
+                        tv_default.setVisibility(View.VISIBLE);
                     }else {
-                        iv_default_pic.setVisibility(View.GONE);
+                        tv_default.setVisibility(View.GONE);
                     }
                     rl_checkAddress.setVisibility(View.VISIBLE);
                     rl_noAddress.setVisibility(View.GONE);

@@ -11,6 +11,10 @@ import com.doubao.shop.base.BaseView;
 
 public interface ShopBuyDetailActivityView extends BaseView {
 
+    //提交订单
+    void submitSuccess(String s);
+    void submitFail(String s);
+
     void checkSuccess(String s);
     void checkFail(String s);
 }

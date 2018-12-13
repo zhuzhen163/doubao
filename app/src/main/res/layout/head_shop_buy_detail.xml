@@ -56,12 +56,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageView
+        <TextView
             android:visibility="gone"
-            android:id="@+id/iv_default_pic"
+            android:id="@+id/tv_default"
+            android:text="默认"
             android:layout_marginTop="@dimen/dimen5dp"
             android:layout_below="@id/tv_name"
-            android:src="@mipmap/ic_launcher"
+            android:gravity="center"
+            android:textSize="@dimen/dimen10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/button_background"
             android:layout_width="@dimen/dimen30dp"
             android:layout_height="@dimen/dimen15dp" />
 

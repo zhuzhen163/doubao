@@ -10,6 +10,7 @@ import com.doubao.shop.base.BaseActivity;
 import com.doubao.shop.entity.AddressManagerBean;
 import com.doubao.shop.presenter.AddressManagerActivityPresenter;
 import com.doubao.shop.tools.AppUtils;
+import com.doubao.shop.tools.ConfigUtils;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.tools.ToastUtil;
 import com.doubao.shop.view.AddressManagerActivityView;
@@ -25,7 +26,7 @@ import butterknife.BindView;
 * create at 2018/11/20
 * description:地址管理
 */
-public class AddressManagerActivity extends BaseActivity<AddressManagerActivityPresenter> implements AddressManagerActivityView,AddressManagerAdapter.DeleteCallBack,DeleteAddressDialog.DeleteDialog{
+public class AddressManagerActivity extends BaseActivity<AddressManagerActivityPresenter> implements AddressManagerActivityView,AddressManagerAdapter.AdapterCallBack,DeleteAddressDialog.DeleteDialog{
 
     @BindView(R.id.xrv_list)
     XRecyclerView xrv_list;
@@ -72,7 +73,7 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
         xrv_list.setLoadingMoreEnabled(false);
         xrv_list.setPullRefreshEnabled(false);
         managerAdapter = new AddressManagerAdapter(AddressManagerActivity.this);
-        managerAdapter.setDeleteCallBack(this);
+        managerAdapter.setAdapterCallBack(this);
 
         xrv_list.setAdapter(managerAdapter);
         xrv_list.setLayoutManager(new LinearLayoutManager(AddressManagerActivity.this));
@@ -161,6 +162,16 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
             deleteAddressDialog.show();
         }
 
+    }
+
+    @Override
+    public void clickItem(String addressId) {
+        if ("1".equals(type)){//返回购物详情
+            ConfigUtils.saveAddressId(addressId);
+            SwitchActivityManager.exitActivity(AddressManagerActivity.this);
+        }else {
+            SwitchActivityManager.startCreateAddressActivity(AddressManagerActivity.this,addressId);
+        }
     }
 
     @Override

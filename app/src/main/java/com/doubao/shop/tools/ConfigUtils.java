@@ -41,6 +41,21 @@ public class ConfigUtils {
     }
 
     /**
+     * 保存选中用户地址
+     */
+    public static final String ADDRESS_ID = "addressId";
+
+    public static void saveAddressId(String id) {
+        if (StringUtils.isNotBlank(id)){
+            SpUtils.put(ADDRESS_ID, id);
+        }
+    }
+
+    public static String getAddressId() {
+        return (String) SpUtils.get(ADDRESS_ID, "0");
+    }
+
+    /**
      * 清空数据
      */
     public static void cleatSP() {

@@ -22,18 +22,19 @@ public class AddressManagerAdapter extends ListBaseAdapter<AddressDetailBean>{
     TextView tv_name,tv_phone,tv_address,tv_default;
     ImageView iv_delete,iv_change;
     RelativeLayout rl_item;
-    public DeleteCallBack deleteCallBack;
+    public AdapterCallBack adapterCallBack;
     private String type;
     public AddressManagerAdapter(Context context) {
         super(context);
     }
 
-    public interface DeleteCallBack{
+    public interface AdapterCallBack{
         void deletePosition(int position,String id);
+        void clickItem(String addressId);
     }
 
-    public void setDeleteCallBack(DeleteCallBack deleteCallBack) {
-        this.deleteCallBack = deleteCallBack;
+    public void setAdapterCallBack(AdapterCallBack adapterCallBack) {
+        this.adapterCallBack = adapterCallBack;
     }
 
     @Override
@@ -70,13 +71,13 @@ public class AddressManagerAdapter extends ListBaseAdapter<AddressDetailBean>{
         iv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteCallBack.deletePosition(position,bean.getId());
+                adapterCallBack.deletePosition(position,bean.getId());
             }
         });
         rl_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.startCreateAddressActivity(mContext,bean.getId());
+                adapterCallBack.clickItem(bean.getId());
             }
         });
         iv_change.setOnClickListener(new View.OnClickListener() {

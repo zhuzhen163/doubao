@@ -11,6 +11,30 @@ import com.doubao.shop.model.ShopBuyDetailActivityModel;
 
 public class ShopBuyDetailActivityPresenter extends BasePresenter<ShopBuyDetailActivityModel,ShopBuyDetailActivity> {
 
+    public void orderSubmit(String type,String addressId,String couponId) {
+        if (getView()!=null){
+            getView().showLoading();
+        }
+
+        getModel().orderSubmit(type,addressId,couponId,new ShopBuyDetailActivityModel.SubmitInterFace() {
+            @Override
+            public void submitSuccess(String s) {
+                if (getView() != null) {
+                    getView().hideLoading();
+                    getView().submitSuccess(s);
+                }
+            }
+
+            @Override
+            public void submitFail(String s) {
+                if (getView() != null) {
+                    getView().hideLoading();
+                    getView().submitFail(s);
+                }
+            }
+        });
+    }
+
     public void checkCart(String type,String addressId,String couponId) {
         if (getView()!=null){
             getView().showLoading();

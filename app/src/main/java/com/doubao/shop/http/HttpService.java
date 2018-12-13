@@ -15,6 +15,9 @@ import rx.Observable;
 
 public interface HttpService {
 
+    @POST("order/submit")
+    Observable<String> orderSubmit(@Body RequestBody body);
+
     @POST("user/bind_user_idcard")
     Observable<String> bindUser(@Body RequestBody body);
 
