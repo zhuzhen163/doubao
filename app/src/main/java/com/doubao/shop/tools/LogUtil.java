@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class LogUtil {
 
-    private static final String TAG = "qizi--";
+    private static final String TAG = "LogUtil";
     private static final boolean isDebug = true;// 打包发布时修改为false
 
     public static void i(String tag, String content) {

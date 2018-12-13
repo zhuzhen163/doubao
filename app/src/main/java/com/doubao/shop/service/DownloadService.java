@@ -82,8 +82,8 @@ public class DownloadService extends Service {
         mBuilder = new NotificationCompat.Builder(this);
         mBuilder.setContentTitle("开始下载")
                 .setContentText("正在连接服务器")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                .setSmallIcon(R.mipmap.logo)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.logo))
                 .setOngoing(true)
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis());
@@ -240,9 +240,9 @@ public class DownloadService extends Service {
                     if (onFront()) {
                         mNotificationManager.cancel(NOTIFY_ID);
                     } else {
-                        Intent intent = installIntent((String) msg.obj);
+                        Intent intent = showComplete((File) msg.obj);
                         PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext()
-                        ,0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                ,0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         mBuilder.setContentIntent(pIntent)
                                 .setContentTitle(getPackageName())
                                 .setContentText("下载完成，点击安装")
@@ -304,6 +304,29 @@ public class DownloadService extends Service {
         return null;
     }
 
+    public Intent showComplete(File file) {
+        try {
+            String authority = getApplicationContext().getPackageName() + ".fileProvider";
+            Uri fileUri = FileProvider.getUriForFile(this, authority, file);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            //7.0以上需要添加临时读取权限
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.setDataAndType(fileUri, "application/vnd.android.package-archive");
+            } else {
+                Uri uri = Uri.fromFile(file);
+                intent.setDataAndType(uri, "application/vnd.android.package-archive");
+            }
+
+           return intent;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     /**
      * 销毁时清空一下对notify对象的持有

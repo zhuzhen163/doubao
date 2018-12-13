@@ -2,7 +2,8 @@ package com.doubao.shop.application;
 
 import android.app.Activity;
 import android.app.Application;
-import android.os.Handler;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.doubao.shop.tools.LogUtil;
 import com.squareup.leakcanary.LeakCanary;
@@ -46,7 +47,6 @@ import java.util.List;
 
 public class ZApplication extends Application {
 
-    private static Handler mMainThreadHandler;// 获取到主线程的Handler
     //管理Activity
     private static ZApplication mBaseApplication = null;
     private List<Activity> activityList = new LinkedList<>();
@@ -55,7 +55,6 @@ public class ZApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mBaseApplication = this;
-        mMainThreadHandler = new Handler();
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
         }
@@ -105,16 +104,10 @@ public class ZApplication extends Application {
         }
     }
 
-    public static Handler getMainThreadHandler() {
-        return mMainThreadHandler;
-    }
-
-    public List<Activity> getActivityList() {
-        return activityList;
-    }
-
-    public void setActivityList(List<Activity> activityList) {
-        this.activityList = activityList;
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     /**

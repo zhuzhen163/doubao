@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Handler;
 import android.os.IBinder;
 
 import com.doubao.shop.activity.MainActivity;
@@ -24,7 +25,7 @@ public class MainPresenter extends BasePresenter<MainModel, MainActivity> {
 
 
     public void downApk(Context context) {
-        final String url = "https://dianfenqi.cn/data/ffmpeg/upload/images/android/20171206/dianfenqi.apk";
+        final String url = "http://download.qzxq.com/xsjq/apk_xianshangjieqian-4-1.0.3.apk";
         if (conn == null)
             conn = new ServiceConnection() {
                 @Override
@@ -43,8 +44,13 @@ public class MainPresenter extends BasePresenter<MainModel, MainActivity> {
                         }
 
                         @Override
-                        public void onComplete(File file) {
-                            getView().showComplete(file);
+                        public void onComplete(final File file) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getView().showComplete(file);
+                                }
+                            },100);
                         }
 
                         @Override
