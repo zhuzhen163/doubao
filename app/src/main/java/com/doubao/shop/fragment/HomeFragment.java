@@ -73,7 +73,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         extraHeaders = new HashMap<>();
         extraHeaders.put("X-Nideshop-Token", ConfigUtils.getToken());
         if (wv_home != null) {
-            wv_home.loadUrl(UrlHelper.WEB_URL+"?device=android", extraHeaders);
+            wv_home.loadUrl(UrlHelper.WEB_URL+"/?device=android", extraHeaders);
         }
     }
 

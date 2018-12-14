@@ -1,11 +1,15 @@
 package com.doubao.shop.activity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
@@ -63,6 +67,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
 
     @Override
     protected void initData() {
+        showUpdate("1");
     }
 
     @Override
@@ -149,7 +154,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
                     .setPositiveButton("更新", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mPresenter.downApk(MainActivity.this);
+                            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
+                                        1);
+                            }else {
+                                mPresenter.downApk(MainActivity.this);
+                            }
                         }
                     })
                     .setNegativeButton("忽略", new DialogInterface.OnClickListener() {

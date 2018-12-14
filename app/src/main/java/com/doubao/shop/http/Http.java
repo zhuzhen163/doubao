@@ -3,6 +3,7 @@ package com.doubao.shop.http;
 import com.doubao.shop.BuildConfig;
 import com.doubao.shop.application.ZApplication;
 import com.doubao.shop.tools.AppUtils;
+import com.doubao.shop.tools.ConfigUtils;
 import com.doubao.shop.tools.LogUtil;
 import com.doubao.shop.tools.NetworkUtil;
 import com.doubao.shop.transformer.StringConverterFactory;
@@ -88,7 +89,7 @@ public class Http {
                 requestBuilder
                         .addHeader("device", "android")
 //                        .addHeader("X-Nideshop-Token", ConfigUtils.getToken())
-                        .addHeader("X-Nideshop-Token", "98j906ildzgs65wdltdge3xdvchhx2qe")
+                        .addHeader("X-Nideshop-Token", ConfigUtils.getToken())
                         .addHeader("version", BuildConfig.VERSION_NAME)
                         .addHeader("versionCode", BuildConfig.VERSION_CODE + "")
                         .addHeader("Content-Encoding", "gzip")
