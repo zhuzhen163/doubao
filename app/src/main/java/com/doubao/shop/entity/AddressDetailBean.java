@@ -1,9 +1,11 @@
 package com.doubao.shop.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by zhuzhen on 2018/11/24.
  */
-public class AddressDetailBean {
+public class AddressDetailBean implements Serializable{
         private String id;
         private String userId;
         private String userName;

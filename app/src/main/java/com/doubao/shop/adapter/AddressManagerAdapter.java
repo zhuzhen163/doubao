@@ -30,7 +30,7 @@ public class AddressManagerAdapter extends ListBaseAdapter<AddressDetailBean>{
 
     public interface AdapterCallBack{
         void deletePosition(int position,String id);
-        void clickItem(String addressId);
+        void clickItem(AddressDetailBean bean);
     }
 
     public void setAdapterCallBack(AdapterCallBack adapterCallBack) {
@@ -77,13 +77,13 @@ public class AddressManagerAdapter extends ListBaseAdapter<AddressDetailBean>{
         rl_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                adapterCallBack.clickItem(bean.getId());
+                adapterCallBack.clickItem(bean);
             }
         });
         iv_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.startCreateAddressActivity(mContext,bean.getId());
+                SwitchActivityManager.startCreateAddressActivity(mContext,bean);
             }
         });
 

@@ -50,7 +50,7 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
     TextView tv_cancelDetail;
     @BindView(R.id.tv_saveAddress)
     TextView tv_saveAddress;
-    private String isDetail = "0",id = "";//记录是否默认地址
+    private String isDetail = "0",id = "0";//记录是否默认地址
 
     @Override
     protected CreateAddressActivityPresenter loadPresenter() {
@@ -59,8 +59,15 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
 
     @Override
     protected void initData() {
-        id = getIntent().getStringExtra("id");
 
+        AddressDetailBean bean = (AddressDetailBean)getIntent().getSerializableExtra("bean");
+        if (bean != null){
+            id = bean.getId();
+            et_name.setText(bean.getUserName());
+            et_phone.setText(bean.getTelNumber());
+            tv_selectAddress.setText(bean.getFull_region());
+            et_detail.setText(bean.getDetailInfo());
+        }
         mPresenter.getAddressDetail(id);
     }
 

@@ -16,6 +16,7 @@ import com.doubao.shop.activity.LoginActivity;
 import com.doubao.shop.activity.MainActivity;
 import com.doubao.shop.activity.RealNameActivity;
 import com.doubao.shop.activity.ShopBuyDetailActivity;
+import com.doubao.shop.entity.AddressDetailBean;
 
 
 /**
@@ -93,11 +94,10 @@ public class SwitchActivityManager {
     /**
      * 新建地址
      * @param mContext
-     * @param id
      */
-    public static void startCreateAddressActivity(Context mContext, String id){
+    public static void startCreateAddressActivity(Context mContext, AddressDetailBean bean){
         Intent intent = new Intent(mContext, CreateAddressActivity.class);
-        intent.putExtra("id",id);
+        intent.putExtra("bean",bean);
         mContext.startActivity(intent);
         ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
     }
@@ -124,10 +124,24 @@ public class SwitchActivityManager {
         Intent intent = new Intent(mContext, BaseWebViewActivity.class);
         //拼接device是通知h5加载链接来自哪个设备
         if (mUrl.contains("?")){
-            intent.putExtra("mUrl", mUrl+"&device=android");
+            intent.putExtra("mUrl", mUrl+"&device=android&token="+ConfigUtils.getToken());
         }else {
-            intent.putExtra("mUrl", mUrl+"?device=android");
+            intent.putExtra("mUrl", mUrl+"?device=android&token="+ConfigUtils.getToken());
         }
+        intent.putExtra("mTitle", mTitle);
+        mContext.startActivity(intent);
+        ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
+    }
+
+    /**
+     * 打开网页:
+     * @param mContext 上下文
+     * @param mUrl     加载支付url
+     * @param mTitle   title
+     */
+    public static void loadOrderUrl(Context mContext, String mUrl, String mTitle) {
+        Intent intent = new Intent(mContext, BaseWebViewActivity.class);
+        intent.putExtra("mUrl", mUrl);
         intent.putExtra("mTitle", mTitle);
         mContext.startActivity(intent);
         ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);

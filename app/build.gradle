@@ -10,6 +10,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //为了解决小米测试问题Didn't find class "com.umeng.message.provider.MessageProvider"
+        multiDexEnabled true
     }
     buildTypes {
         release {

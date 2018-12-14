@@ -11,6 +11,7 @@ import com.doubao.shop.adapter.ShopBuyDetailAdapter;
 import com.doubao.shop.base.BaseActivity;
 import com.doubao.shop.entity.AddressDetailBean;
 import com.doubao.shop.entity.ShopBuyDetailBean;
+import com.doubao.shop.entity.SubmitOrderBean;
 import com.doubao.shop.presenter.ShopBuyDetailActivityPresenter;
 import com.doubao.shop.tools.AppUtils;
 import com.doubao.shop.tools.ConfigUtils;
@@ -145,7 +146,17 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
 
     @Override
     public void submitSuccess(String s) {
-
+        try {
+            JSONObject object = new JSONObject(s);
+            if ("0".equals(object.getString("errno"))){
+                SubmitOrderBean orderBean = AppUtils.parseJsonWithGson(s, SubmitOrderBean.class);
+                SwitchActivityManager.loadOrderUrl(ShopBuyDetailActivity.this,orderBean.getPayurl(),"");
+            }else {
+                ToastUtil.showLong(object.getString("errmsg"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

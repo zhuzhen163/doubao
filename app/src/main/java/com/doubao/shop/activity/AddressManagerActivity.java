@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.doubao.shop.R;
 import com.doubao.shop.adapter.AddressManagerAdapter;
 import com.doubao.shop.base.BaseActivity;
+import com.doubao.shop.entity.AddressDetailBean;
 import com.doubao.shop.entity.AddressManagerBean;
 import com.doubao.shop.presenter.AddressManagerActivityPresenter;
 import com.doubao.shop.tools.AppUtils;
@@ -91,7 +92,7 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
     protected void otherViewClick(View view) {
         switch (view.getId()){
             case R.id.tv_newAddress:
-                SwitchActivityManager.startCreateAddressActivity(AddressManagerActivity.this,"0");
+                SwitchActivityManager.startCreateAddressActivity(AddressManagerActivity.this,null);
                 break;
         }
     }
@@ -165,12 +166,12 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
     }
 
     @Override
-    public void clickItem(String addressId) {
+    public void clickItem(AddressDetailBean bean) {
         if ("1".equals(type)){//返回购物详情
-            ConfigUtils.saveAddressId(addressId);
+            ConfigUtils.saveAddressId(bean.getId());
             SwitchActivityManager.exitActivity(AddressManagerActivity.this);
         }else {
-            SwitchActivityManager.startCreateAddressActivity(AddressManagerActivity.this,addressId);
+            SwitchActivityManager.startCreateAddressActivity(AddressManagerActivity.this,bean);
         }
     }
 
