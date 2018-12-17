@@ -41,6 +41,21 @@ public class ConfigUtils {
     }
 
     /**
+     * 保存用户手机号
+     */
+    public static final String PHONE = "phone";
+
+    public static void savePhone(String phone) {
+        if (StringUtils.isNotBlank(phone)){
+            SpUtils.put(PHONE, phone);
+        }
+    }
+
+    public static String getPhone() {
+        return (String) SpUtils.get(PHONE, "");
+    }
+
+    /**
      * 保存选中用户地址
      */
     public static final String ADDRESS_ID = "addressId";

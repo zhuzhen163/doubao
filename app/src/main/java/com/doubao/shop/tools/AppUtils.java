@@ -47,7 +47,7 @@ public class AppUtils {
      * @return
      */
     public static String getChannelId(Context ctx) {
-        String resultData = "qzd";
+        String resultData = "doubao";
         try {
             PackageManager packageManager = ctx.getPackageManager();
             if (packageManager != null) {
@@ -66,7 +66,7 @@ public class AppUtils {
             e.printStackTrace();
         }
         if (TextUtils.isEmpty(resultData)) {
-            resultData = "qzd";
+            resultData = "doubao";
         }
         return resultData;
     }

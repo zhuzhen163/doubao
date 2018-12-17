@@ -41,6 +41,7 @@ android {
 
     //多渠道打包配置
     productFlavors {
+        _doubao{}
         _yingyongbao{}
         _360{}
         _xiaomi {}

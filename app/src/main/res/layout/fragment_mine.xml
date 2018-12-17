@@ -47,7 +47,7 @@
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="平台可用余额"
+                    android:text="克拉可用余额"
                     android:textColor="@color/white"
                     android:textSize="@dimen/dimen15dp" />
                 <TextView

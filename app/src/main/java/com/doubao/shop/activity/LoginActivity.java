@@ -52,6 +52,10 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
 
     @Override
     protected void initData() {
+        inputPhone = ConfigUtils.getPhone();
+        if (StringUtils.isNotBlank(inputPhone)){
+            et_phone.setText(inputPhone);
+        }
     }
 
     @Override
@@ -155,6 +159,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
                 ConfigUtils.saveToken(bean.getData().getToken());
                 ConfigUtils.saveUserId(bean.getData().getUserId());
                 ConfigUtils.saveUserName(bean.getData().getUserInfo().getUsername());
+                ConfigUtils.savePhone(inputPhone);
 
                 SwitchActivityManager.startMainActivity(mContext);
             }else {

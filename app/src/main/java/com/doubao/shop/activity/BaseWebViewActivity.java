@@ -196,7 +196,7 @@ public class BaseWebViewActivity extends BaseActivity {
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
             if (TextUtils.isEmpty(mTitle)) {
-                if (!title.contains(".com") || !title.contains("http")){
+                if (!title.contains(".com") || !title.contains("http") || !title.contains(".html")){
                     setTitleName(title);
                 }
             }

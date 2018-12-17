@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
 
     @Override
     protected void initData() {
-        showUpdate("1");
+//        showUpdate("1");
     }
 
     @Override
