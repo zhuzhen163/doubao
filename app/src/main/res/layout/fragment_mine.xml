@@ -76,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:text="我的订单"/>
             <TextView
+                android:id="@+id/tv_orderAll"
                 android:layout_marginRight="@dimen/dimen15dp"
                 android:textColor="@color/text_99"
                 android:textSize="@dimen/dimen12dp"
@@ -98,6 +99,7 @@
             android:layout_height="@dimen/dimen90dp">
 
             <TextView
+                android:id="@+id/tv_waitPayment"
                 android:textSize="@dimen/dimen12dp"
                 android:textColor="@color/color_33"
                 android:layout_weight="1"
@@ -110,17 +112,7 @@
 
 
             <TextView
-                android:textSize="@dimen/dimen12dp"
-                android:textColor="@color/color_33"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/img_daifahuo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:text="待发货" />
-
-            <TextView
+                android:id="@+id/tv_waitInGoods"
                 android:textSize="@dimen/dimen12dp"
                 android:textColor="@color/color_33"
                 android:layout_weight="1"
@@ -132,6 +124,19 @@
                 android:text="待收货" />
 
             <TextView
+                android:id="@+id/tv_orderOk"
+                android:textSize="@dimen/dimen12dp"
+                android:textColor="@color/color_33"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/img_daishouhuo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="已完成" />
+
+            <TextView
+                android:id="@+id/tv_orderCancel"
                 android:textSize="@dimen/dimen12dp"
                 android:textColor="@color/color_33"
                 android:layout_weight="1"
@@ -140,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
                 android:gravity="center"
-                android:text="退款/售后" />
+                android:text="已取消" />
 
         </LinearLayout>
 

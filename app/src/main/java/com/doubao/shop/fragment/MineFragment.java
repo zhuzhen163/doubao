@@ -9,6 +9,7 @@ import com.doubao.shop.R;
 import com.doubao.shop.base.BaseFragment;
 import com.doubao.shop.http.UrlHelper;
 import com.doubao.shop.presenter.MineFragmentPresenter;
+import com.doubao.shop.tools.ConfigUtils;
 import com.doubao.shop.tools.NetworkUtil;
 import com.doubao.shop.tools.StringUtils;
 import com.doubao.shop.tools.SwitchActivityManager;
@@ -45,6 +46,16 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
     LinearLayout ll_collect;
     @BindView(R.id.ll_coupon)
     LinearLayout ll_coupon;
+    @BindView(R.id.tv_waitPayment)
+    TextView tv_waitPayment;
+    @BindView(R.id.tv_orderOk)
+    TextView tv_orderOk;
+    @BindView(R.id.tv_waitInGoods)
+    TextView tv_waitInGoods;
+    @BindView(R.id.tv_orderCancel)
+    TextView tv_orderCancel;
+    @BindView(R.id.tv_orderAll)
+    TextView tv_orderAll;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -91,7 +102,42 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
         civ_headImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.startLoginActivity(mContext);
+                String token = ConfigUtils.getToken();
+                if (StringUtils.isBlank(token)){
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }else {
+                    ToastUtil.showShort("别点了，已经登录了");
+                }
+            }
+        });
+        tv_waitPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.loadUrl(mContext,UrlHelper.WEB_URL+"/pages/ucenter/order1","代付款");
+            }
+        });
+        tv_waitInGoods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.loadUrl(mContext,UrlHelper.WEB_URL+"/pages/ucenter/order2","代收货");
+            }
+        });
+        tv_orderOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.loadUrl(mContext,UrlHelper.WEB_URL+"/pages/ucenter/order3","已完成");
+            }
+        });
+        tv_orderCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.loadUrl(mContext,UrlHelper.WEB_URL+"/pages/ucenter/order4","已取消");
+            }
+        });
+        tv_orderAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.loadUrl(mContext,UrlHelper.WEB_URL+"/pages/ucenter/order","全部");
             }
         });
         ll_coupon.setOnClickListener(new View.OnClickListener() {

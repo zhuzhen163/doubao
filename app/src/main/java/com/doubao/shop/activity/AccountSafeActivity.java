@@ -9,6 +9,7 @@ import com.doubao.shop.base.BaseActivity;
 import com.doubao.shop.entity.UserInfo;
 import com.doubao.shop.presenter.AccountSafeActivityPresenter;
 import com.doubao.shop.tools.AppUtils;
+import com.doubao.shop.tools.ConfigUtils;
 import com.doubao.shop.tools.NetworkUtil;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.tools.ToastUtil;
@@ -152,7 +153,8 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
 
     @Override
     public void logout() {
-
+        ConfigUtils.cleatSP();
+        SwitchActivityManager.startMainActivity(AccountSafeActivity.this);
     }
 
     @Override

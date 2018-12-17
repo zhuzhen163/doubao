@@ -102,6 +102,12 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
 //        }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
     public void initData(){
         if (NetworkUtil.isNetworkConnected(mContext)) {
             list.clear();

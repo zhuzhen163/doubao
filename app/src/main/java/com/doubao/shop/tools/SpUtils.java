@@ -162,9 +162,9 @@ public class SpUtils {
     public static void clear() {
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        String userName = sp.getString(ConfigUtils.USER_NAME, "");
+        String phone = sp.getString(ConfigUtils.PHONE, "");
         editor.clear();
-        editor.putString(ConfigUtils.USER_NAME,userName);
+        editor.putString(ConfigUtils.PHONE,phone);
         SharedPreferencesCompat.apply(editor);
     }
 
