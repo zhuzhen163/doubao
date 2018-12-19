@@ -44,6 +44,7 @@
             android:textSize="@dimen/dimen15dp"
             android:paddingLeft="@dimen/dimen15dp"
             android:background="@null"
+            android:textColor="@color/color_33"
             android:gravity="center_vertical"
             android:hint="省份、城市、区县"
             android:layout_width="match_parent"

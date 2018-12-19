@@ -11,12 +11,12 @@ import com.doubao.shop.model.CreateAddressActivityModel;
 
 public class CreateAddressActivityPresenter extends BasePresenter<CreateAddressActivityModel,CreateAddressActivity> {
 
-    public void getSaveDetail(String id,String name,String phone,String detail,String provinceName,String cityName,String countyName,String isDetail) {
+    public void getSaveDetail(String id,String name,String phone,String detail,String provinceName,String provinceCode,String cityName,String cityCode,String countyName,String countyCode,String isDetail) {
         if (getView()!=null){
             getView().showLoading();
         }
 
-        getModel().getSaveDetail(id,name,phone,detail,provinceName,cityName,countyName,isDetail,new CreateAddressActivityModel.SaveDetailInterFace() {
+        getModel().getSaveDetail(id,name,phone,detail,provinceName,provinceCode,cityName,cityCode,countyName,countyCode,isDetail,new CreateAddressActivityModel.SaveDetailInterFace() {
             @Override
             public void saveDetailSuccess(String s) {
                 if (getView() != null){
@@ -58,6 +58,32 @@ public class CreateAddressActivityPresenter extends BasePresenter<CreateAddressA
             }
         });
     }
+
+    public void getRegionList(String parentId) {
+        if (getView()!=null){
+            getView().showLoading();
+        }
+
+        getModel().getRegionList(parentId,new CreateAddressActivityModel.RegionListInterFace() {
+            @Override
+            public void getRegionSuccess(String s) {
+                if (getView() != null){
+                    getView().hideLoading();
+                    getView().getRegionSuccess(s);
+                }
+            }
+
+            @Override
+            public void getRegionFail(String s) {
+                if (getView()!=null){
+                    getView().hideLoading();
+                    getView().getRegionFail(s);
+                }
+            }
+        });
+    }
+
+
     @Override
     public CreateAddressActivityModel loadModel() {
         return new CreateAddressActivityModel();

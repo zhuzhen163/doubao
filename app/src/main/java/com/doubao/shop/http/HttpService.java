@@ -39,6 +39,10 @@ public interface HttpService {
     @POST("address/detail")
     Observable<String> getAddressDetail(@Body RequestBody body);
 
+    @FormUrlEncoded()
+    @POST("region/list")
+    Observable<String> getRegionList(@Field("parentId") String parentId);
+
     @POST("address/list")
     Observable<String> getAddressList();
 

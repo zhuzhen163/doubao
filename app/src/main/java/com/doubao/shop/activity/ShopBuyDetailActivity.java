@@ -151,6 +151,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
             if ("0".equals(object.getString("errno"))){
                 SubmitOrderBean orderBean = AppUtils.parseJsonWithGson(s, SubmitOrderBean.class);
                 SwitchActivityManager.loadOrderUrl(ShopBuyDetailActivity.this,orderBean.getPayurl(),"");
+                SwitchActivityManager.exitActivity(ShopBuyDetailActivity.this);
             }else {
                 ToastUtil.showLong(object.getString("errmsg"));
             }

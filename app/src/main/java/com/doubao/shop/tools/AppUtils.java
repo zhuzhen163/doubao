@@ -25,8 +25,6 @@ import java.util.regex.Pattern;
 
 public class AppUtils {
 
-    public static int DETAIL_TO_CART = 0;//商品详情跳转购物车
-
     /**
      * 隐藏键盘
      * @param ctx

@@ -15,7 +15,7 @@ import okhttp3.RequestBody;
 
 public class CreateAddressActivityModel {
 
-    public void getSaveDetail(String id,String name,String phone,String detail,String provinceName,String cityName,String countyName,String isDetail, final SaveDetailInterFace saveDetailInterFace){
+    public void getSaveDetail(String id,String name,String phone,String detail,String provinceName,String provinceCode,String cityName,String cityCode,String countyName,String countyCode,String isDetail, final SaveDetailInterFace saveDetailInterFace){
 
         Gson gson=new Gson();
         HashMap<String,String> paramsMap=new HashMap<>();
@@ -24,8 +24,11 @@ public class CreateAddressActivityModel {
         paramsMap.put("telNumber",phone);
         paramsMap.put("detailInfo",detail);
         paramsMap.put("provinceName",provinceName);
+        paramsMap.put("province",provinceCode);
         paramsMap.put("cityName",cityName);
+        paramsMap.put("city",cityCode);
         paramsMap.put("countyName",countyName);
+        paramsMap.put("district",countyCode);
         paramsMap.put("is_default",isDetail);
         String strEntity = gson.toJson(paramsMap);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
@@ -82,5 +85,30 @@ public class CreateAddressActivityModel {
     public interface AddressDetailInterFace{
         void getDetailSuccess(String s);
         void getDetailFail(String s);
+    }
+
+    public void getRegionList(String parentId,final RegionListInterFace interFace){
+
+        Http.getHttpService(UrlHelper.BASE_URL).getRegionList(parentId).
+                compose(new StrTransformer<String>())
+                .subscribe(new CommonSubscriber<String>(ZApplication.getAppContext()) {
+
+                    @Override
+                    public void onNext(String s) {
+                        interFace.getRegionSuccess(s);
+                    }
+
+                    @Override
+                    protected void onError(ApiException e) {
+                        super.onError(e);
+                        interFace.getRegionFail(e.msg);
+                    }
+                });
+
+    }
+
+    public interface RegionListInterFace{
+        void getRegionSuccess(String s);
+        void getRegionFail(String s);
     }
 }

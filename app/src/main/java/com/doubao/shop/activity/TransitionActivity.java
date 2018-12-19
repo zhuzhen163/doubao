@@ -1,10 +1,14 @@
 package com.doubao.shop.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -30,6 +34,8 @@ public class TransitionActivity extends FragmentActivity{
 
         iv_pic = (ImageView) findViewById(R.id.iv_pic);
         tv_jump = (TextView) findViewById(R.id.tv_jump);
+
+        requestPermission();
 
         // 先显示默认图
         iv_pic.setImageDrawable(CommonUtils.getDrawable(R.drawable.img_transition_default));
@@ -64,5 +70,13 @@ public class TransitionActivity extends FragmentActivity{
         overridePendingTransition(R.anim.screen_zoom_in, R.anim.screen_zoom_out);
         finish();
         isIn = true;
+    }
+
+    public void requestPermission() {
+        if (ContextCompat.checkSelfPermission(TransitionActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(TransitionActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
+                    1);
+        }
     }
 }

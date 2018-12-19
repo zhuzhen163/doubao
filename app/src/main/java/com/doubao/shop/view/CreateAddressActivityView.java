@@ -16,4 +16,7 @@ public interface CreateAddressActivityView extends BaseView {
 
     void getDetailSuccess(String s);
     void getDetailFail(String s);
+
+    void getRegionSuccess(String s);
+    void getRegionFail(String s);
 }

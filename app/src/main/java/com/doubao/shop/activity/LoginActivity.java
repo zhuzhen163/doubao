@@ -161,7 +161,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
                 ConfigUtils.saveUserName(bean.getData().getUserInfo().getUsername());
                 ConfigUtils.savePhone(inputPhone);
 
-                SwitchActivityManager.startMainActivity(mContext);
+                SwitchActivityManager.exitActivity(LoginActivity.this);
             }else {
                 ToastUtil.showLong(jsonObject.getString("errmsg"));
             }
@@ -186,5 +186,13 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
             helper.cancle(btn_sendMessage);
         }
         ToastUtil.showLong(message);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (helper != null){
+            helper.timerCancel();
+        }
     }
 }

@@ -1,13 +1,9 @@
 package com.doubao.shop.tools;
 
-/**
- * 奇子投资
- * Created by 吕彦波
- * 2017/3/16
- */
 
 public class ConfigUtils {
 
+    public static int DETAIL_TO_CART = 0;//商品详情跳转购物车
 
     public static final String TOKEN="token";
     public static void saveToken(String iscancle){

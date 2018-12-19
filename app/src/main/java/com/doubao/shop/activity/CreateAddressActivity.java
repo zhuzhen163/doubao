@@ -1,11 +1,9 @@
 package com.doubao.shop.activity;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -22,9 +20,16 @@ import com.doubao.shop.tools.StringUtils;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.tools.ToastUtil;
 import com.doubao.shop.view.CreateAddressActivityView;
-import com.doubao.shop.widget.addresspicker.AddressPickerView;
+import com.doubao.shop.widget.addressselector.AddressBean;
+import com.doubao.shop.widget.addressselector.BottomDialog;
+import com.doubao.shop.widget.addressselector.DataProvider;
+import com.doubao.shop.widget.addressselector.SelectedListener;
+import com.doubao.shop.widget.addressselector.Selector;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -50,7 +55,10 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
     TextView tv_cancelDetail;
     @BindView(R.id.tv_saveAddress)
     TextView tv_saveAddress;
-    private String isDetail = "0",id = "0";//记录是否默认地址
+    private String isDetail = "0",id = "0",addressName = "",code = "";
+    private List<AddressBean.ChangeRecordsBean>  recordsBeans;
+    DataProvider.DataReceiver receiver1;
+    private BottomDialog dialog;
 
     @Override
     protected CreateAddressActivityPresenter loadPresenter() {
@@ -69,6 +77,7 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
             et_detail.setText(bean.getDetailInfo());
         }
         mPresenter.getAddressDetail(id);
+        mPresenter.getRegionList("0");
     }
 
     @Override
@@ -115,7 +124,11 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
                 AppUtils.hideInputMethod(CreateAddressActivity.this);
                 new Handler().postDelayed(new Runnable(){
                     public void run() {
-                        showAddressPickerPop();
+                        if (dialog == null){
+                            showDialog();
+                        }else {
+                            dialog.show();
+                        }
                     }
                 }, 100);
                 break;
@@ -128,9 +141,10 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
                     if (StringUtils.isNotBlank(phone) && AppUtils.isMobileNO(phone)){
                         if (StringUtils.isNotBlank(selectAddress)){
                             String[] address = selectAddress.split(" ");
+                            String[] code = this.code.split(" ");
                             if (StringUtils.isNotBlank(detail)){
 
-                                mPresenter.getSaveDetail(id,name,phone,detail,address[0],address[1],address[2],isDetail);
+                                mPresenter.getSaveDetail(id,name,phone,detail,address[0],code[0],address[1],code[1],address[2],code[2],isDetail);
 
                             }else {
                                 ToastUtil.showLong("请输入详细地址");
@@ -151,35 +165,55 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
         }
     }
 
-    /**
-     * 显示地址选择的pop
-     */
-    private void showAddressPickerPop() {
-        popupWindow = new PopupWindow(this);
-        View rootView = LayoutInflater.from(this).inflate(R.layout.pop_address_picker, null, false);
-        AddressPickerView addressView = (AddressPickerView) rootView.findViewById(R.id.apvAddress);
-        TextView tv_cancel = (TextView) rootView.findViewById(R.id.tv_cancel);
-        addressView.setOnAddressPickerSure(new AddressPickerView.OnAddressPickerSureListener() {
+    private void showDialog() {
+        Selector selector = new Selector(this, 3);
+        selector.setDataProvider(new DataProvider() {
             @Override
-            public void onSureClick(String address, String provinceCode, String cityCode, String districtCode) {
-                tv_selectAddress.setText(address);
-                popupWindow.dismiss();
+            public void provideData(int currentDeep, int preId, DataReceiver receiver) {
+                receiver1 = receiver;
+                //根据tab的深度和前一项选择的id，获取下一级菜单项
+                Log.i("provideData", "provideData: currentDeep >>> "+currentDeep+" preId >>> "+preId);
+                if (preId == 0){
+                    receiver.send(recordsBeans);
+                }else {
+                    mPresenter.getRegionList(Integer.toString(preId));
+                }
             }
         });
-        tv_cancel.setOnClickListener(new View.OnClickListener() {
+        selector.setSelectedListener(new SelectedListener() {
             @Override
-            public void onClick(View view) {
-                popupWindow.dismiss();
+            public void onAddressSelected(ArrayList<AddressBean.ChangeRecordsBean> selectAbles) {
+                addressName = "";
+                code = "";
+                for (AddressBean.ChangeRecordsBean selectAble : selectAbles) {
+                    addressName += selectAble.getName()+" ";
+                    code += selectAble.getThird_code()+" ";
+                }
+//                for (int i = 0; i < selectAbles.size(); i++) {
+//                    AddressBean.ChangeRecordsBean changeRecordsBean = selectAbles.get(i);
+//                    if (changeRecordsBean != null){
+//                        result += changeRecordsBean.getName()+" ";
+//                    }
+//                }
+                tv_selectAddress.setText(addressName);
+                if (dialog != null){
+                    dialog.dismiss();
+                }
             }
-        });
-        popupWindow.setContentView(rootView);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0));
-        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setAnimationStyle(R.style.address_picker_anim);
-        popupWindow.showAsDropDown(tv_selectAddress);
 
+            @Override
+            public void dialogCancel() {
+                if (dialog != null){
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialog = new BottomDialog(this);
+        dialog.init(this,selector);
+        dialog.show();
     }
+
 
     @Override
     public void showLoading() {
@@ -253,5 +287,40 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
     @Override
     public void getDetailFail(String s) {
         ToastUtil.showLong(s);
+    }
+
+    @Override
+    public void getRegionSuccess(String s) {
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            if ("0".equals(jsonObject.getString("errno"))){
+                AddressBean bean = AppUtils.parseJsonWithGson(s, AddressBean.class);
+                recordsBeans = bean.getData();
+                if (receiver1 != null){
+                    receiver1.send(recordsBeans);
+                }
+            }else {
+                ToastUtil.showLong(jsonObject.getString("errmsg"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getRegionFail(String s) {
+        ToastUtil.showShort(s);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null){
+            dialog.cancel();
+            dialog = null;
+        }
+        if (recordsBeans != null){
+            recordsBeans = null;
+        }
     }
 }

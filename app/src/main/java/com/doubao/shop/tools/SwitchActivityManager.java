@@ -95,11 +95,16 @@ public class SwitchActivityManager {
      * 新建地址
      * @param mContext
      */
-    public static void startCreateAddressActivity(Context mContext, AddressDetailBean bean){
+    public static void startCreateAddressActivity(Context mContext,AddressDetailBean bean){
         Intent intent = new Intent(mContext, CreateAddressActivity.class);
         intent.putExtra("bean",bean);
         mContext.startActivity(intent);
         ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
+//        Intent intent = new Intent(mContext, BaseWebViewActivity.class);
+//        intent.putExtra("mUrl", mUrl+"?device=android&token="+ConfigUtils.getToken()+"&addressId="+addressId);
+//        intent.putExtra("mTitle", mTitle);
+//        mContext.startActivity(intent);
+//        ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
     }
 
     /**

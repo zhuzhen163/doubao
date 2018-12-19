@@ -294,7 +294,7 @@ public class BaseWebViewActivity extends BaseActivity {
          */
         @JavascriptInterface
         public void toShopCart() {
-            AppUtils.DETAIL_TO_CART = 1;
+            ConfigUtils.DETAIL_TO_CART = 1;
             SwitchActivityManager.startMainActivity(BaseWebViewActivity.this);
         }
 

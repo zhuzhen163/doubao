@@ -71,6 +71,10 @@ public class CountDownButtonHelper {
         mDownTimer.cancel();
     }
 
+    public void timerCancel() {
+        mDownTimer.cancel();
+    }
+
     /**
      * 设置倒计时结束的监听器
      *
