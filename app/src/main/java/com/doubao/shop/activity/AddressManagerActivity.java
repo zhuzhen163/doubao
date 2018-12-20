@@ -144,6 +144,7 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
                 managerAdapter.notifyDataSetChanged();
             }else {
                 ToastUtil.showLong(jsonObject.getString("errmsg"));
+                loginDialog(true);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -179,4 +180,5 @@ public class AddressManagerActivity extends BaseActivity<AddressManagerActivityP
     public void delete() {
         mPresenter.deleteAddress(id);
     }
+
 }

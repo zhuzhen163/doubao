@@ -189,12 +189,6 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
                     addressName += selectAble.getName()+" ";
                     code += selectAble.getThird_code()+" ";
                 }
-//                for (int i = 0; i < selectAbles.size(); i++) {
-//                    AddressBean.ChangeRecordsBean changeRecordsBean = selectAbles.get(i);
-//                    if (changeRecordsBean != null){
-//                        result += changeRecordsBean.getName()+" ";
-//                    }
-//                }
                 tv_selectAddress.setText(addressName);
                 if (dialog != null){
                     dialog.dismiss();

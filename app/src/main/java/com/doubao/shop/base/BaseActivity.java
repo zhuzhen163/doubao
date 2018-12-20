@@ -23,6 +23,7 @@ import com.doubao.shop.tools.AppUtils;
 import com.doubao.shop.tools.CommonUtils;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.widget.LoadingDialog;
+import com.doubao.shop.widget.LogInDialog;
 import com.doubao.shop.widget.PublicTitleView;
 import com.doubao.shop.widget.statusbar.StatusBarUtil;
 import com.umeng.message.PushAgent;
@@ -43,6 +44,7 @@ public abstract class BaseActivity <P extends BasePresenter>  extends FragmentAc
     public Context mContext;
     private LinearLayout content;
     private LoadingDialog loadingDialog;
+    private LogInDialog logInDialog;
     private int id = -1;
     private final int MIN_CLICK_DELAY_TIME = 1000;
     private long lastClickTime = 0;
@@ -65,6 +67,9 @@ public abstract class BaseActivity <P extends BasePresenter>  extends FragmentAc
         ZApplication.getAppContext().addActivity(this);
         if (loadingDialog == null) {
             loadingDialog = new LoadingDialog(mContext);
+        }
+        if (logInDialog == null){
+            logInDialog = new LogInDialog(mContext);
         }
         mPresenter = loadPresenter();
         initCommonData();
@@ -189,6 +194,18 @@ public abstract class BaseActivity <P extends BasePresenter>  extends FragmentAc
         }
     }
 
+    public void loginDialog(boolean is_show){
+        if (is_show){
+            if (logInDialog != null){
+                logInDialog.show();
+            }
+        }else {
+            if (logInDialog != null){
+                logInDialog.dismiss();
+            }
+        }
+    }
+
     /**
      * 初始化WebView
      *
@@ -263,4 +280,9 @@ public abstract class BaseActivity <P extends BasePresenter>  extends FragmentAc
         }
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+    }
 }
