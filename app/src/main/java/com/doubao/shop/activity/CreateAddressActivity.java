@@ -56,7 +56,7 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
     @BindView(R.id.tv_saveAddress)
     TextView tv_saveAddress;
     private String isDetail = "0",id = "0",addressName = "",code = "";
-    private List<AddressBean.ChangeRecordsBean>  recordsBeans;
+    private List<AddressBean.ChangeRecordsBean>  recordsBeans = null;
     DataProvider.DataReceiver receiver1;
     private BottomDialog dialog;
 
@@ -173,10 +173,12 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
                 receiver1 = receiver;
                 //根据tab的深度和前一项选择的id，获取下一级菜单项
                 Log.i("provideData", "provideData: currentDeep >>> "+currentDeep+" preId >>> "+preId);
-                if (preId == 0){
-                    receiver.send(recordsBeans);
-                }else {
-                    mPresenter.getRegionList(Integer.toString(preId));
+                if (recordsBeans != null){
+                    if (preId == 0){
+                        receiver.send(recordsBeans);
+                    }else {
+                        mPresenter.getRegionList(Integer.toString(preId));
+                    }
                 }
             }
         });
