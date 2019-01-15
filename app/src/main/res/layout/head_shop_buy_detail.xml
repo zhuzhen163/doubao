@@ -43,7 +43,7 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:layout_marginTop="@dimen/dimen20dp"
-            android:layout_width="@dimen/dimen60dp"
+            android:layout_width="@dimen/dimen55dp"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -177,6 +177,40 @@
             android:text="优惠券"/>
         <TextView
             android:id="@+id/tv_couponPrice"
+            android:layout_marginLeft="@dimen/dimen10dp"
+            android:layout_marginRight="@dimen/dimen15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥"/>
+    </LinearLayout>
+
+    <View
+        android:layout_marginLeft="@dimen/dimen15dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorLine"/>
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen50dp">
+        <TextView
+            android:layout_marginLeft="@dimen/dimen15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="克拉"/>
+        <TextView
+            android:id="@+id/tv_query"
+            android:textSize="@dimen/dimen10dp"
+            android:layout_marginLeft="@dimen/dimen10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen10dp"
+            android:text="？"/>
+        <TextView
+            android:gravity="right"
+            android:layout_weight="1"
+            android:id="@+id/tv_platformNum"
             android:layout_marginLeft="@dimen/dimen10dp"
             android:layout_marginRight="@dimen/dimen15dp"
             android:layout_width="wrap_content"

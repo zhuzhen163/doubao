@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPageBg"
+    android:orientation="vertical"
     >
 
     <LinearLayout
@@ -10,38 +11,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen35dp">
-            <TextView
-                android:layout_weight="1"
-                android:textColor="@color/text_99"
-                android:textSize="@dimen/dimen12dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dimen15dp"
-                android:drawableLeft="@drawable/app_loading0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="30天无忧退货"/>
-            <TextView
-                android:textColor="@color/text_99"
-                android:textSize="@dimen/dimen12dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:drawableLeft="@drawable/app_loading0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="48小时快速退款"/>
-            <TextView
-                android:textColor="@color/text_99"
-                android:textSize="@dimen/dimen12dp"
-                android:layout_marginRight="@dimen/dimen15dp"
-                android:layout_gravity="center_vertical"
-                android:drawableLeft="@drawable/app_loading0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="免邮费"/>
-        </LinearLayout>
 
         <com.doubao.shop.widget.xrecyclerview.XRecyclerView
             android:layout_weight="1"
@@ -188,14 +157,44 @@
             />
     </LinearLayout>
 
-    <ImageView
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+    <LinearLayout
         android:visibility="gone"
-        android:id="@+id/iv_none"
-        android:src="@mipmap/ic_launcher"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:id="@+id/ll_none"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_none"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-</RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_goLogin"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:textSize="@dimen/dimen17dp"
+            android:layout_marginTop="@dimen/dimen20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您还没有登录~"/>
+        <TextView
+            android:id="@+id/tv_goLogin"
+            android:layout_marginTop="@dimen/dimen20dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="去登录"
+            android:background="@drawable/button_background"
+            android:layout_width="@dimen/dimen120dp"
+            android:layout_height="@dimen/dimen40dp"
+            />
+    </LinearLayout>
+
+</LinearLayout>

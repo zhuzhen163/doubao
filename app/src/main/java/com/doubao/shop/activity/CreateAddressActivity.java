@@ -1,13 +1,11 @@
 package com.doubao.shop.activity;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.doubao.shop.R;
@@ -40,7 +38,6 @@ import butterknife.BindView;
 */
 public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPresenter> implements CreateAddressActivityView, View.OnClickListener{
 
-    private PopupWindow popupWindow;
     @BindView(R.id.tv_selectAddress)
     TextView tv_selectAddress;
     @BindView(R.id.et_name)
@@ -98,8 +95,8 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
         setBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (popupWindow != null && popupWindow.isShowing()){
-                    popupWindow.dismiss();
+                if (dialog != null && dialog.isShowing()){
+                    dialog.dismiss();
                 }else {
                     SwitchActivityManager.exitActivity(CreateAddressActivity.this);
                 }
@@ -171,8 +168,6 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
             @Override
             public void provideData(int currentDeep, int preId, DataReceiver receiver) {
                 receiver1 = receiver;
-                //根据tab的深度和前一项选择的id，获取下一级菜单项
-                Log.i("provideData", "provideData: currentDeep >>> "+currentDeep+" preId >>> "+preId);
                 if (recordsBeans != null){
                     if (preId == 0){
                         receiver.send(recordsBeans);
@@ -224,8 +219,8 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (popupWindow != null && popupWindow.isShowing()){
-                popupWindow.dismiss();
+            if (dialog != null && dialog.isShowing()){
+                dialog.dismiss();
             }else {
                 SwitchActivityManager.exitActivity(CreateAddressActivity.this);
             }

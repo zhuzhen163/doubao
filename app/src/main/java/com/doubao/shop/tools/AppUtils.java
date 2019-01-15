@@ -1,19 +1,22 @@
 package com.doubao.shop.tools;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.doubao.shop.application.ZApplication;
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +27,82 @@ import java.util.regex.Pattern;
  */
 
 public class AppUtils {
+
+    /**
+     * 身份证脱敏
+     * @param id
+     * @return
+     */
+    public static String idEncrypt(String id){
+        if(TextUtils.isEmpty(id) || (id.length() < 8)){
+            return id;
+        }
+    return id.replaceAll("(?<=\\w{3})\\w(?=\\w{4})", "*");
+    }
+    /**
+     * 姓名脱敏
+     * @param name
+     * @return
+     */
+    public static String nameEncrypt(String name){
+        String reg = ".{1}";
+        StringBuffer sb = new StringBuffer();
+        Pattern p = Pattern.compile(reg);
+        Matcher m = p.matcher(name);
+        int i = 0;
+        while(m.find()){
+            i++;
+            if(i==1)
+                continue;
+            m.appendReplacement(sb, "*");
+        }
+        m.appendTail(sb);
+        return sb.toString();
+    }
+
+    /**
+     * 手机中间四位脱敏
+     * @param pNumber
+     * @return
+     */
+    public static String phoneEncrypt(String pNumber) {
+        String sub = "";
+        if (!TextUtils.isEmpty(pNumber) && pNumber.length() > 6) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < pNumber.length(); i++) {
+                char c = pNumber.charAt(i);
+                if (i >= 3 && i <= 6) {
+                    sb.append('*');
+                } else {
+                    sb.append(c);
+                }
+            }
+            sub = sb.toString();
+        }
+        return sub;
+    }
+
+    /**
+     * 获取IMEI
+     * @param context
+     * @return
+     */
+    public static final String getIMEI(Context context) {
+        try {
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            String imei = "";
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                imei = telephonyManager.getDeviceId();
+                if (imei == null) {
+                    imei = "";
+                }
+            }
+            return imei;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
 
     /**
      * 隐藏键盘
@@ -97,7 +176,7 @@ public class AppUtils {
 
     //加载网络图片
     public static void setImage(Context context, String url, ImageView imageView){
-        Glide.with(context).load(url).into(imageView);
+        Picasso.with(context).load(url).into(imageView);
     }
 
     /**

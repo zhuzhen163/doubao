@@ -36,7 +36,7 @@ public class LoginActivityModel {
     }
 
     //获取验证码
-    public void getSmsCode(String userMobile, final MessageCodeInterFace codeInterFace){
+    public void getSmsCode(String userMobile,String imageCode, final MessageCodeInterFace codeInterFace){
 //        String rsa = "";
 //        try {
 //            rsa = RSAUtils.encryptByPublicKey((userMobile+""+sendType).getBytes());
@@ -44,7 +44,7 @@ public class LoginActivityModel {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        Http.getHttpService(UrlHelper.BASE_URL).getSMSCode(userMobile)
+        Http.getHttpService(UrlHelper.BASE_URL).getSMSCode(userMobile,imageCode)
                 .compose(new StrTransformer<String>())
                 .subscribe(new CommonSubscriber<String>(ZApplication.getAppContext()) {
 

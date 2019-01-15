@@ -21,24 +21,10 @@ public class AddressBean {
     }
 
     public class ChangeRecordsBean {
-        /*** id*/
-        public int id;
         /*** 地址编号*/
         public String third_code;
         /*** 中文名*/
         public String name;
-        /*** 父id*/
-        public int parent_id;
-
-        public String type;
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
 
         public String getThird_code() {
             return third_code;
@@ -48,28 +34,12 @@ public class AddressBean {
             this.third_code = third_code;
         }
 
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
         public String getName() {
             return name;
         }
 
         public void setName(String name) {
             this.name = name;
-        }
-
-        public int getParent_id() {
-            return parent_id;
-        }
-
-        public void setParent_id(int parent_id) {
-            this.parent_id = parent_id;
         }
     }
 }

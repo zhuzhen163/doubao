@@ -22,7 +22,7 @@
                 android:layout_width="@dimen/dimen60dp"
                 android:layout_height="@dimen/dimen60dp"
                 android:layout_marginTop="25dp"
-                android:src="@mipmap/logo"
+                android:src="@drawable/iv_defaulthead"
                 app:civ_border_color="@color/white"
                 />
 
@@ -32,12 +32,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen10dp"
-                android:text="名称"
+                android:text="斗宝用户"
                 android:textColor="@color/white"
                 android:textSize="@dimen/dimen17dp" />
 
 
             <LinearLayout
+                android:id="@+id/ll_kelaNum"
                 android:background="@color/color11Transparent"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
@@ -97,55 +98,145 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen90dp">
-
-            <TextView
-                android:id="@+id/tv_waitPayment"
-                android:textSize="@dimen/dimen12dp"
-                android:textColor="@color/color_33"
+            <RelativeLayout
+                android:id="@+id/rl_waitPayment"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/img_daifukuan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
                 android:gravity="center"
-                android:text="待付款" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/iv_waitPayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_daifukuan"/>
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:layout_below="@id/iv_waitPayment"
+                    android:textSize="@dimen/dimen12dp"
+                    android:textColor="@color/color_33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="代付款"/>
+                <TextView
+                    android:visibility="gone"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginRight="-5dp"
+                    android:layout_alignRight="@id/iv_waitPayment"
+                    android:id="@+id/tv_num_waitPayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/red_cicle_bg"
+                    android:text="1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10dp" />
+            </RelativeLayout>
 
-
-            <TextView
-                android:id="@+id/tv_waitInGoods"
-                android:textSize="@dimen/dimen12dp"
-                android:textColor="@color/color_33"
+            <RelativeLayout
+                android:id="@+id/rl_waitInGoods"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/img_daishouhuo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
                 android:gravity="center"
-                android:text="待收货" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/iv_waitInGoods"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_daishouhuo"/>
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:layout_below="@id/iv_waitInGoods"
+                    android:textSize="@dimen/dimen12dp"
+                    android:textColor="@color/color_33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="待收货"/>
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_num_waitInGoods"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginRight="-5dp"
+                    android:layout_alignRight="@id/iv_waitInGoods"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/red_cicle_bg"
+                    android:text="1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10dp" />
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_orderOk"
-                android:textSize="@dimen/dimen12dp"
-                android:textColor="@color/color_33"
+            <RelativeLayout
+                android:id="@+id/rl_orderOk"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/img_daishouhuo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
                 android:gravity="center"
-                android:text="已完成" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/iv_orderOk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_daishouhuo"/>
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:layout_below="@id/iv_orderOk"
+                    android:textSize="@dimen/dimen12dp"
+                    android:textColor="@color/color_33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已完成"/>
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_num_orderOk"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginRight="-5dp"
+                    android:layout_alignRight="@id/iv_orderOk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/red_cicle_bg"
+                    android:text="1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10dp" />
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_orderCancel"
-                android:textSize="@dimen/dimen12dp"
-                android:textColor="@color/color_33"
+            <RelativeLayout
+                android:id="@+id/rl_orderCancel"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/img_tuikuan_shouhou"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
                 android:gravity="center"
-                android:text="已取消" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/iv_orderCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_tuikuan_shouhou"/>
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dimen5dp"
+                    android:layout_below="@id/iv_orderCancel"
+                    android:textSize="@dimen/dimen12dp"
+                    android:textColor="@color/color_33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已取消"/>
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_num_orderCancel"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginRight="-5dp"
+                    android:layout_alignRight="@id/iv_orderCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/red_cicle_bg"
+                    android:text="1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10dp" />
+            </RelativeLayout>
 
         </LinearLayout>
 

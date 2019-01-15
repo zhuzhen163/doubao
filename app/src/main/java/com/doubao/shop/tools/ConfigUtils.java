@@ -67,6 +67,19 @@ public class ConfigUtils {
     }
 
     /**
+     * 账户刷新
+     */
+    public static final String ACCOUNT_REFRESH = "account_refresh";
+
+    public static void setAccountRefresh(boolean refresh) {
+            SpUtils.put(ACCOUNT_REFRESH, refresh);
+    }
+
+    public static boolean getAccountRefresh() {
+        return (boolean) SpUtils.get(ACCOUNT_REFRESH, false);
+    }
+
+    /**
      * 清空数据
      */
     public static void cleatSP() {

@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/dimen5dp"
-        android:paddingBottom="@dimen/dimen3dp"
+        android:paddingTop="@dimen/dimen6dp"
+        android:paddingBottom="@dimen/dimen2dp"
         >
 
         <RadioButton

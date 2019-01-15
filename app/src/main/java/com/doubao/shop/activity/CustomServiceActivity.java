@@ -22,6 +22,9 @@ public class CustomServiceActivity extends BaseActivity {
     LinearLayout ll_feedback;
     @BindView(R.id.ll_helpCenter)
     LinearLayout ll_helpCenter;
+    @BindView(R.id.ll_online)
+    LinearLayout ll_online;
+    private String url = "https://www.sobot.com/chat/h5/index.html?sysNum=e5ef8967b4114644a4c290bf0729f959";
 
     @Override
     protected BasePresenter loadPresenter() {
@@ -37,6 +40,7 @@ public class CustomServiceActivity extends BaseActivity {
     protected void initListener() {
         ll_feedback.setOnClickListener(this);
         ll_helpCenter.setOnClickListener(this);
+        ll_online.setOnClickListener(this);
         setBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +67,9 @@ public class CustomServiceActivity extends BaseActivity {
                 break;
             case R.id.ll_helpCenter:
                 SwitchActivityManager.loadUrl(CustomServiceActivity.this, UrlHelper.WEB_URL+"/pages/ucenter/helpCenter","帮助中心");
+                break;
+            case R.id.ll_online:
+                SwitchActivityManager.loadUrl(CustomServiceActivity.this,url,"");
                 break;
         }
     }

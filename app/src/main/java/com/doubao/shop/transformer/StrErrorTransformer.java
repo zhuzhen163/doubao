@@ -4,6 +4,9 @@ package com.doubao.shop.transformer;
 import com.doubao.shop.exception.ErrorType;
 import com.doubao.shop.exception.ExceptionEngine;
 import com.doubao.shop.exception.ServerException;
+import com.doubao.shop.tools.ConfigUtils;
+
+import org.json.JSONObject;
 
 import rx.Observable;
 import rx.functions.Func1;
@@ -33,15 +36,16 @@ public class StrErrorTransformer<T> implements Observable.Transformer<String, T>
             public T call(String s) {
                 if (s == null || s.equals(""))
                     throw new ServerException(ErrorType.EMPTY_BEAN, "解析对象为空");
-//                try {
-//                    JSONObject jsonObject = new JSONObject(s);
-//                    String errmsg = jsonObject.getString("errmsg");
-//                    if (errmsg.contains("token失效")){
-//                        singleCallBack.singleCallBack();
-//                    }
-//                }catch (Exception e){
-//                        e.printStackTrace();
-//                }
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String errmsg = jsonObject.getString("errmsg");
+                    if (errmsg.contains("token失效") || errmsg.contains("登录")){
+                        ConfigUtils.saveToken("");
+                        singleCallBack.singleCallBack();
+                    }
+                }catch (Exception e){
+                        e.printStackTrace();
+                }
                 return (T) s;
             }
         }).onErrorResumeNext(new Func1<Throwable, Observable<? extends T>>() {

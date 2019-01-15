@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,7 +14,9 @@ import com.doubao.shop.entity.CartListBean;
 import com.doubao.shop.entity.ShopCartListBean;
 import com.doubao.shop.presenter.ShopCartFragmentPresenter;
 import com.doubao.shop.tools.AppUtils;
+import com.doubao.shop.tools.ConfigUtils;
 import com.doubao.shop.tools.NetworkUtil;
+import com.doubao.shop.tools.StringUtils;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.tools.ToastUtil;
 import com.doubao.shop.view.ShopCartFragmentView;
@@ -38,8 +39,6 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
 
     @BindView(R.id.xrv_list)
     XRecyclerView xrv_list;
-    @BindView(R.id.iv_none)
-    ImageView iv_none;
     @BindView(R.id.cb_select)
     CheckBox cb_select;
     @BindView(R.id.tv_editor)
@@ -69,6 +68,12 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     LinearLayout ll_noCart;
     @BindView(R.id.tv_goShop)
     TextView tv_goShop;
+    @BindView(R.id.ll_none)
+    LinearLayout ll_none;
+    @BindView(R.id.ll_goLogin)
+    LinearLayout ll_goLogin;
+    @BindView(R.id.tv_goLogin)
+    TextView tv_goLogin;
     public ToHomeCallBack homeCallBack;
 
     private ShopCartFragmentAdapter shopCartFragmentAdapter;
@@ -105,18 +110,26 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     @Override
     public void onResume() {
         super.onResume();
-        initData();
     }
 
     public void initData(){
         if (NetworkUtil.isNetworkConnected(mContext)) {
-            list.clear();
-            mFragmentPresenter.getShopCartList();
-            iv_none.setVisibility(View.GONE);
-            ll_net_connect.setVisibility(View.VISIBLE);
+            if (StringUtils.isNotBlank(ConfigUtils.getToken())){
+                list.clear();
+                mFragmentPresenter.getShopCartList();
+                ll_none.setVisibility(View.GONE);
+                ll_net_connect.setVisibility(View.VISIBLE);
+                if (ll_goLogin.getVisibility() == View.VISIBLE){
+                    ll_goLogin.setVisibility(View.GONE);
+                }
+            }else {
+                ll_goLogin.setVisibility(View.VISIBLE);
+                ll_net_connect.setVisibility(View.GONE);
+            }
         } else {
-            iv_none.setVisibility(View.VISIBLE);
+            ll_none.setVisibility(View.VISIBLE);
             ll_net_connect.setVisibility(View.GONE);
+            ll_goLogin.setVisibility(View.GONE);
             ToastUtil.showLong(getString(R.string.network_error));
         }
     }
@@ -193,6 +206,12 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
                 ll_delete.setVisibility(View.GONE);
                 shopCartFragmentAdapter.notifyDataSetChanged();
 
+            }
+        });
+        tv_goLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchActivityManager.startLoginActivity(mContext);
             }
         });
         tv_goShop.setOnClickListener(new View.OnClickListener() {

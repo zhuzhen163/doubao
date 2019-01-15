@@ -26,6 +26,15 @@ public class ShopBuyDetailBean extends BaseEntity {
         private String couponPrice;
         private String freightPrice;
         private String goodsTotalPrice;
+        private String disCountAmount;
+
+        public String getDisCountAmount() {
+            return disCountAmount;
+        }
+
+        public void setDisCountAmount(String disCountAmount) {
+            this.disCountAmount = disCountAmount;
+        }
 
         public AddressDetailBean getCheckedAddress() {
             return checkedAddress;

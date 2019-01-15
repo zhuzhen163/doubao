@@ -12,7 +12,6 @@ import android.view.ViewParent;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
-import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -22,6 +21,7 @@ import android.webkit.WebViewClient;
 
 import com.doubao.shop.BuildConfig;
 import com.doubao.shop.R;
+import com.doubao.shop.activity.webview.WebViewClickInterface;
 import com.doubao.shop.base.BaseActivity;
 import com.doubao.shop.base.BasePresenter;
 import com.doubao.shop.tools.AppUtils;
@@ -54,6 +54,7 @@ public class BaseWebViewActivity extends BaseActivity {
     private Map<String, String> extraHeaders = new HashMap<>();
     private String mTitle = "";
     private String loadUrl = "";//加载的url
+    private String joint = "&token="+ConfigUtils.getToken();
 
     @Override
     protected BasePresenter loadPresenter() {
@@ -69,8 +70,13 @@ public class BaseWebViewActivity extends BaseActivity {
         setBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppUtils.hideInputMethod(BaseWebViewActivity.this);
-                SwitchActivityManager.exitActivity(BaseWebViewActivity.this);
+                if (webview != null && webview.canGoBack()) {
+                    webview.goBack();
+                } else {
+                    AppUtils.hideInputMethod(BaseWebViewActivity.this);
+                    SwitchActivityManager.exitActivity(BaseWebViewActivity.this);
+                }
+
             }
         });
     }
@@ -81,14 +87,9 @@ public class BaseWebViewActivity extends BaseActivity {
         loadUrl = getIntent().getStringExtra("mUrl");
         mTitle = getIntent().getStringExtra("mTitle");
         initWebViewSetting(webview, new MyWebViewClient(), new MyWebChromeClient());
-        webview.addJavascriptInterface(new JSClient(),"android");
+        webview.addJavascriptInterface(new WebViewClickInterface(BaseWebViewActivity.this),"android");
         clearCookie();
-        if ( webview != null){
-            extraHeaders.put("device", "android");
-            extraHeaders.put("token", ConfigUtils.getToken());
-            extraHeaders.put("version", BuildConfig.VERSION_NAME);
-            webview.loadUrl(loadUrl, extraHeaders);
-        }
+
         registerTimer();
     }
 
@@ -128,7 +129,12 @@ public class BaseWebViewActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-
+        if ( webview != null){
+            extraHeaders.put("device", "android");
+            extraHeaders.put("token", ConfigUtils.getToken());
+            extraHeaders.put("version", BuildConfig.VERSION_NAME);
+            webview.loadUrl(loadUrl+joint, extraHeaders);
+        }
     }
 
     @Override
@@ -175,7 +181,8 @@ public class BaseWebViewActivity extends BaseActivity {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            if (!view.getTitle().contains("http")){
+            String title = view.getTitle();
+            if (!title.contains("http") || !title.contains(".com") || !title.contains(".html")){
                 setTitleName(view.getTitle());
             }
             setShowLoading(false);
@@ -237,9 +244,14 @@ public class BaseWebViewActivity extends BaseActivity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {//点击的是返回键
-            AppUtils.hideInputMethod(BaseWebViewActivity.this);
-            SwitchActivityManager.exitActivity(BaseWebViewActivity.this);
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {//点击的是返回键
+            if (webview != null && webview.canGoBack()) {
+                webview.goBack();
+            } else {
+                AppUtils.hideInputMethod(BaseWebViewActivity.this);
+                SwitchActivityManager.exitActivity(BaseWebViewActivity.this);
+            }
+
         }
         return true;
     }
@@ -275,35 +287,4 @@ public class BaseWebViewActivity extends BaseActivity {
         super.onDestroy();
     }
 
-
-    /**
-     * js调用本地方法
-     */
-    public class JSClient {
-        /**
-         * 跳转商品详情
-         * @param detailUrl
-         */
-        @JavascriptInterface
-        public void productDetail(String detailUrl) {
-            SwitchActivityManager.loadUrl(BaseWebViewActivity.this,detailUrl,"商品详情");
-        }
-
-        /**
-         * 跳转购物车
-         */
-        @JavascriptInterface
-        public void toShopCart() {
-            ConfigUtils.DETAIL_TO_CART = 1;
-            SwitchActivityManager.startMainActivity(BaseWebViewActivity.this);
-        }
-
-        /**
-         * 跳转登录
-         */
-        @JavascriptInterface
-        public void toLogin(){
-            SwitchActivityManager.startLoginActivity(BaseWebViewActivity.this);
-        }
-    }
 }

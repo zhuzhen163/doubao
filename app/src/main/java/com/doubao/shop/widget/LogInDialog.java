@@ -39,6 +39,7 @@ public class LogInDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 SwitchActivityManager.startLoginActivity(mContext);
+                dismiss();
             }
         });
         btn_cancel.setOnClickListener(new View.OnClickListener() {

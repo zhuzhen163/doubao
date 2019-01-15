@@ -108,6 +108,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
             ConfigUtils.DETAIL_TO_CART = 0;
             rb_shopCart.setChecked(true);
             viewpager.setCurrentItem(2);
+            shopCartFragment.initData();
         }
     }
 

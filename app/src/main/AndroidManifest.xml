@@ -45,13 +45,14 @@
         <activity android:name=".activity.AddressManagerActivity" />
         <activity android:name=".activity.CreateAddressActivity" />
         <activity android:name=".activity.FeedBackActivity" />
-        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.LoginActivity" android:windowSoftInputMode="adjustResize"  android:launchMode="singleTask"/>
         <activity android:name=".activity.ShopBuyDetailActivity" />
         <activity android:name=".activity.AccountCenterActivity" />
         <activity android:name=".activity.CustomServiceActivity" />
         <activity android:name=".activity.AccountSafeActivity" />
         <activity android:name=".activity.RealNameActivity" />
         <activity android:name=".activity.BaseWebViewActivity" />
+        <activity android:name=".activity.OrderStateActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

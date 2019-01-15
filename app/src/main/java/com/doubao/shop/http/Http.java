@@ -1,5 +1,7 @@
 package com.doubao.shop.http;
 
+import android.app.Activity;
+
 import com.doubao.shop.BuildConfig;
 import com.doubao.shop.application.ZApplication;
 import com.doubao.shop.tools.AppUtils;
@@ -11,12 +13,17 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -27,6 +34,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.CacheControl;
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -186,6 +195,7 @@ public class Http {
      * Picasso picasso = new Picasso.Builder(HomeActivity.this).downloader(new OkHttpDownloader(okHttpClient)).build();
      */
     public static void initokMHttp() {
+        final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
         client = new OkHttpClient
                 .Builder()
                 .sslSocketFactory(createSSLSocketFactory())
@@ -198,23 +208,34 @@ public class Http {
                 .readTimeout(100, TimeUnit.SECONDS)
                 .writeTimeout(100, TimeUnit.SECONDS)
                 //自动管理cookie
-//                .cookieJar(new CookieJar() {
-//                    @Override
-//                    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-//                        cookieStore.put("cookie", cookies);
-//                        if (cookies != null && cookies.size() > 0) {
-//                            LogUtil.i("newnew", cookies.get(0).toString());
-//                            ConfigUtils.saveCookie(cookies.get(0).toString());
-//                        }
-//                    }
-//                    @Override
-//                    public List<Cookie> loadForRequest(HttpUrl url) {
-//                        List<Cookie> cookies = cookieStore.get("cookie");
-//                        return cookies != null ? cookies : new ArrayList<Cookie>();
-//                    }
-//                })
+                .cookieJar(new CookieJar() {
+                    @Override
+                    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+                        cookieStore.put("cookie", cookies);
+                    }
+                    @Override
+                    public List<Cookie> loadForRequest(HttpUrl url) {
+                        List<Cookie> cookies = cookieStore.get("cookie");
+                        return cookies != null ? cookies : new ArrayList<Cookie>();
+                    }
+                })
                 .addInterceptor(addHeaderInterceptor()) // 请求头拦截添加
                 .build();
+    }
+
+    //定制自己的加载框架
+    public static Picasso initP(Activity activity) {
+        Picasso picasso = null;
+        try {
+            if (client != null) {
+                picasso = new Picasso.Builder(activity).downloader(new OkHttp3Downloader(client)).build();
+            } else {
+                picasso = new Picasso.Builder(activity).build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return picasso;
     }
 
     private static Gson getGson() {

@@ -36,12 +36,12 @@ public class LoginActivityPresenter extends BasePresenter<LoginActivityModel,Log
 
     }
 
-    public void getSmsCodePresenter(String userMobile){
+    public void getSmsCodePresenter(String userMobile,String imageCode){
         if (getView()!=null){
             getView().showLoading();
         }
 
-        getModel().getSmsCode(userMobile, new LoginActivityModel.MessageCodeInterFace() {
+        getModel().getSmsCode(userMobile, imageCode,new LoginActivityModel.MessageCodeInterFace() {
             @Override
             public void getSuccessSms(String s) {
                 if (getView()!=null){

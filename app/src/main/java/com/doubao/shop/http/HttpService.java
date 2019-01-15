@@ -67,6 +67,6 @@ public interface HttpService {
 
     @FormUrlEncoded()
     @POST("sendSms")
-    Observable<String> getSMSCode(@Field("mobile") String mobile);
+    Observable<String> getSMSCode(@Field("mobile") String mobile,@Field("imageCode") String imageCode);
 
 }

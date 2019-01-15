@@ -6,51 +6,72 @@ package com.doubao.shop.entity;
 * description:
 */
 public class UserInfo {
-    private String userId;
-    private String username;
-    private String password;
-    private String gender;
-    private String birthday;
-    private String register_time;
-    private String last_login_time;
-    private String last_login_ip;
-    private String user_level_id;
-    private String nickname;
-    private String mobile;
-    private String register_ip;
-    private String avatar;
-    private String weixin_openid;
-    private String idcard;
 
-    public String getUserId() {
-        return userId;
+    private User data;
+
+    public User getData() {
+        return data;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setData(User data) {
+        this.data = data;
     }
 
-    public String getUsername() {
-        return username;
-    }
+    public class User{
+        private String userId;
+        private String username;
+        private String password;
+        private String gender;
+        private String birthday;
+        private String register_time;
+        private String last_login_time;
+        private String last_login_ip;
+        private String user_level_id;
+        private String nickname;
+        private String mobile;
+        private String register_ip;
+        private String avatar;
+        private String weixin_openid;
+        private String idcard;
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+        public String getUserId() {
+            return userId;
+        }
 
-    public String getAvatar() {
-        return avatar;
-    }
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
+        public String getUsername() {
+            return username;
+        }
 
-    public String getIdcard() {
-        return idcard;
-    }
+        public void setUsername(String username) {
+            this.username = username;
+        }
 
-    public void setIdcard(String idcard) {
-        this.idcard = idcard;
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(String avatar) {
+            this.avatar = avatar;
+        }
+
+        public String getIdcard() {
+            return idcard;
+        }
+
+        public void setIdcard(String idcard) {
+            this.idcard = idcard;
+        }
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
+        }
     }
 }

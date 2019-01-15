@@ -18,6 +18,7 @@ import com.doubao.shop.tools.ConfigUtils;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.tools.ToastUtil;
 import com.doubao.shop.view.ShopBuyDetailActivityView;
+import com.doubao.shop.widget.KelaDialog;
 import com.doubao.shop.widget.xrecyclerview.XRecyclerView;
 
 import org.json.JSONObject;
@@ -40,10 +41,11 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
 
     private RelativeLayout rl_checkAddress,rl_noAddress;
     private LinearLayout ll_checkCoupon;
-    private TextView tv_shopTotal,tv_freight,tv_couponPrice,tv_name,tv_phone,tv_address,tv_default;
+    private TextView tv_shopTotal,tv_freight,tv_couponPrice,tv_name,tv_phone,tv_address,tv_default,tv_platformNum,tv_query;
     private View mHeaderView = null;
     private ShopBuyDetailAdapter detailAdapter;
     private String type,addressId,couponId;
+    private KelaDialog dialog;
 
     @Override
     protected ShopBuyDetailActivityPresenter loadPresenter() {
@@ -73,6 +75,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
         tv_payment.setOnClickListener(this);
         ll_checkCoupon.setOnClickListener(this);
         rl_checkAddress.setOnClickListener(this);
+        tv_query.setOnClickListener(this);
         setBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,6 +111,8 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
             tv_shopTotal = (TextView) mHeaderView.findViewById(R.id.tv_shopTotal);
             tv_freight = (TextView) mHeaderView.findViewById(R.id.tv_freight);
             tv_couponPrice = (TextView) mHeaderView.findViewById(R.id.tv_couponPrice);
+            tv_platformNum = (TextView) mHeaderView.findViewById(R.id.tv_platformNum);
+            tv_query = (TextView) mHeaderView.findViewById(R.id.tv_query);
         }
 
     }
@@ -130,6 +135,14 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
                 break;
             case R.id.rl_noAddress:
                 SwitchActivityManager.startAddressManagerActivity(ShopBuyDetailActivity.this,"1");
+                break;
+            case R.id.tv_query:
+                if (dialog == null){
+                    dialog = new KelaDialog(ShopBuyDetailActivity.this);
+                }
+                if (!dialog.isShowing()){
+                    dialog.show();
+                }
                 break;
         }
     }
@@ -193,6 +206,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
                     rl_noAddress.setVisibility(View.VISIBLE);
                 }
                 tv_actualPrice.setText("实付：￥"+data.getActualPrice());
+                tv_platformNum.setText("￥"+data.getDisCountAmount());
                 detailAdapter.setDataList(data.getCheckedGoodsList());
                 detailAdapter.notifyDataSetChanged();
             }else {
@@ -206,5 +220,14 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
     @Override
     public void checkFail(String s) {
         ToastUtil.showLong(s);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null){
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 }

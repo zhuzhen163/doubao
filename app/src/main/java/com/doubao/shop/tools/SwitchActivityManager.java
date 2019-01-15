@@ -14,6 +14,7 @@ import com.doubao.shop.activity.CustomServiceActivity;
 import com.doubao.shop.activity.FeedBackActivity;
 import com.doubao.shop.activity.LoginActivity;
 import com.doubao.shop.activity.MainActivity;
+import com.doubao.shop.activity.OrderStateActivity;
 import com.doubao.shop.activity.RealNameActivity;
 import com.doubao.shop.activity.ShopBuyDetailActivity;
 import com.doubao.shop.entity.AddressDetailBean;
@@ -25,6 +26,17 @@ import com.doubao.shop.entity.AddressDetailBean;
  */
 
 public class SwitchActivityManager {
+
+    /**
+     * 订单状态
+     * @param mContext
+     */
+    public static void startOrderStateActivity(Context mContext,int type){
+        Intent intent = new Intent(mContext, OrderStateActivity.class);
+        intent.putExtra("type",type);
+        mContext.startActivity(intent);
+        ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
+    }
     /**
      * 实名认证
      * @param mContext
@@ -100,11 +112,6 @@ public class SwitchActivityManager {
         intent.putExtra("bean",bean);
         mContext.startActivity(intent);
         ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
-//        Intent intent = new Intent(mContext, BaseWebViewActivity.class);
-//        intent.putExtra("mUrl", mUrl+"?device=android&token="+ConfigUtils.getToken()+"&addressId="+addressId);
-//        intent.putExtra("mTitle", mTitle);
-//        mContext.startActivity(intent);
-//        ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
     }
 
     /**
@@ -129,9 +136,9 @@ public class SwitchActivityManager {
         Intent intent = new Intent(mContext, BaseWebViewActivity.class);
         //拼接device是通知h5加载链接来自哪个设备
         if (mUrl.contains("?")){
-            intent.putExtra("mUrl", mUrl+"&device=android&token="+ConfigUtils.getToken());
+            intent.putExtra("mUrl", mUrl+"&device=android");
         }else {
-            intent.putExtra("mUrl", mUrl+"?device=android&token="+ConfigUtils.getToken());
+            intent.putExtra("mUrl", mUrl+"?device=android");
         }
         intent.putExtra("mTitle", mTitle);
         mContext.startActivity(intent);

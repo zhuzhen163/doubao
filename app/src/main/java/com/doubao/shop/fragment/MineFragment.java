@@ -3,18 +3,22 @@ package com.doubao.shop.fragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.doubao.shop.R;
 import com.doubao.shop.base.BaseFragment;
+import com.doubao.shop.entity.AccountBean;
 import com.doubao.shop.http.UrlHelper;
 import com.doubao.shop.presenter.MineFragmentPresenter;
+import com.doubao.shop.tools.AppUtils;
 import com.doubao.shop.tools.ConfigUtils;
 import com.doubao.shop.tools.NetworkUtil;
 import com.doubao.shop.tools.StringUtils;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.tools.ToastUtil;
 import com.doubao.shop.view.MineFragmentView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -46,16 +50,27 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
     LinearLayout ll_collect;
     @BindView(R.id.ll_coupon)
     LinearLayout ll_coupon;
-    @BindView(R.id.tv_waitPayment)
-    TextView tv_waitPayment;
-    @BindView(R.id.tv_orderOk)
-    TextView tv_orderOk;
-    @BindView(R.id.tv_waitInGoods)
-    TextView tv_waitInGoods;
-    @BindView(R.id.tv_orderCancel)
-    TextView tv_orderCancel;
+    @BindView(R.id.rl_waitPayment)
+    RelativeLayout rl_waitPayment;
+    @BindView(R.id.rl_orderOk)
+    RelativeLayout rl_orderOk;
+    @BindView(R.id.rl_waitInGoods)
+    RelativeLayout rl_waitInGoods;
+    @BindView(R.id.rl_orderCancel)
+    RelativeLayout rl_orderCancel;
     @BindView(R.id.tv_orderAll)
     TextView tv_orderAll;
+    @BindView(R.id.tv_num_waitPayment)
+    TextView tv_num_waitPayment;
+    @BindView(R.id.tv_num_waitInGoods)
+    TextView tv_num_waitInGoods;
+    @BindView(R.id.tv_num_orderOk)
+    TextView tv_num_orderOk;
+    @BindView(R.id.tv_num_orderCancel)
+    TextView tv_num_orderCancel;
+    @BindView(R.id.ll_kelaNum)
+    LinearLayout ll_kelaNum;
+    private String token;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -77,7 +92,12 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
     @Override
     public void onResume() {
         super.onResume();
-
+        token = ConfigUtils.getToken();
+        //登录或者退出登录刷新接口
+        if (ConfigUtils.getAccountRefresh()){
+            ConfigUtils.setAccountRefresh(false);
+            mFragmentPresenter.getUserAccount();
+        }
     }
 
     @Override
@@ -90,7 +110,11 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
         ll_accountCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.startAccountCenterActivity(mContext);
+                if (StringUtils.isNotBlank(token)){
+                    SwitchActivityManager.startAccountCenterActivity(mContext);
+                }else {
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }
             }
         });
         ll_customService.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +126,6 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
         civ_headImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String token = ConfigUtils.getToken();
                 if (StringUtils.isBlank(token)){
                     SwitchActivityManager.startLoginActivity(mContext);
                 }else {
@@ -110,52 +133,95 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
                 }
             }
         });
-        tv_waitPayment.setOnClickListener(new View.OnClickListener() {
+        rl_waitPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.loadUrl(mContext,UrlHelper.WEB_URL+"/pages/ucenter/order1","代付款");
+                if (StringUtils.isNotBlank(token)){
+                    SwitchActivityManager.startOrderStateActivity(mContext,1);
+                }else {
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }
             }
         });
-        tv_waitInGoods.setOnClickListener(new View.OnClickListener() {
+        rl_waitInGoods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.loadUrl(mContext,UrlHelper.WEB_URL+"/pages/ucenter/order2","代收货");
+                if (StringUtils.isNotBlank(token)){
+                    SwitchActivityManager.startOrderStateActivity(mContext,2);
+                }else {
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }
             }
         });
-        tv_orderOk.setOnClickListener(new View.OnClickListener() {
+        rl_orderOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.loadUrl(mContext,UrlHelper.WEB_URL+"/pages/ucenter/order3","已完成");
+                if (StringUtils.isNotBlank(token)){
+                    SwitchActivityManager.startOrderStateActivity(mContext,3);
+                }else {
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }
             }
         });
-        tv_orderCancel.setOnClickListener(new View.OnClickListener() {
+        rl_orderCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.loadUrl(mContext,UrlHelper.WEB_URL+"/pages/ucenter/order4","已取消");
+                if (StringUtils.isNotBlank(token)){
+                    SwitchActivityManager.startOrderStateActivity(mContext,4);
+                }else {
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }
             }
         });
         tv_orderAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.loadUrl(mContext,UrlHelper.WEB_URL+"/pages/ucenter/order","全部");
+//                SwitchActivityManager.loadUrl(mContext,UrlHelper.WEB_URL+"/pages/ucenter/order","全部");
+                if (StringUtils.isNotBlank(token)){
+                    SwitchActivityManager.startOrderStateActivity(mContext,0);
+                }else {
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }
             }
         });
         ll_coupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/coupon","优惠券");
+                if (StringUtils.isNotBlank(token)){
+                    SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/coupon","优惠券");
+                }else {
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }
             }
         });
         ll_collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/collect","我的收藏");
+                if (StringUtils.isNotBlank(token)){
+                    SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/collect","我的收藏");
+                }else {
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }
             }
         });
         ll_browse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/footprint","我的浏览");
+                if (StringUtils.isNotBlank(token)){
+                    SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/footprint","我的浏览");
+                }else {
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }
+            }
+        });
+        ll_kelaNum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (StringUtils.isNotBlank(token)){
+                    SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/amountMoney","克拉余额");
+                }else {
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }
             }
         });
     }
@@ -179,12 +245,89 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
     public void getAccountSuccess(String s) {
         try {
             JSONObject jsonObject = new JSONObject(s);
-            String data = jsonObject.getString("data");
-            if (StringUtils.isNotBlank(data)){
-                tv_ptMoney.setText(data);
+            AccountBean bean = AppUtils.parseJsonWithGson(s, AccountBean.class);
+            if (bean.getErrno() != null && !"1".equals(bean.getErrno())){
+                ToastUtil.showLong(bean.getErrmsg());
+                tv_ptMoney.setText("0.0");
+                tv_name.setText("斗宝用户");
+                Picasso.with(mContext).load(R.drawable.iv_defaulthead).into(civ_headImage);
+                tv_num_waitPayment.setVisibility(View.GONE);
+                tv_num_waitInGoods.setVisibility(View.GONE);
+                tv_num_orderOk.setVisibility(View.GONE);
+                tv_num_orderCancel.setVisibility(View.GONE);
+            }else if ("1".equals(bean.getCode())){
+                String data = bean.getData();
+                if (StringUtils.isNotBlank(data)){
+                    tv_ptMoney.setText(data);
+                }
+
+                setOrderMark(bean);
+
+                tv_name.setText(AppUtils.phoneEncrypt(ConfigUtils.getPhone()));
+                Picasso.with(mContext).load(R.mipmap.logo).into(civ_headImage);
             }
         }catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 设置订单角标
+     * @param bean
+     */
+    private void setOrderMark(AccountBean bean) {
+        String unPaymentNum = bean.getUnPaymentNum();
+        if (unPaymentNum != null){
+            int int_unPaymentNum = Integer.parseInt(unPaymentNum);
+            if (int_unPaymentNum > 0){
+                tv_num_waitPayment.setVisibility(View.VISIBLE);
+                tv_num_waitPayment.setText(unPaymentNum);
+                if (int_unPaymentNum > 99){
+                    tv_num_waitPayment.setText("99+");
+                }
+            }else {
+                tv_num_waitPayment.setVisibility(View.GONE);
+            }
+        }
+
+        String deliveredNum = bean.getDeliveredNum();
+        if (deliveredNum != null){
+            int int_deliveredNum = Integer.parseInt(deliveredNum);
+            if (int_deliveredNum > 0){
+                tv_num_waitInGoods.setVisibility(View.VISIBLE);
+                tv_num_waitInGoods.setText(deliveredNum);
+                if (int_deliveredNum > 99){
+                    tv_num_waitInGoods.setText("99+");
+                }
+            }else {
+                tv_num_waitInGoods.setVisibility(View.GONE);
+            }
+        }
+        String successOrderNum = bean.getSuccessOrderNum();
+        if (successOrderNum != null){
+            int int_successOrderNum = Integer.parseInt(successOrderNum);
+            if (int_successOrderNum > 0){
+                tv_num_orderOk.setVisibility(View.VISIBLE);
+                tv_num_orderOk.setText(successOrderNum);
+                if (int_successOrderNum > 99){
+                    tv_num_orderOk.setText("99+");
+                }
+            }else {
+                tv_num_orderOk.setVisibility(View.GONE);
+            }
+        }
+        String cancelOrderNum = bean.getCancelOrderNum();
+        if (cancelOrderNum != null){
+            int int_cancelOrderNum = Integer.parseInt(cancelOrderNum);
+            if (int_cancelOrderNum > 0){
+                tv_num_orderCancel.setVisibility(View.VISIBLE);
+                tv_num_orderCancel.setText(cancelOrderNum);
+                if (int_cancelOrderNum > 99){
+                    tv_num_orderCancel.setText("99+");
+                }
+            }else {
+                tv_num_orderCancel.setVisibility(View.GONE);
+            }
         }
     }
 

@@ -99,7 +99,7 @@ public class RealNameActivity extends BaseActivity <RealNameActivityPresenter>im
                 ToastUtil.showLong(object.getString("msg"));
                 SwitchActivityManager.exitActivity(RealNameActivity.this);
             }else {
-                ToastUtil.showLong(object.getString("errmsg"));
+                ToastUtil.showLong(object.getString("data"));
             }
         }catch (Exception e){
             e.printStackTrace();

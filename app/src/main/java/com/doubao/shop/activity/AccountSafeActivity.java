@@ -11,6 +11,7 @@ import com.doubao.shop.presenter.AccountSafeActivityPresenter;
 import com.doubao.shop.tools.AppUtils;
 import com.doubao.shop.tools.ConfigUtils;
 import com.doubao.shop.tools.NetworkUtil;
+import com.doubao.shop.tools.StringUtils;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.tools.ToastUtil;
 import com.doubao.shop.view.AccountSafeActivityView;
@@ -34,6 +35,8 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
     TextView tv_authName;
     @BindView(R.id.civ_headImage)
     CircleImageView civ_headImage;
+    @BindView(R.id.tv_bindNum)
+    TextView tv_bindNum;
 
     private LogoutDialog dialog;
 
@@ -43,7 +46,11 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
     }
 
     @Override
-    protected void initData() {
+    protected void initData() {}
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (NetworkUtil.isNetworkConnected(mContext)){
             mPresenter.userInfo();
         }else {
@@ -122,13 +129,15 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
 //            }
             UserInfo bean = AppUtils.parseJsonWithGson(s, UserInfo.class);
             if (bean != null){
-                AppUtils.setImage(AccountSafeActivity.this,bean.getAvatar(),civ_headImage);
-                if (bean.getUsername() != null){
-                    tv_authName.setText("已认证");
+                UserInfo.User data = bean.getData();
+                tv_bindNum.setText(data.getMobile());
+//                AppUtils.setImage(AccountSafeActivity.this,data.getAvatar(),civ_headImage);
+                if (data.getUsername() != null && StringUtils.isNotBlank(data.getUsername())){
+                    tv_authName.setText(AppUtils.nameEncrypt(data.getUsername()));
                     tv_authName.setEnabled(false);
                 }
-                if (bean.getIdcard() != null){
-                    tv_authIdNo.setText("已认证");
+                if (data.getIdcard() != null){
+                    tv_authIdNo.setText(AppUtils.idEncrypt(data.getIdcard()));
                     tv_authIdNo.setEnabled(false);
                 }
             }
@@ -153,6 +162,7 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
 
     @Override
     public void logout() {
+        ConfigUtils.setAccountRefresh(true);
         ConfigUtils.cleatSP();
         SwitchActivityManager.startMainActivity(AccountSafeActivity.this);
     }
