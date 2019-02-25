@@ -3,7 +3,7 @@ package com.doubao.shop.tools;
 
 public class ConfigUtils {
 
-    public static int DETAIL_TO_CART = 0;//商品详情跳转购物车
+    public static int DETAIL_TO_OTHER = 0;//1:商品详情跳转购物车,2:跳转主页
 
     public static final String TOKEN="token";
     public static void saveToken(String iscancle){
@@ -77,6 +77,32 @@ public class ConfigUtils {
 
     public static boolean getAccountRefresh() {
         return (boolean) SpUtils.get(ACCOUNT_REFRESH, false);
+    }
+
+    /**
+     * 购物车刷新
+     */
+    public static final String CART_REFRESH = "cart_refresh";
+
+    public static void setCartRefresh(boolean refresh) {
+        SpUtils.put(CART_REFRESH, refresh);
+    }
+
+    public static boolean getCartRefresh() {
+        return (boolean) SpUtils.get(CART_REFRESH, false);
+    }
+
+    /**
+     * 首次安装的时候显示引导页
+     */
+    public static final String show_guide = "show_guide";
+
+    public static void saveGuide(boolean isguide) {
+        SpUtils.put(show_guide, isguide);
+    }
+
+    public static boolean getSaveShow() {
+        return (boolean) SpUtils.get(show_guide, false);
     }
 
     /**

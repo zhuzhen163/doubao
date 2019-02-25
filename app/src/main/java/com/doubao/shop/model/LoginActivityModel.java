@@ -10,9 +10,9 @@ import com.doubao.shop.transformer.StrTransformer;
 
 public class LoginActivityModel {
 
-    public void toLogin(String mobile,String code, final LoginInterFace loginInterFace){
+    public void toLogin(String mobile,String code, String imageCode,final LoginInterFace loginInterFace){
 
-        Http.getHttpService(UrlHelper.BASE_URL).toLogin(mobile,code).
+        Http.getHttpService(UrlHelper.BASE_URL).toLogin(mobile,code,imageCode).
                 compose(new StrTransformer<String>())
                 .subscribe(new CommonSubscriber<String>(ZApplication.getAppContext()) {
 

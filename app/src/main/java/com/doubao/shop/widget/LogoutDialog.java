@@ -16,13 +16,11 @@ import com.doubao.shop.R;
 */
 
 public class LogoutDialog extends Dialog {
-    Context mContext;
     Button btn_cancel,btn_ok;
     LogoutDialogCallBack callBack;
 
     public LogoutDialog(Context context) {
         super(context, R.style.delete_address_dialog);
-        this.mContext = context;
     }
 
     @Override

@@ -69,7 +69,7 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
 
         AppUtils.setImage(mContext,entity.getList_pic_url(),iv_productImg);
         tv_productName.setText(entity.getGoods_name());
-        tv_productPrice.setText(entity.getMarket_price());
+        tv_productPrice.setText("￥"+entity.getMarket_price());
         tv_productNum.setText("*"+entity.getNumber());
 
         if ("1".equals(entity.getChecked())){
@@ -80,11 +80,9 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
 
         if (isDelete){
             cb_select.setChecked(entity.isCheckDelete());
-            tv_productName.setVisibility(View.GONE);
             tv_productNum.setVisibility(View.GONE);
             addView.setVisibility(View.VISIBLE);
         }else {
-            tv_productName.setVisibility(View.VISIBLE);
             tv_productNum.setVisibility(View.VISIBLE);
             addView.setVisibility(View.GONE);
         }
@@ -116,7 +114,7 @@ public class ShopCartFragmentAdapter extends ListBaseAdapter<CartListBean> {
         addView.setOnValueChangeListene(new AdderView.OnValueChangeListener() {
             @Override
             public void onValueChange(int value) {
-                if (1 != value){
+                if (0 != value){
                     checkBoxCallback.productNum(value,entity.getGoods_id(),entity.getId(),entity.getProduct_id());
                 }
             }

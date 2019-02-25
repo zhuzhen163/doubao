@@ -19,7 +19,6 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.doubao.shop.BuildConfig;
 import com.doubao.shop.R;
 import com.doubao.shop.activity.webview.WebViewClickInterface;
 import com.doubao.shop.base.BaseActivity;
@@ -30,11 +29,10 @@ import com.doubao.shop.tools.LogUtil;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.tools.ToastUtil;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import anet.channel.util.StringUtils;
 import butterknife.BindView;
 
 /**
@@ -51,10 +49,10 @@ public class BaseWebViewActivity extends BaseActivity {
     private Handler handler = new Handler();
     private Timer timer;
     private TimerTask timerTask;
-    private Map<String, String> extraHeaders = new HashMap<>();
-    private String mTitle = "";
+    private String mTitle = "",type ="";
     private String loadUrl = "";//加载的url
-    private String joint = "&token="+ConfigUtils.getToken();
+    private boolean isLoad = true;
+    private boolean miLoad = true;
 
     @Override
     protected BasePresenter loadPresenter() {
@@ -70,12 +68,8 @@ public class BaseWebViewActivity extends BaseActivity {
         setBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (webview != null && webview.canGoBack()) {
-                    webview.goBack();
-                } else {
-                    AppUtils.hideInputMethod(BaseWebViewActivity.this);
-                    SwitchActivityManager.exitActivity(BaseWebViewActivity.this);
-                }
+                AppUtils.hideInputMethod(BaseWebViewActivity.this);
+                SwitchActivityManager.exitActivity(BaseWebViewActivity.this);
 
             }
         });
@@ -86,6 +80,7 @@ public class BaseWebViewActivity extends BaseActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         loadUrl = getIntent().getStringExtra("mUrl");
         mTitle = getIntent().getStringExtra("mTitle");
+        type = getIntent().getStringExtra("type");
         initWebViewSetting(webview, new MyWebViewClient(), new MyWebChromeClient());
         webview.addJavascriptInterface(new WebViewClickInterface(BaseWebViewActivity.this),"android");
         clearCookie();
@@ -130,10 +125,14 @@ public class BaseWebViewActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         if ( webview != null){
-            extraHeaders.put("device", "android");
-            extraHeaders.put("token", ConfigUtils.getToken());
-            extraHeaders.put("version", BuildConfig.VERSION_NAME);
-            webview.loadUrl(loadUrl+joint, extraHeaders);
+            if ("1".equals(type)){
+                webview.loadUrl(loadUrl);
+            }else {
+                webview.loadUrl(loadUrl+"&token="+ConfigUtils.getToken());
+                if (AppUtils.isMIUI()){//兼容小米登录刷新
+                    webview.reload();
+                }
+            }
         }
     }
 
@@ -162,8 +161,8 @@ public class BaseWebViewActivity extends BaseActivity {
         @Override
         public boolean shouldOverrideUrlLoading(final WebView view, String url) {
             LogUtil.i(TAG, "shouldOverrideUrlLoading:" + url);
-            loadUrl = url;
-            view.loadUrl(url, extraHeaders);
+//            loadUrl = url;
+            view.loadUrl(url);
             return true;
         }
 
@@ -184,6 +183,18 @@ public class BaseWebViewActivity extends BaseActivity {
             String title = view.getTitle();
             if (!title.contains("http") || !title.contains(".com") || !title.contains(".html")){
                 setTitleName(view.getTitle());
+            }
+            if (StringUtils.isNotBlank(url) && url.contains("payment/successPay")){
+                if (isLoad){
+                    isLoad = false;
+                    view.loadUrl(url+"&device=android&token="+ConfigUtils.getToken());
+                }
+            }
+            if (AppUtils.isMIUI()){//兼容小米登录刷新
+                if (!miLoad){
+                    webview.reload();
+                }
+                miLoad = !miLoad;
             }
             setShowLoading(false);
             if (handler != null) {
@@ -244,14 +255,9 @@ public class BaseWebViewActivity extends BaseActivity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {//点击的是返回键
-            if (webview != null && webview.canGoBack()) {
-                webview.goBack();
-            } else {
-                AppUtils.hideInputMethod(BaseWebViewActivity.this);
-                SwitchActivityManager.exitActivity(BaseWebViewActivity.this);
-            }
-
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() != KeyEvent.ACTION_UP) {//点击的是返回键
+            AppUtils.hideInputMethod(BaseWebViewActivity.this);
+            SwitchActivityManager.exitActivity(BaseWebViewActivity.this);
         }
         return true;
     }
@@ -280,9 +286,6 @@ public class BaseWebViewActivity extends BaseActivity {
         if (timerTask != null){
             timerTask.cancel();
             timerTask = null;
-        }
-        if (extraHeaders != null){
-            extraHeaders = null;
         }
         super.onDestroy();
     }

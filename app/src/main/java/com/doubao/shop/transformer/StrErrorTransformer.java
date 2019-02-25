@@ -38,10 +38,12 @@ public class StrErrorTransformer<T> implements Observable.Transformer<String, T>
                     throw new ServerException(ErrorType.EMPTY_BEAN, "解析对象为空");
                 try {
                     JSONObject jsonObject = new JSONObject(s);
-                    String errmsg = jsonObject.getString("errmsg");
-                    if (errmsg.contains("token失效") || errmsg.contains("登录")){
-                        ConfigUtils.saveToken("");
-                        singleCallBack.singleCallBack();
+                    if (jsonObject.has("errmsg")){
+                        String errmsg = jsonObject.getString("errmsg");
+                        if (errmsg.contains("token失效") || errmsg.contains("登录")){
+                            ConfigUtils.saveToken("");
+                            singleCallBack.singleCallBack();
+                        }
                     }
                 }catch (Exception e){
                         e.printStackTrace();

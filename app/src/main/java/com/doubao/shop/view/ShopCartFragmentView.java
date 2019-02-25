@@ -9,6 +9,10 @@ import com.doubao.shop.base.BaseView;
 
 public interface ShopCartFragmentView extends BaseView {
 
+    //去支付前检查是否有下架商品
+    void payBeforeSuccess(String s);
+    void payBeforeFail(String s);
+
     //更新购物车
     void updateSuccess(String s);
     void updateFail(String s);

@@ -27,6 +27,42 @@ public class ShopBuyDetailBean extends BaseEntity {
         private String freightPrice;
         private String goodsTotalPrice;
         private String disCountAmount;
+        private String userAmount;
+        private String residueAmount;
+        private String usableAmount;
+        private boolean ampleAmountFlag;
+
+        public String getUsableAmount() {
+            return usableAmount;
+        }
+
+        public void setUsableAmount(String usableAmount) {
+            this.usableAmount = usableAmount;
+        }
+
+        public String getUserAmount() {
+            return userAmount;
+        }
+
+        public void setUserAmount(String userAmount) {
+            this.userAmount = userAmount;
+        }
+
+        public String getResidueAmount() {
+            return residueAmount;
+        }
+
+        public void setResidueAmount(String residueAmount) {
+            this.residueAmount = residueAmount;
+        }
+
+        public boolean isAmpleAmountFlag() {
+            return ampleAmountFlag;
+        }
+
+        public void setAmpleAmountFlag(boolean ampleAmountFlag) {
+            this.ampleAmountFlag = ampleAmountFlag;
+        }
 
         public String getDisCountAmount() {
             return disCountAmount;

@@ -11,12 +11,12 @@ import com.doubao.shop.model.LoginActivityModel;
 
 public class LoginActivityPresenter extends BasePresenter<LoginActivityModel,LoginActivity> {
 
-    public void getLoginPresenter(String mobile,String code){
+    public void getLoginPresenter(String mobile,String code,String imageCode){
         if (getView()!=null){
             getView().showLoading();
         }
 
-        getModel().toLogin(mobile,code, new LoginActivityModel.LoginInterFace() {
+        getModel().toLogin(mobile,code,imageCode, new LoginActivityModel.LoginInterFace() {
             @Override
             public void toLoginSuccess(String loginBean) {
                 if (getView() != null){

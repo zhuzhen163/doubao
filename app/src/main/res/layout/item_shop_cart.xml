@@ -69,10 +69,10 @@
 
         <com.doubao.shop.widget.AdderView
             android:layout_centerVertical="true"
-            android:visibility="gone"
             android:layout_marginRight="@dimen/dimen15dp"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/dimen5dp"
-            android:layout_below="@id/tv_productNum"
+            android:layout_alignBottom="@id/tv_productPrice"
             android:layout_alignParentRight="true"
             android:id="@+id/addView"
             android:layout_width="wrap_content"

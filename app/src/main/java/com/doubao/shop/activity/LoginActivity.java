@@ -120,7 +120,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
         spana.setSpan(clicka, 0, a.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         spanb.setSpan(clickb, 0, b.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         spanc.setSpan(clickc, 0, c.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        tv_agreement.setText("已同意并阅读");
+        tv_agreement.setText("已阅读并同意");
         tv_agreement.append(spana);
         tv_agreement.append("、");
         tv_agreement.append(spanb);
@@ -160,9 +160,9 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
                 if (NetworkUtil.isNetworkConnected(mContext)){
                     if (StringUtils.isNotBlank(inputCode) && StringUtils.isNotBlank(inputPhone)){
                         if (xieyi){
-                            mPresenter.getLoginPresenter(inputPhone,inputCode);
+                            mPresenter.getLoginPresenter(inputPhone,inputCode,imageCode);
                         }else {
-                            ToastUtil.showLong("请勾选服务协议");
+                            ToastUtil.showLong("请阅读并同意平台相关协议");
                         }
                     }else {
                         ToastUtil.showLong("请输入手机号或验证码");
@@ -189,15 +189,22 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
     public void toLoginSuccess(String loginBean) {
         try {
             JSONObject jsonObject = new JSONObject(loginBean);
-            if ("0".equals(jsonObject.getString("errno"))){
-                LoginBean bean = AppUtils.parseJsonWithGson(loginBean, LoginBean.class);
-                ConfigUtils.saveToken(bean.getData().getToken());
-                ConfigUtils.saveUserId(bean.getData().getUserId());
-                ConfigUtils.savePhone(inputPhone);
-                ConfigUtils.setAccountRefresh(true);
-                SwitchActivityManager.exitActivity(LoginActivity.this);
+            if (jsonObject.has("errno")){
+                if ("0".equals(jsonObject.getString("errno"))){
+                    LoginBean bean = AppUtils.parseJsonWithGson(loginBean, LoginBean.class);
+                    ConfigUtils.saveToken(bean.getData().getToken());
+                    ConfigUtils.saveUserId(bean.getData().getUserId());
+                    ConfigUtils.savePhone(inputPhone);
+                    ConfigUtils.setAccountRefresh(true);
+                    ConfigUtils.setCartRefresh(true);
+                    SwitchActivityManager.exitActivity(LoginActivity.this);
+                }else {
+                    ToastUtil.showLong(jsonObject.getString("errmsg"));
+                }
             }else {
-                ToastUtil.showLong(jsonObject.getString("errmsg"));
+                if (jsonObject.has("msg")){
+                    ToastUtil.showLong(jsonObject.getString("msg"));
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -225,7 +232,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
                 if (jsonObject.has("count")){
                     String count = jsonObject.getString("count");
                     int countInt = Integer.parseInt(count);
-                    if (countInt > 5){
+                    if (countInt >= 5){
                         ll_img_code.setVisibility(View.VISIBLE);
                         showCodeImage();
                     }

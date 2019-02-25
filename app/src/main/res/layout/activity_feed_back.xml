@@ -43,7 +43,7 @@
             android:background="@null"
             android:gravity="top"
             android:textColor="@color/color_33"
-            android:hint="对我们网站、商品、服务，你还有什么建议吗？你还希望在斗宝上买到什么？请告诉我们…"
+            android:hint="对我们网站、商品、服务，你还有什么建议吗？你还希望在斗宝俱乐部上买到什么？请告诉我们…"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         <TextView

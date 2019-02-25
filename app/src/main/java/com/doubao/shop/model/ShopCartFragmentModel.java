@@ -18,6 +18,38 @@ import okhttp3.RequestBody;
 
 public class ShopCartFragmentModel {
 
+    public void payBeforeCheck(String goodIds, final PayBeforeCallBack payBeforeCallBack){
+
+        Gson gson=new Gson();
+        HashMap<String,String> paramsMap=new HashMap<>();
+        String substring = goodIds.substring(0, goodIds.length() - 1);
+        paramsMap.put("goodIds",substring);
+        String strEntity = gson.toJson(paramsMap);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
+
+        Http.getHttpService(UrlHelper.BASE_URL).payBeforeCheck(body).
+                compose(new StrTransformer<String>())
+                .subscribe(new CommonSubscriber<String>(ZApplication.getAppContext()) {
+
+                    @Override
+                    public void onNext(String s) {
+                        payBeforeCallBack.payBeforeSuccess(s);
+                    }
+
+                    @Override
+                    protected void onError(ApiException e) {
+                        super.onError(e);
+                        payBeforeCallBack.payBeforeFail(e.msg);
+                    }
+                });
+
+    }
+
+    public interface PayBeforeCallBack{
+        void payBeforeSuccess(String s);
+        void payBeforeFail(String s);
+    }
+
     public void update(String goodsId,String id,String productId,int number, final UpdateCallBack updateCallBack){
 
         Gson gson=new Gson();

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.doubao.shop.tools.LogUtil;
-import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
@@ -56,10 +55,10 @@ public class ZApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mBaseApplication = this;
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
-        }
-        LeakCanary.install(this);
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            return;
+//        }
+//        LeakCanary.install(this);
         PushAgent mPushAgent = PushAgent.getInstance(this);
         CrashReport.initCrashReport(getApplicationContext(), "b6a0dc89d2", true);//发布时把isDebug关闭
         //注册推送服务，每次调用register方法都会回调该接口

@@ -12,10 +12,12 @@ import com.doubao.shop.activity.BaseWebViewActivity;
 import com.doubao.shop.activity.CreateAddressActivity;
 import com.doubao.shop.activity.CustomServiceActivity;
 import com.doubao.shop.activity.FeedBackActivity;
+import com.doubao.shop.activity.GuidePageActivity;
 import com.doubao.shop.activity.LoginActivity;
 import com.doubao.shop.activity.MainActivity;
 import com.doubao.shop.activity.OrderStateActivity;
 import com.doubao.shop.activity.RealNameActivity;
+import com.doubao.shop.activity.SearchWebViewActivity;
 import com.doubao.shop.activity.ShopBuyDetailActivity;
 import com.doubao.shop.entity.AddressDetailBean;
 
@@ -26,6 +28,15 @@ import com.doubao.shop.entity.AddressDetailBean;
  */
 
 public class SwitchActivityManager {
+
+    /**
+     * @param mContext
+     */
+    public static void startGuidePageActivity(Context mContext){
+        Intent intent = new Intent(mContext, GuidePageActivity.class);
+        mContext.startActivity(intent);
+        ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
+    }
 
     /**
      * 订单状态
@@ -131,9 +142,31 @@ public class SwitchActivityManager {
      * @param mContext 上下文
      * @param mUrl     要加载的网页url
      * @param mTitle   title
+     *                  type:支付是否拼接,0不拼接
      */
     public static void loadUrl(Context mContext, String mUrl, String mTitle) {
         Intent intent = new Intent(mContext, BaseWebViewActivity.class);
+        //拼接device是通知h5加载链接来自哪个设备
+        if (mUrl.contains("?")){
+            intent.putExtra("mUrl", mUrl+"&device=android");
+        }else {
+            intent.putExtra("mUrl", mUrl+"?device=android");
+        }
+        intent.putExtra("type","0");
+        intent.putExtra("mTitle", mTitle);
+        mContext.startActivity(intent);
+        ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
+    }
+
+    /**
+     * 打开网页:
+     * @param mContext 上下文
+     * @param mUrl     搜索
+     * @param mTitle   title
+     *                 为了解决返回不需要重新刷新的问题
+     */
+    public static void searchWebViewActivity(Context mContext, String mUrl, String mTitle) {
+        Intent intent = new Intent(mContext, SearchWebViewActivity.class);
         //拼接device是通知h5加载链接来自哪个设备
         if (mUrl.contains("?")){
             intent.putExtra("mUrl", mUrl+"&device=android");
@@ -150,11 +183,13 @@ public class SwitchActivityManager {
      * @param mContext 上下文
      * @param mUrl     加载支付url
      * @param mTitle   title
+     *                 type:支付是否拼接
      */
     public static void loadOrderUrl(Context mContext, String mUrl, String mTitle) {
         Intent intent = new Intent(mContext, BaseWebViewActivity.class);
         intent.putExtra("mUrl", mUrl);
         intent.putExtra("mTitle", mTitle);
+        intent.putExtra("type","1");
         mContext.startActivity(intent);
         ((Activity) mContext).overridePendingTransition(R.anim.left_out, R.anim.left_in);
     }

@@ -74,6 +74,8 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
     @Override
     protected void initView() {
         setTitleName("账号绑定");
+        dialog = new LogoutDialog(this);
+        dialog.setCallBack(this);
     }
 
     @Override
@@ -91,9 +93,9 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
                 SwitchActivityManager.startRealNameActivity(AccountSafeActivity.this);
                 break;
             case R.id.tv_logout:
-                dialog = new LogoutDialog(this);
-                dialog.setCallBack(this);
-                dialog.show();
+                if (dialog != null){
+                    dialog.show();
+                }
                 break;
         }
     }
@@ -162,8 +164,8 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
 
     @Override
     public void logout() {
-        ConfigUtils.setAccountRefresh(true);
         ConfigUtils.cleatSP();
+        ConfigUtils.setAccountRefresh(true);
         SwitchActivityManager.startMainActivity(AccountSafeActivity.this);
     }
 
@@ -171,7 +173,7 @@ public class AccountSafeActivity extends BaseActivity <AccountSafeActivityPresen
     protected void onDestroy() {
         super.onDestroy();
         if (dialog != null){
-            dialog = null;
+            dialog.dismiss();
         }
     }
 }

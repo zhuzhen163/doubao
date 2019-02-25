@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import com.doubao.shop.R;
 import com.doubao.shop.tools.CommonUtils;
+import com.doubao.shop.tools.ConfigUtils;
+import com.doubao.shop.tools.LogUtil;
+import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.widget.statusbar.StatusBarUtil;
 
 public class TransitionActivity extends FragmentActivity{
@@ -49,7 +52,12 @@ public class TransitionActivity extends FragmentActivity{
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                toMainActivity();
+                LogUtil.i("sharedpreferences","show:"+ConfigUtils.getSaveShow()+",token:"+ConfigUtils.getToken());
+                if (!ConfigUtils.getSaveShow()) {
+                    SwitchActivityManager.startGuidePageActivity(TransitionActivity.this);
+                }else {
+                    toMainActivity();
+                }
             }
         }, 3500);
 

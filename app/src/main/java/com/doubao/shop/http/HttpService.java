@@ -55,6 +55,9 @@ public interface HttpService {
     @POST("cart/update")
     Observable<String> update(@Body RequestBody body);
 
+    @POST("cart/payBeforeCheck")
+    Observable<String> payBeforeCheck(@Body RequestBody body);
+
     @POST("cart/checked")
     Observable<String> isCheck(@Body RequestBody body);
 
@@ -63,7 +66,7 @@ public interface HttpService {
 
     @FormUrlEncoded()
     @POST("auth/login_by_mobile")
-    Observable<String> toLogin(@Field("mobile") String mobile,@Field("code") String  code);
+    Observable<String> toLogin(@Field("mobile") String mobile,@Field("code") String  code,@Field("yzm") String  imageCode);
 
     @FormUrlEncoded()
     @POST("sendSms")

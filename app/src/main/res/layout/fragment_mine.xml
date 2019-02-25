@@ -22,7 +22,7 @@
                 android:layout_width="@dimen/dimen60dp"
                 android:layout_height="@dimen/dimen60dp"
                 android:layout_marginTop="25dp"
-                android:src="@drawable/iv_defaulthead"
+                android:src="@mipmap/logo"
                 app:civ_border_color="@color/white"
                 />
 
@@ -118,7 +118,7 @@
                     android:textColor="@color/color_33"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="代付款"/>
+                    android:text="待付款"/>
                 <TextView
                     android:visibility="gone"
                     android:layout_marginTop="-5dp"
@@ -144,7 +144,7 @@
                     android:id="@+id/iv_waitInGoods"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/img_daishouhuo"/>
+                    android:src="@drawable/daiyoushou"/>
                 <TextView
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dimen5dp"
@@ -386,6 +386,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="invisible"
                 android:id="@+id/ll_messageCenter"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

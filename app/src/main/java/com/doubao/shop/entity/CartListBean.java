@@ -22,8 +22,27 @@ public class CartListBean {
     private String crash_save_price;
     private String list_pic_url;
     private String good_url;
+    //------------检查是否下架商品---------------------
+    private String name;
+    private String cart_num;
 
-//    public boolean isCheck() {
+    public String getCart_num() {
+        return cart_num;
+    }
+
+    public void setCart_num(String cart_num) {
+        this.cart_num = cart_num;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    //    public boolean isCheck() {
 //        return isCheck;
 //    }
 //

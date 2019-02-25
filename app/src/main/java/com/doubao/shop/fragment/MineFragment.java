@@ -18,7 +18,6 @@ import com.doubao.shop.tools.StringUtils;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.tools.ToastUtil;
 import com.doubao.shop.view.MineFragmentView;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -83,6 +82,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
 
     public void initData() {
         if (NetworkUtil.isNetworkConnected(mContext)){
+            token = ConfigUtils.getToken();
             mFragmentPresenter.getUserAccount();
         }else {
             ToastUtil.showLong(getString(R.string.network_error));
@@ -189,6 +189,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
             public void onClick(View view) {
                 if (StringUtils.isNotBlank(token)){
                     SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/coupon","优惠券");
+//                    SwitchActivityManager.loadOrderUrl(mContext,"https://shouyin.yeepay.com/nc-cashier-wap/wap/query/result?token=4017dca0-3df9-4ca1-815b-047460a45c53","");
                 }else {
                     SwitchActivityManager.startLoginActivity(mContext);
                 }
@@ -250,7 +251,6 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
                 ToastUtil.showLong(bean.getErrmsg());
                 tv_ptMoney.setText("0.0");
                 tv_name.setText("斗宝用户");
-                Picasso.with(mContext).load(R.drawable.iv_defaulthead).into(civ_headImage);
                 tv_num_waitPayment.setVisibility(View.GONE);
                 tv_num_waitInGoods.setVisibility(View.GONE);
                 tv_num_orderOk.setVisibility(View.GONE);
@@ -264,7 +264,6 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
                 setOrderMark(bean);
 
                 tv_name.setText(AppUtils.phoneEncrypt(ConfigUtils.getPhone()));
-                Picasso.with(mContext).load(R.mipmap.logo).into(civ_headImage);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -283,7 +282,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
                 tv_num_waitPayment.setVisibility(View.VISIBLE);
                 tv_num_waitPayment.setText(unPaymentNum);
                 if (int_unPaymentNum > 99){
-                    tv_num_waitPayment.setText("99+");
+                    tv_num_waitPayment.setText("...");
                 }
             }else {
                 tv_num_waitPayment.setVisibility(View.GONE);
@@ -297,7 +296,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
                 tv_num_waitInGoods.setVisibility(View.VISIBLE);
                 tv_num_waitInGoods.setText(deliveredNum);
                 if (int_deliveredNum > 99){
-                    tv_num_waitInGoods.setText("99+");
+                    tv_num_waitInGoods.setText("...");
                 }
             }else {
                 tv_num_waitInGoods.setVisibility(View.GONE);
@@ -310,7 +309,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
                 tv_num_orderOk.setVisibility(View.VISIBLE);
                 tv_num_orderOk.setText(successOrderNum);
                 if (int_successOrderNum > 99){
-                    tv_num_orderOk.setText("99+");
+                    tv_num_orderOk.setText("...");
                 }
             }else {
                 tv_num_orderOk.setVisibility(View.GONE);
@@ -323,7 +322,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
                 tv_num_orderCancel.setVisibility(View.VISIBLE);
                 tv_num_orderCancel.setText(cancelOrderNum);
                 if (int_cancelOrderNum > 99){
-                    tv_num_orderCancel.setText("99+");
+                    tv_num_orderCancel.setText("...");
                 }
             }else {
                 tv_num_orderCancel.setVisibility(View.GONE);

@@ -106,7 +106,7 @@
             android:layout_marginLeft="@dimen/dimen15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="平台抵扣券"/>
+            android:text="无可用优惠券"/>
         <TextView
             android:layout_marginLeft="@dimen/dimen10dp"
             android:layout_marginRight="@dimen/dimen15dp"
@@ -189,33 +189,48 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/colorLine"/>
+
     <LinearLayout
-        android:gravity="center_vertical"
         android:background="@color/white"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen50dp">
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen50dp">
+            <TextView
+                android:layout_marginLeft="@dimen/dimen15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="克拉"/>
+            <ImageView
+                android:id="@+id/iv_query"
+                android:layout_marginLeft="@dimen/dimen8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_query"
+                />
+            <TextView
+                android:gravity="right"
+                android:layout_weight="1"
+                android:id="@+id/tv_platformNum"
+                android:layout_marginLeft="@dimen/dimen10dp"
+                android:layout_marginRight="@dimen/dimen15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥"/>
+        </LinearLayout>
         <TextView
+            android:id="@+id/tv_kelaMessage"
+            android:layout_marginBottom="@dimen/dimen5dp"
+            android:textColor="@color/color_66"
+            android:textSize="@dimen/dimen12dp"
             android:layout_marginLeft="@dimen/dimen15dp"
+            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="克拉"/>
-        <TextView
-            android:id="@+id/tv_query"
-            android:textSize="@dimen/dimen10dp"
-            android:layout_marginLeft="@dimen/dimen10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dimen10dp"
-            android:text="？"/>
-        <TextView
-            android:gravity="right"
-            android:layout_weight="1"
-            android:id="@+id/tv_platformNum"
-            android:layout_marginLeft="@dimen/dimen10dp"
-            android:layout_marginRight="@dimen/dimen15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="￥"/>
+            />
     </LinearLayout>
 
     <View

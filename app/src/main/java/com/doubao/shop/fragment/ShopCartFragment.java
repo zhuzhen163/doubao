@@ -11,6 +11,7 @@ import com.doubao.shop.R;
 import com.doubao.shop.adapter.ShopCartFragmentAdapter;
 import com.doubao.shop.base.BaseFragment;
 import com.doubao.shop.entity.CartListBean;
+import com.doubao.shop.entity.PayBeforeCheckBean;
 import com.doubao.shop.entity.ShopCartListBean;
 import com.doubao.shop.presenter.ShopCartFragmentPresenter;
 import com.doubao.shop.tools.AppUtils;
@@ -20,6 +21,7 @@ import com.doubao.shop.tools.StringUtils;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.tools.ToastUtil;
 import com.doubao.shop.view.ShopCartFragmentView;
+import com.doubao.shop.widget.PayBeforeCheckDialog;
 import com.doubao.shop.widget.xrecyclerview.XRecyclerView;
 
 import org.json.JSONObject;
@@ -35,7 +37,7 @@ import butterknife.BindView;
  * Created by zhuzhen
  */
 
-public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> implements ShopCartFragmentView,ShopCartFragmentAdapter.CheckBoxCallback {
+public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> implements ShopCartFragmentView,ShopCartFragmentAdapter.CheckBoxCallback,PayBeforeCheckDialog.PayBeforeInterFace {
 
     @BindView(R.id.xrv_list)
     XRecyclerView xrv_list;
@@ -75,9 +77,15 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     @BindView(R.id.tv_goLogin)
     TextView tv_goLogin;
     public ToHomeCallBack homeCallBack;
+    PayBeforeCheckDialog checkDialog;
 
     private ShopCartFragmentAdapter shopCartFragmentAdapter;
     private List<CartListBean> list = new ArrayList<>();
+
+    @Override
+    public void payBefore() {
+        mFragmentPresenter.getShopCartList();
+    }
 
     public interface ToHomeCallBack{
         void toHomeCallBack();
@@ -95,21 +103,25 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-//        if (NetworkUtil.isNetworkConnected(mContext)) {
-//            list.clear();
-//            mFragmentPresenter.getShopCartList();
-//            iv_none.setVisibility(View.GONE);
-//            ll_net_connect.setVisibility(View.VISIBLE);
-//        } else {
-//            iv_none.setVisibility(View.VISIBLE);
-//            ll_net_connect.setVisibility(View.GONE);
-//            ToastUtil.showLong(getString(R.string.network_error));
-//        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        //就为了登录之后刷新界面状态
+        if (StringUtils.isNotBlank(ConfigUtils.getToken())){
+            if (ConfigUtils.getCartRefresh()){
+                ConfigUtils.setCartRefresh(false);
+                mFragmentPresenter.getShopCartList();
+            }
+            if (ll_goLogin.getVisibility() == View.VISIBLE){
+                ll_goLogin.setVisibility(View.GONE);
+            }
+        }else {
+            ll_goLogin.setVisibility(View.VISIBLE);
+            ll_noCart.setVisibility(View.GONE);
+            ll_net_connect.setVisibility(View.GONE);
+        }
     }
 
     public void initData(){
@@ -123,6 +135,7 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
                     ll_goLogin.setVisibility(View.GONE);
                 }
             }else {
+                ll_noCart.setVisibility(View.GONE);
                 ll_goLogin.setVisibility(View.VISIBLE);
                 ll_net_connect.setVisibility(View.GONE);
             }
@@ -181,11 +194,12 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
         tv_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isSelectShop()){
-                    SwitchActivityManager.startShopBuyDetailActivity(mContext,"","","cart");
-                }else {
-                    ToastUtil.showLong("您还没有选中要购买的商品");
-                }
+//                if (isSelectShop()){
+//                    SwitchActivityManager.startShopBuyDetailActivity(mContext,"0","","cart");
+//                }else {
+//                    ToastUtil.showLong("您还没有选中要购买的商品");
+//                }
+                buySelect();
             }
         });
 
@@ -231,6 +245,9 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
 
         xrv_list.setAdapter(shopCartFragmentAdapter);
         xrv_list.setLayoutManager(new LinearLayoutManager(getActivity()));
+        checkDialog = new PayBeforeCheckDialog(mContext);
+        checkDialog.setPayBeforeInterFace(this);
+        checkDialog.setCancelable(false);
 
     }
 
@@ -248,7 +265,11 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
             }
         }
 
-        mFragmentPresenter.cartDelete(deleteIds);
+        if (StringUtils.isNotBlank(deleteIds)){
+            mFragmentPresenter.cartDelete(deleteIds);
+        }else {
+            ToastUtil.showLong("请选择要删除的商品");
+        }
     }
 
     /**
@@ -265,6 +286,27 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
         }
 
         mFragmentPresenter.isCheck(isChecked,checkShop);
+    }
+
+    /**
+     * 购买所选
+     */
+    public void buySelect(){
+        String goodIds = "";
+        Iterator<CartListBean> it = list.iterator();
+        while(it.hasNext()){
+            CartListBean entity = it.next();
+            if ("1".equals(entity.getChecked())){
+                goodIds+=entity.getGoods_id()+"_"+entity.getNumber()+",";
+            }
+        }
+
+        if (StringUtils.isNotBlank(goodIds)){
+            mFragmentPresenter.payBeforeCheck(goodIds);
+        }else {
+            ToastUtil.showLong("您还没有选中要购买的商品");
+        }
+
     }
 
     /**
@@ -305,6 +347,34 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
     @Override
     public void productNum(int number, String goods_id, String id, String product_id) {
         mFragmentPresenter.update(goods_id,id,product_id,number);
+    }
+
+    @Override
+    public void payBeforeSuccess(String s) {
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            if ("0".equals(jsonObject.getString("errno"))){
+                if (checkDialog != null && checkDialog.isShowing()){
+                    checkDialog.dismiss();
+                }
+                SwitchActivityManager.startShopBuyDetailActivity(mContext,"0","","cart");
+            }else if ("1".equals(jsonObject.getString("errno"))){
+                PayBeforeCheckBean bean = AppUtils.parseJsonWithGson(s, PayBeforeCheckBean.class);
+
+                if (checkDialog != null){
+                    checkDialog.show(bean);
+                }
+            }else{
+                ToastUtil.showLong(jsonObject.getString("errmsg"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void payBeforeFail(String s) {
+        ToastUtil.showLong(s);
     }
 
     @Override
@@ -362,7 +432,7 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
                 }
                 list  = bean.getData().getCartList();
                 shopCartFragmentAdapter.setDataList(list);
-                shopCartFragmentAdapter.notifyDataSetChanged();
+//                shopCartFragmentAdapter.notifyDataSetChanged();
                 if (list.size() == 0){
                     ll_noCart.setVisibility(View.VISIBLE);
                     ll_net_connect.setVisibility(View.GONE);
@@ -370,6 +440,13 @@ public class ShopCartFragment extends BaseFragment<ShopCartFragmentPresenter> im
                     ll_noCart.setVisibility(View.GONE);
                     ll_net_connect.setVisibility(View.VISIBLE);
                 }
+
+                if (tv_complete.getVisibility() == View.VISIBLE){//回到购物车永远是编辑的状态
+                    shopCartFragmentAdapter.isDelete(false);
+                    ll_shop.setVisibility(View.VISIBLE);
+                    ll_delete.setVisibility(View.GONE);
+                }
+                shopCartFragmentAdapter.notifyDataSetChanged();
             }else {
                 ToastUtil.showLong(jsonObject.getString("errmsg"));
             }

@@ -2,6 +2,7 @@ package com.doubao.shop.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import com.doubao.shop.base.BaseActivity;
 import com.doubao.shop.entity.AddressDetailBean;
 import com.doubao.shop.entity.ShopBuyDetailBean;
 import com.doubao.shop.entity.SubmitOrderBean;
+import com.doubao.shop.http.UrlHelper;
 import com.doubao.shop.presenter.ShopBuyDetailActivityPresenter;
 import com.doubao.shop.tools.AppUtils;
 import com.doubao.shop.tools.ConfigUtils;
@@ -41,7 +43,8 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
 
     private RelativeLayout rl_checkAddress,rl_noAddress;
     private LinearLayout ll_checkCoupon;
-    private TextView tv_shopTotal,tv_freight,tv_couponPrice,tv_name,tv_phone,tv_address,tv_default,tv_platformNum,tv_query;
+    private TextView tv_shopTotal,tv_freight,tv_couponPrice,tv_name,tv_phone,tv_address,tv_default,tv_platformNum,tv_kelaMessage;
+    private ImageView iv_query;
     private View mHeaderView = null;
     private ShopBuyDetailAdapter detailAdapter;
     private String type,addressId,couponId;
@@ -75,7 +78,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
         tv_payment.setOnClickListener(this);
         ll_checkCoupon.setOnClickListener(this);
         rl_checkAddress.setOnClickListener(this);
-        tv_query.setOnClickListener(this);
+        iv_query.setOnClickListener(this);
         setBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,7 +115,8 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
             tv_freight = (TextView) mHeaderView.findViewById(R.id.tv_freight);
             tv_couponPrice = (TextView) mHeaderView.findViewById(R.id.tv_couponPrice);
             tv_platformNum = (TextView) mHeaderView.findViewById(R.id.tv_platformNum);
-            tv_query = (TextView) mHeaderView.findViewById(R.id.tv_query);
+            iv_query = (ImageView) mHeaderView.findViewById(R.id.iv_query);
+            tv_kelaMessage = (TextView) mHeaderView.findViewById(R.id.tv_kelaMessage);
         }
 
     }
@@ -129,6 +133,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
                 SwitchActivityManager.startAddressManagerActivity(ShopBuyDetailActivity.this,"1");
                 break;
             case R.id.ll_checkCoupon:
+                SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/coupon","优惠券");
                 break;
             case R.id.tv_payment:
                     mPresenter.orderSubmit(type,addressId,couponId);
@@ -136,7 +141,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
             case R.id.rl_noAddress:
                 SwitchActivityManager.startAddressManagerActivity(ShopBuyDetailActivity.this,"1");
                 break;
-            case R.id.tv_query:
+            case R.id.iv_query:
                 if (dialog == null){
                     dialog = new KelaDialog(ShopBuyDetailActivity.this);
                 }
@@ -191,6 +196,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
 
                 AddressDetailBean checkedAddress = bean.getData().getCheckedAddress();
                 if (checkedAddress.getId() != null){
+                    addressId = checkedAddress.getId();
                     tv_name.setText(checkedAddress.getUserName());
                     tv_phone.setText(checkedAddress.getTelNumber());
                     tv_address.setText(checkedAddress.getFull_region());
@@ -205,8 +211,16 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
                     rl_checkAddress.setVisibility(View.GONE);
                     rl_noAddress.setVisibility(View.VISIBLE);
                 }
+
+                if (data.isAmpleAmountFlag()){
+                    tv_kelaMessage.setVisibility(View.GONE);
+                }else {
+                    tv_kelaMessage.setVisibility(View.VISIBLE);
+                    tv_kelaMessage.setText("此订单中还可支付"+data.getUsableAmount()+"克拉，但您的克拉余额不足，剩余"+data.getResidueAmount()+"克拉");
+                }
+
                 tv_actualPrice.setText("实付：￥"+data.getActualPrice());
-                tv_platformNum.setText("￥"+data.getDisCountAmount());
+                tv_platformNum.setText("-￥"+data.getDisCountAmount());
                 detailAdapter.setDataList(data.getCheckedGoodsList());
                 detailAdapter.notifyDataSetChanged();
             }else {

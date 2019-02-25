@@ -104,11 +104,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainMod
     @Override
     protected void onResume() {
         super.onResume();
-        if (ConfigUtils.DETAIL_TO_CART == 1){
-            ConfigUtils.DETAIL_TO_CART = 0;
+        if (ConfigUtils.DETAIL_TO_OTHER == 1){
+            ConfigUtils.DETAIL_TO_OTHER = 0;
             rb_shopCart.setChecked(true);
             viewpager.setCurrentItem(2);
             shopCartFragment.initData();
+        }else if (ConfigUtils.DETAIL_TO_OTHER == 2){
+            ConfigUtils.DETAIL_TO_OTHER = 0;
+            rb_homePage.setChecked(true);
+            viewpager.setCurrentItem(0);
         }
     }
 

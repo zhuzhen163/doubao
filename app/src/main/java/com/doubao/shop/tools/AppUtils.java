@@ -104,6 +104,14 @@ public class AppUtils {
         }
     }
 
+    public static boolean isMIUI() {
+        String manufacturer = Build.MANUFACTURER;
+        if ("xiaomi".equalsIgnoreCase(manufacturer)) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * 隐藏键盘
      * @param ctx

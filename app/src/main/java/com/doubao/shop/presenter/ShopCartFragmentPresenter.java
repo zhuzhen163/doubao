@@ -11,6 +11,30 @@ import com.doubao.shop.model.ShopCartFragmentModel;
 
 public class ShopCartFragmentPresenter extends BasePresenter<ShopCartFragmentModel,ShopCartFragment> {
 
+    public void payBeforeCheck(String goodIds){
+        if (getView()!=null){
+            getView().showLoading();
+        }
+
+        getModel().payBeforeCheck(goodIds,new ShopCartFragmentModel.PayBeforeCallBack() {
+            @Override
+            public void payBeforeSuccess(String s) {
+                if (getView() != null){
+                    getView().hideLoading();
+                    getView().payBeforeSuccess(s);
+                }
+            }
+
+            @Override
+            public void payBeforeFail(String s) {
+                if (getView()!=null){
+                    getView().hideLoading();
+                    getView().payBeforeFail(s);
+                }
+            }
+        });
+    }
+
     public void update(String goodsId,String id,String productId,int number){
         if (getView()!=null){
             getView().showLoading();

@@ -70,8 +70,13 @@ public class CreateAddressActivity extends BaseActivity<CreateAddressActivityPre
             id = bean.getId();
             et_name.setText(bean.getUserName());
             et_phone.setText(bean.getTelNumber());
-            tv_selectAddress.setText(bean.getFull_region());
+            tv_selectAddress.setText(bean.getProvinceName()+" "+bean.getCityName()+" "+bean.getCityName());
             et_detail.setText(bean.getDetailInfo());
+            code = bean.getProvince()+" "+bean.getCity()+" "+bean.getCounty();
+            if ("1".equals(bean.getIsDefault())){
+                cb_isDetail.setChecked(true);
+                isDetail = "1";
+            }
         }
         mPresenter.getAddressDetail(id);
         mPresenter.getRegionList("0");

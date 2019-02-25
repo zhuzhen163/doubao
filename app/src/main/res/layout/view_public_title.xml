@@ -9,13 +9,14 @@
         android:layout_height="@dimen/dimen40dp"
         android:background="@color/colorTheme"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_back"
+        <ImageView
+            android:id="@+id/iv_back"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen15dp"
-            android:text="返回"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen10dp"
+            android:src="@drawable/icon_base_back"
+            android:padding="@dimen/dimen6dp"
+            android:layout_width="@dimen/dimen30dp"
+            android:layout_height="@dimen/dimen30dp"
             />
         <TextView
             android:id="@+id/tv_title"
