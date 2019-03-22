@@ -17,6 +17,7 @@ import com.doubao.shop.http.UrlHelper;
 import com.doubao.shop.presenter.ShopBuyDetailActivityPresenter;
 import com.doubao.shop.tools.AppUtils;
 import com.doubao.shop.tools.ConfigUtils;
+import com.doubao.shop.tools.StringUtils;
 import com.doubao.shop.tools.SwitchActivityManager;
 import com.doubao.shop.tools.ToastUtil;
 import com.doubao.shop.view.ShopBuyDetailActivityView;
@@ -43,7 +44,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
 
     private RelativeLayout rl_checkAddress,rl_noAddress;
     private LinearLayout ll_checkCoupon;
-    private TextView tv_shopTotal,tv_freight,tv_couponPrice,tv_name,tv_phone,tv_address,tv_default,tv_platformNum,tv_kelaMessage;
+    private TextView tv_shopTotal,tv_freight,tv_couponPrice,tv_name,tv_phone,tv_address,tv_default,tv_platformNum,tv_kelaMessage,tv_vipDiscount;
     private ImageView iv_query;
     private View mHeaderView = null;
     private ShopBuyDetailAdapter detailAdapter;
@@ -117,6 +118,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
             tv_platformNum = (TextView) mHeaderView.findViewById(R.id.tv_platformNum);
             iv_query = (ImageView) mHeaderView.findViewById(R.id.iv_query);
             tv_kelaMessage = (TextView) mHeaderView.findViewById(R.id.tv_kelaMessage);
+            tv_vipDiscount = (TextView) mHeaderView.findViewById(R.id.tv_vipDiscount);
         }
 
     }
@@ -136,6 +138,7 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
                 SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/coupon","优惠券");
                 break;
             case R.id.tv_payment:
+                    ConfigUtils.setCartRefresh(true);
                     mPresenter.orderSubmit(type,addressId,couponId);
                 break;
             case R.id.rl_noAddress:
@@ -168,7 +171,11 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
             JSONObject object = new JSONObject(s);
             if ("0".equals(object.getString("errno"))){
                 SubmitOrderBean orderBean = AppUtils.parseJsonWithGson(s, SubmitOrderBean.class);
-                SwitchActivityManager.loadOrderUrl(ShopBuyDetailActivity.this,orderBean.getPayurl(),"");
+                if ("umbpay".equals(orderBean.getPayCode())){
+                    SwitchActivityManager.loadUrl(ShopBuyDetailActivity.this,UrlHelper.WEB_URL+orderBean.getPayurl(),"");
+                }else {
+                    SwitchActivityManager.loadOrderUrl(ShopBuyDetailActivity.this,orderBean.getPayurl(),"");
+                }
                 SwitchActivityManager.exitActivity(ShopBuyDetailActivity.this);
             }else {
                 ToastUtil.showLong(object.getString("errmsg"));
@@ -217,6 +224,13 @@ public class ShopBuyDetailActivity extends BaseActivity<ShopBuyDetailActivityPre
                 }else {
                     tv_kelaMessage.setVisibility(View.VISIBLE);
                     tv_kelaMessage.setText("此订单中还可支付"+data.getUsableAmount()+"克拉，但您的克拉余额不足，剩余"+data.getResidueAmount()+"克拉");
+                }
+
+                if (StringUtils.isNotBlank(data.getMemberType())){
+                    tv_vipDiscount.setVisibility(View.VISIBLE);
+                    tv_vipDiscount.setText("("+data.getMemberType()+"会员已享受"+data.getVipDisCountAmount()+"优惠"+")");
+                }else {
+                    tv_vipDiscount.setVisibility(View.GONE);
                 }
 
                 tv_actualPrice.setText("实付：￥"+data.getActualPrice());

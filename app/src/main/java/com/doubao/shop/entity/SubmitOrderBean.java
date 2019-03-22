@@ -9,6 +9,16 @@ public class SubmitOrderBean {
 
     private String payurl;
 
+    private String payCode;
+
+    public String getPayCode() {
+        return payCode;
+    }
+
+    public void setPayCode(String payCode) {
+        this.payCode = payCode;
+    }
+
     public String getPayurl() {
         return payurl;
     }

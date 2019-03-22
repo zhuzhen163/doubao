@@ -2,6 +2,7 @@ package com.doubao.shop.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -69,6 +70,20 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
     TextView tv_num_orderCancel;
     @BindView(R.id.ll_kelaNum)
     LinearLayout ll_kelaNum;
+    @BindView(R.id.ll_noLogin)
+    LinearLayout ll_noLogin;
+    @BindView(R.id.rl_yesLogin)
+    RelativeLayout rl_yesLogin;
+    @BindView(R.id.tv_goLogin)
+    TextView tv_goLogin;
+    @BindView(R.id.tv_vip)
+    TextView tv_vip;
+    @BindView(R.id.ll_vplus)
+    LinearLayout ll_vplus;
+    @BindView(R.id.iv_vplus)
+    ImageView iv_vplus;
+    @BindView(R.id.tv_value)
+    TextView tv_value;
     private String token;
 
     @Override
@@ -98,6 +113,26 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
             ConfigUtils.setAccountRefresh(false);
             mFragmentPresenter.getUserAccount();
         }
+        if (StringUtils.isNotBlank(token)){
+            setUser(true);
+        }else {
+            setUser(false);
+        }
+    }
+
+    /**
+     * 是否是登录用户
+     */
+    private void setUser(boolean login){
+        if (login){
+            rl_yesLogin.setVisibility(View.VISIBLE);
+            ll_noLogin.setVisibility(View.GONE);
+            ll_kelaNum.setVisibility(View.VISIBLE);
+        }else {
+            rl_yesLogin.setVisibility(View.GONE);
+            ll_noLogin.setVisibility(View.VISIBLE);
+            ll_kelaNum.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -123,14 +158,10 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
                 SwitchActivityManager.startCustomServiceActivity(mContext);
             }
         });
-        civ_headImage.setOnClickListener(new View.OnClickListener() {
+        tv_goLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (StringUtils.isBlank(token)){
-                    SwitchActivityManager.startLoginActivity(mContext);
-                }else {
-                    ToastUtil.showShort("别点了，已经登录了");
-                }
+                SwitchActivityManager.startLoginActivity(mContext);
             }
         });
         rl_waitPayment.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +220,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
             public void onClick(View view) {
                 if (StringUtils.isNotBlank(token)){
                     SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/ucenter/coupon","优惠券");
-//                    SwitchActivityManager.loadOrderUrl(mContext,"https://shouyin.yeepay.com/nc-cashier-wap/wap/query/result?token=4017dca0-3df9-4ca1-815b-047460a45c53","");
+//                    SwitchActivityManager.loadOrderUrl(mContext,"https://shouyin.yeepay.com/nc-cashier-wap/wap/query/result?token=8f1b3d47-f642-455c-ac60-1bfce2e05081","");
                 }else {
                     SwitchActivityManager.startLoginActivity(mContext);
                 }
@@ -225,6 +256,36 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
                 }
             }
         });
+        tv_vip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (StringUtils.isNotBlank(token)){
+                    SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/member/memberCenter?vplus=0&userName="+ConfigUtils.getPhone(),"VIP会员");
+                }else {
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }
+            }
+        });
+        ll_vplus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (StringUtils.isNotBlank(token)){
+                    SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/member/memberCenter?vplus=1&userName="+ConfigUtils.getPhone(),"VPLUS会员");
+                }else {
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }
+            }
+        });
+        tv_value.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (StringUtils.isNotBlank(token)){
+                    SwitchActivityManager.loadUrl(mContext, UrlHelper.WEB_URL+"/pages/member/memberCenter?vplus=0&userName="+ConfigUtils.getPhone(),"VIP会员");
+                }else {
+                    SwitchActivityManager.startLoginActivity(mContext);
+                }
+            }
+        });
     }
 
     @Override
@@ -249,16 +310,51 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
             AccountBean bean = AppUtils.parseJsonWithGson(s, AccountBean.class);
             if (bean.getErrno() != null && !"1".equals(bean.getErrno())){
                 ToastUtil.showLong(bean.getErrmsg());
-                tv_ptMoney.setText("0.0");
-                tv_name.setText("斗宝用户");
                 tv_num_waitPayment.setVisibility(View.GONE);
                 tv_num_waitInGoods.setVisibility(View.GONE);
                 tv_num_orderOk.setVisibility(View.GONE);
                 tv_num_orderCancel.setVisibility(View.GONE);
+                setUser(false);
             }else if ("1".equals(bean.getCode())){
                 String data = bean.getData();
                 if (StringUtils.isNotBlank(data)){
                     tv_ptMoney.setText(data);
+                }
+
+                if (bean.getMemberInfo() != null){
+                    AccountBean.MemberInfo memberInfo = bean.getMemberInfo();
+                    if (memberInfo.getVipGrade() != null){
+                        tv_vip.setText(memberInfo.getVipGrade());
+                    }else {
+                        tv_vip.setText("未开通");
+                    }
+                    tv_value.setText("成长值"+memberInfo.getMembers_growth_value());
+
+                    if (memberInfo.getVplusGrade() != null){
+                        if ("1".equals(memberInfo.getIs_vplus())){
+                            if (memberInfo.getVplusGrade().contains("白银")){
+                                iv_vplus.setBackgroundResource(R.drawable.icon_yin);
+                            }else if (memberInfo.getVplusGrade().contains("黄金")){
+                                iv_vplus.setBackgroundResource(R.drawable.icon_jin);
+                            }else if (memberInfo.getVplusGrade().contains("铂金")){
+                                iv_vplus.setBackgroundResource(R.drawable.icon_bo);
+                            }
+                        }else {
+                            if (memberInfo.getVplusGrade().contains("白银")){
+                                iv_vplus.setBackgroundResource(R.drawable.icon_noyin);
+                            }else if (memberInfo.getVplusGrade().contains("黄金")){
+                                iv_vplus.setBackgroundResource(R.drawable.icon_nojin);
+                            }else if (memberInfo.getVplusGrade().contains("铂金")){
+                                iv_vplus.setBackgroundResource(R.drawable.icon_nobo);
+                            }
+                        }
+                    }else {
+                        iv_vplus.setBackgroundResource(R.drawable.icon_novplus);
+                    }
+                }else {
+                    iv_vplus.setBackgroundResource(R.drawable.icon_novplus);
+                    tv_value.setText("成长值0");
+                    tv_vip.setText("未开通");
                 }
 
                 setOrderMark(bean);

@@ -15,12 +15,16 @@ public class WebViewClickInterface {
     }
 
     /**
-     * 跳转商品详情
-     * @param detailUrl
+     * 通用跳转url
+     * @param currencyUrl
      */
     @JavascriptInterface
-    public void productDetail(String detailUrl) {
-        SwitchActivityManager.loadUrl(context,detailUrl,"详情");
+    public void currencyUrl(String currencyUrl) {
+        if (currencyUrl.contains("member/recharge")){//会员充值
+            SwitchActivityManager.loadUrl(context,currencyUrl+"?userId="+ConfigUtils.getUserId(),"会员充值");
+        }else {
+            SwitchActivityManager.loadUrl(context,currencyUrl,"详情");
+        }
     }
 
     /**

@@ -23,6 +23,7 @@ import com.doubao.shop.R;
 import com.doubao.shop.activity.webview.WebViewClickInterface;
 import com.doubao.shop.base.BaseActivity;
 import com.doubao.shop.base.BasePresenter;
+import com.doubao.shop.http.UrlHelper;
 import com.doubao.shop.tools.AppUtils;
 import com.doubao.shop.tools.ConfigUtils;
 import com.doubao.shop.tools.LogUtil;
@@ -51,7 +52,7 @@ public class BaseWebViewActivity extends BaseActivity {
     private TimerTask timerTask;
     private String mTitle = "",type ="";
     private String loadUrl = "";//加载的url
-    private boolean isLoad = true;
+    private boolean isLoadSuccess = true,isLoadFail = true,resultReload = true;
     private boolean miLoad = true;
 
     @Override
@@ -68,9 +69,20 @@ public class BaseWebViewActivity extends BaseActivity {
         setBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppUtils.hideInputMethod(BaseWebViewActivity.this);
-                SwitchActivityManager.exitActivity(BaseWebViewActivity.this);
+                if (webview != null && webview.canGoBack()){
+                    webview.goBack();
+                }else {
+                    AppUtils.hideInputMethod(BaseWebViewActivity.this);
+                    SwitchActivityManager.exitActivity(BaseWebViewActivity.this);
+                }
 
+            }
+        });
+
+        setRightListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                webview.loadUrl(UrlHelper.WEB_URL+"/pages/member/plusRule?device=android");
             }
         });
     }
@@ -185,17 +197,39 @@ public class BaseWebViewActivity extends BaseActivity {
                 setTitleName(view.getTitle());
             }
             if (StringUtils.isNotBlank(url) && url.contains("payment/successPay")){
-                if (isLoad){
-                    isLoad = false;
-                    view.loadUrl(url+"&device=android&token="+ConfigUtils.getToken());
+                if (isLoadSuccess){
+                    isLoadSuccess = false;
+                    webview.loadUrl(url+"&device=android&token="+ConfigUtils.getToken());
+                }else {
+                    if (resultReload){//解决支付成功双标题
+                        resultReload = false;
+                        webview.reload();
+                    }
                 }
             }
-            if (AppUtils.isMIUI()){//兼容小米登录刷新
-                if (!miLoad){
-                    webview.reload();
+            if (StringUtils.isNotBlank(url) && url.contains("payment/failPay")){
+                if (isLoadFail){
+                    isLoadFail = false;
+                    webview.loadUrl(url+"&device=android&token="+ConfigUtils.getToken());
+                }else {
+                    if (resultReload){//解决支付失败功双标题
+                        resultReload = false;
+                        webview.reload();
+                    }
                 }
-                miLoad = !miLoad;
             }
+            if (StringUtils.isNotBlank(url) && url.contains("memberCenter")){
+                setRighState(true);
+                setRightText("等级规则");
+            }else {
+                setRighState(false);
+            }
+//            if (AppUtils.isMIUI()){//兼容小米登录刷新
+//                if (!miLoad){
+//                    webview.reload();
+//                }
+//                miLoad = !miLoad;
+//            }
             setShowLoading(false);
             if (handler != null) {
                 handler.removeCallbacks(runnable);

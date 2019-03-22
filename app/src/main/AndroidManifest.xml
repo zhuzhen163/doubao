@@ -53,6 +53,8 @@
         <activity android:name=".activity.RealNameActivity" />
         <activity android:name=".activity.BaseWebViewActivity" />
         <activity android:name=".activity.OrderStateActivity" />
+        <activity android:name=".activity.GuidePageActivity" />
+        <activity android:name=".activity.SearchWebViewActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

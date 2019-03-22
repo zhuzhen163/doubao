@@ -16,8 +16,8 @@ public class UrlHelper {
     //-------------------------------------------web-----------------------------------
     //预发布
     public static String WEB_URL  = "http://simuwap.doubaoclub.com/#";
-    //张然
-//    public static String WEB_URL  = "http://192.168.124.29:8080/#";
+//    张然
+//    public static String WEB_URL  = "http://192.168.0.165:8080/#";
     // 线上
 //    public static String WEB_URL  = "http://app.doubaoclub.com/#";
 

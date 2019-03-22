@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/confirm_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:background="@drawable/background_corners_white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dimen30dp"
+        android:layout_marginLeft="@dimen/dimen30dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_marginBottom="@dimen/dimen20dp"
+            android:layout_marginTop="@dimen/dimen20dp"
+            android:textColor="@color/color_33"
+            android:textSize="@dimen/dimen17dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen10dp"
+            android:layout_marginRight="@dimen/dimen10dp"
+            android:text="斗宝俱乐部‘克拉’可在斗宝俱乐部平台消费时抵用现金，1克拉抵1元现金使用。"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorLine" />
+
+            <Button
+                android:layout_margin="@dimen/dimen3dp"
+                android:id="@+id/btn_know"
+                android:layout_height="@dimen/dimen40dp"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="我知道了"
+                android:textColor="@color/color_33"
+                android:textSize="@dimen/dimen15dp" />
+    </LinearLayout>
+
+</LinearLayout>

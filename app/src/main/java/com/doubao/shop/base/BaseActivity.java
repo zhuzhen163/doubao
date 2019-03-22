@@ -157,7 +157,18 @@ public abstract class BaseActivity <P extends BasePresenter>  extends FragmentAc
     }
 
     public void setBackListener(View.OnClickListener clickListener){
-        base_title.setOnClickListener(clickListener);
+        base_title.setBackListener(clickListener);
+    }
+
+    public void setRighState(boolean state){
+        base_title.setRightState(state);
+    }
+
+    public void setRightText(String text){
+        base_title.setRightText(text);
+    }
+    public void setRightListener(View.OnClickListener clickListener){
+        base_title.setRightListener(clickListener);
     }
 
     @Override

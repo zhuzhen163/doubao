@@ -31,6 +31,24 @@ public class ShopBuyDetailBean extends BaseEntity {
         private String residueAmount;
         private String usableAmount;
         private boolean ampleAmountFlag;
+        private String vipDisCountAmount;
+        private String memberType;
+
+        public String getVipDisCountAmount() {
+            return vipDisCountAmount;
+        }
+
+        public void setVipDisCountAmount(String vipDisCountAmount) {
+            this.vipDisCountAmount = vipDisCountAmount;
+        }
+
+        public String getMemberType() {
+            return memberType;
+        }
+
+        public void setMemberType(String memberType) {
+            this.memberType = memberType;
+        }
 
         public String getUsableAmount() {
             return usableAmount;

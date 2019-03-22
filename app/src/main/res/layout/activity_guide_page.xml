@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:id="@+id/viewpager"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/join"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="立即进入"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dimen16dp"
+        android:layout_width="@dimen/dimen150dp"
+        android:background="@drawable/button_background"
+        android:layout_height="@dimen/dimen40dp" />
+
+</RelativeLayout>

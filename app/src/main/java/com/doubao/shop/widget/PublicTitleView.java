@@ -21,6 +21,7 @@ public class PublicTitleView extends RelativeLayout {
     private ImageView iv_back;
     private TextView tv_title;
     private ImageView iv_icon;
+    private TextView tv_function;
     public PublicTitleView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -39,6 +40,7 @@ public class PublicTitleView extends RelativeLayout {
         iv_back = (ImageView) mView.findViewById(R.id.iv_back);
         tv_title = (TextView) mView.findViewById(R.id.tv_title);
         iv_icon = (ImageView) mView.findViewById(R.id.iv_icon);
+        tv_function = (TextView) mView.findViewById(R.id.tv_function);
     }
     public void setBackListener(OnClickListener clickListener){
         iv_back.setOnClickListener(clickListener);
@@ -51,5 +53,20 @@ public class PublicTitleView extends RelativeLayout {
     }
     public void setRightIcon(int state){
         iv_icon.setVisibility(state);
+    }
+
+    public void setRightState(boolean state ){
+        if (state){
+            tv_function.setVisibility(View.VISIBLE);
+        }else {
+            tv_function.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void setRightText(String text){
+        tv_function.setText(text);
+    }
+    public void setRightListener(OnClickListener clickListener){
+        tv_function.setOnClickListener(clickListener);
     }
 }
